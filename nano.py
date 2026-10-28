@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""NanoWarden: fetch a Bitwarden client, apply rules.json edits, build it.
+"""NanoWarden: fetch a Bitwarden client, apply the RULES edits below, build it.
 
   nano.py latest <target>          print the newest upstream release tag
   nano.py build  <target> [tag]    clone, patch, build; artifacts land in ./out
@@ -7,7 +7,37 @@
 import glob, json, os, re, shutil, subprocess as sp, sys, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CFG = json.load(open(f"{HERE}/rules.json"))
+
+# Each rule: "anchor" locates the file (so moves between releases are tolerated), "find" is a regex, "with" the replacement.
+CFG = {
+    "android": {
+        "repo": "bitwarden/android",
+        "tag": "-bwpm$",
+        "rules": [{
+            "anchor": "isPremium = profile.hasPremiumPersonally",
+            "find": r"isPremium = profile\.hasPremiumPersonally == true \|\|\s*profile\.hasPremiumFromOrganization == true,",
+            "with": "isPremium = true,",
+        }],
+        "build": [["./gradlew", "app:assembleFdroidDebug", "-q"]],
+        "artifacts": "app/build/outputs/apk/**/*.apk",
+    },
+    "browser": {
+        "repo": "bitwarden/clients",
+        "tag": "^browser-v",
+        "rules": [{
+            "anchor": "hasPremiumFromAnyOrganization === true ||",
+            "find": r"profile\?\.hasPremiumFromAnyOrganization === true \|\|\s*profile\?\.hasPremiumPersonally === true",
+            "with": "true",
+        }, {
+            "anchor": "!!profile?.hasPremiumPersonally",
+            "find": r"!!profile\?\.hasPremiumPersonally",
+            "with": "true",
+        }],
+        "build": [["npm", "ci"], ["npm", "run", "dist:chrome", "--prefix", "apps/browser"],
+                  ["npm", "run", "dist:firefox", "--prefix", "apps/browser"]],
+        "artifacts": "apps/browser/dist/*.zip",
+    },
+}
 
 
 def latest(cfg):

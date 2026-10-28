@@ -1,7 +1,7 @@
 # NanoWarden
 
 Rule-based patches for the official [Bitwarden](https://github.com/bitwarden) clients (GPL-3.0), built automatically.
-No upstream source is stored here, only `rules.json` and a small build tool.
+No upstream source is stored here, only `nano.py`.
 
 | Target | Upstream | Output |
 |---|---|---|
