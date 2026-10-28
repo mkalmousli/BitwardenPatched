@@ -9,7 +9,7 @@ accounts the client considers "premium", most notably **built-in TOTP / authenti
 for two-factor login). NanoWarden takes the official source, changes the client-side check so these features are
 available, builds it, and publishes the result on the [Releases](../../releases) page.
 
-- It is **not a fork**. This repo holds no Bitwarden source, only the patch logic (`nano.py`) and the automation.
+- It is a **patch layer, not a copy of the source**. This repo holds no Bitwarden code, only the patch logic (`nano.py`) and the automation.
 - It **stays current by itself**. A GitHub Actions workflow checks for new official releases every 6 hours,
   patches and builds them, and publishes the new version.
 - If an upstream change breaks a patch, the build fails loudly and opens an issue instead of shipping something wrong.
