@@ -51,11 +51,24 @@ Go to [Releases](../../releases):
 
 Log in with your normal Bitwarden account (cloud or self-hosted).
 
-## What it changes, and what it doesn't
+## Patches
 
-Only the client-side premium check. TOTP generation and other local features work. Anything the **server** enforces
-(file attachment uploads, emergency access, Send file hosting, and so on) is still governed by your account's plan,
-because the server rejects those requests regardless of what the client does.
+Every change is listed here; there are no others. Rules find their file by a snippet of text, not a path, and a rule that matches nothing fails the build.
+
+| # | Target | Patch | Why | Where (rule) |
+|---|---|---|---|---|
+| 1 | Android | `isPremium` is always `true` | Opens the client-side premium gate (built-in TOTP codes and other local features) | `nano.py` `android()` |
+| 2 | Browser | `hasPremiumPersonally$` / `hasPremiumFromAnySource$` always `true` | Same gate in the extension | `nano.py` `browser()` |
+| 3 | Android | App name `NanoWarden`, application id `com.x8bit.bitwarden.nano` | Installs next to the official app, never replaces it | `brand.py` `android()` |
+| 4 | Browser | Extension name `NanoWarden` and an "unofficial build" description | Cannot be mistaken for the official extension | `brand.py` `browser()` |
+| 5 | Both | Teal colour scheme (blue scale hue-rotated) and an original "N" icon | Visually distinct fork, no Bitwarden logo | `brand.py` |
+| 6 | Browser | Own Firefox add-on id and update URL, own Chrome update URL | Lets the fork self-update without colliding with the official add-on | `brand.py`, `ext.py` |
+
+Not changed: encryption, networking, login and sync code. Anything the **server** enforces (attachment uploads, emergency access, Send files) still follows your account's plan.
+
+## Versioning
+
+Releases carry the **same version number and tag as upstream Bitwarden** (for example `v2026.10.0-bwpm` for Android and `browser-v2026.10.0` for the extension). If only the patches change, the release for that version is rebuilt in place.
 
 ## How it works
 

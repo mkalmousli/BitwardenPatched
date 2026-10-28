@@ -27,6 +27,12 @@ small{color:#46635f}
 
 <div class="card"><h2>Downloads</h2><div id="dl">Loading latest releases…</div></div>
 
+<div class="card"><h2>What is patched</h2><ul>
+<li>Client-side premium check always on (built-in TOTP and other local features), Android and browser.</li>
+<li>Own name, id, teal colours and logo, so it installs next to the official app.</li>
+<li>Own update channels (F-Droid repo, Firefox and Chrome update manifests).</li></ul>
+<p>Nothing else is changed. <a href="https://github.com/mkalmousli/NanoWarden#patches">Full list with explanations</a>. Version numbers match upstream Bitwarden.</p></div>
+
 <div class="card"><h2>Good to know</h2>
 <p>Installs next to the official app (separate app id). Server-enforced features still depend on your plan. Self-hosted servers (Bitwarden or Vaultwarden) are the intended setup.
 Not affiliated with Bitwarden Inc. GPL-3.0. <a href="https://github.com/mkalmousli/NanoWarden">Source and details on GitHub</a>.</p></div>
@@ -37,7 +43,7 @@ const u=location.origin+location.pathname.replace(/[^/]*$/,"")+"repo?fingerprint
 url.textContent=u;fd.href=u.replace(/^https?:\/\//,"fdroidrepos://");
 fetch(`https://api.github.com/repos/${R}/releases?per_page=20`).then(r=>r.json()).then(rs=>{
   const seen={},out=[];
-  for(const r of rs){const k=r.tag_name.split("-")[0];if(seen[k])continue;seen[k]=1;
+  for(const r of rs){const k=r.tag_name.startsWith("browser")?"browser":"android";if(seen[k])continue;seen[k]=1;
     out.push(`<p><b>${k==="android"?"Android":"Browser extension"}</b> <small>${r.name}</small><br>`+
       r.assets.map(a=>`<a class="btn" href="${a.browser_download_url}">${a.name.replace(/^.*?-(?=[^-]*$)/,"")}</a>`).join("")+"</p>");}
   dl.innerHTML=out.join("")||"No releases yet.";

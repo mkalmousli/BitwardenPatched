@@ -15,10 +15,11 @@ jobs:
       - id: v
         run: |
           tag=$(python3 nano.py latest ${{ matrix.target }})
-          rel="${{ matrix.target }}-$tag-$(cat nano.py brand.py ext.py | sha1sum | cut -c1-7)"   # patch changes trigger a rebuild too
+          ph=$(cat nano.py brand.py ext.py | sha1sum | cut -c1-7)   # patch changes trigger a rebuild too
           echo "tag=$tag" >> $GITHUB_OUTPUT
-          echo "rel=$rel" >> $GITHUB_OUTPUT
-          gh release view "$rel" >/dev/null 2>&1 && echo "skip=1" >> $GITHUB_OUTPUT || true
+          echo "rel=$tag" >> $GITHUB_OUTPUT
+          echo "ph=$ph" >> $GITHUB_OUTPUT
+          gh release view "$tag" --json body --jq .body 2>/dev/null | grep -q "patches $ph" && echo "skip=1" >> $GITHUB_OUTPUT || true
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
         uses: actions/setup-java@v4
         with: {distribution: temurin, java-version: 21}
@@ -38,7 +39,8 @@ jobs:
           CRX_KEY="$RUNNER_TEMP/crx.pem" REL="${{ steps.v.outputs.rel }}" AMO_KEY="${{ secrets.AMO_KEY }}" AMO_SECRET="${{ secrets.AMO_SECRET }}" python3 ext.py "${{ steps.v.outputs.tag }}"
       - if: ${{ !steps.v.outputs.skip }}
         run: |
-          gh release create "${{ steps.v.outputs.rel }}" out/* --title "${{ matrix.target }} ${{ steps.v.outputs.tag }}" --notes "Built from upstream ${{ steps.v.outputs.tag }} with nano.py rules applied."
+          gh release delete "${{ steps.v.outputs.rel }}" --cleanup-tag -y 2>/dev/null || true
+          gh release create "${{ steps.v.outputs.rel }}" out/* --title "NanoWarden ${{ steps.v.outputs.tag }}" --notes "NanoWarden build of upstream \`${{ steps.v.outputs.tag }}\` (same version number as Bitwarden). Source: upstream tag plus this repo at the build commit. patches ${{ steps.v.outputs.ph }}"
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
         run: |
           pip install -q fdroidserver
