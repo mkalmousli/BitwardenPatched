@@ -14,8 +14,10 @@ jobs:
       - id: v
         run: |
           tag=$(python3 nano.py latest ${{ matrix.target }})
+          rel="${{ matrix.target }}-$tag-$(sha1sum nano.py | cut -c1-7)"   # patch changes trigger a rebuild too
           echo "tag=$tag" >> $GITHUB_OUTPUT
-          gh release view "${{ matrix.target }}-$tag" >/dev/null 2>&1 && echo "skip=1" >> $GITHUB_OUTPUT || true
+          echo "rel=$rel" >> $GITHUB_OUTPUT
+          gh release view "$rel" >/dev/null 2>&1 && echo "skip=1" >> $GITHUB_OUTPUT || true
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
         uses: actions/setup-java@v4
         with: {distribution: temurin, java-version: 21}
@@ -31,7 +33,7 @@ jobs:
         run: python3 nano.py build ${{ matrix.target }} ${{ steps.v.outputs.tag }}
       - if: ${{ !steps.v.outputs.skip }}
         run: |
-          gh release create "${{ matrix.target }}-${{ steps.v.outputs.tag }}" out/* --title "${{ matrix.target }} ${{ steps.v.outputs.tag }}" --notes "Built from upstream ${{ steps.v.outputs.tag }} with nano.py rules applied."
+          gh release create "${{ steps.v.outputs.rel }}" out/* --title "${{ matrix.target }} ${{ steps.v.outputs.tag }}" --notes "Built from upstream ${{ steps.v.outputs.tag }} with nano.py rules applied."
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
         run: |
           pip install -q fdroidserver
