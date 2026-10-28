@@ -14,7 +14,7 @@ jobs:
       - id: v
         run: |
           tag=$(python3 nano.py latest ${{ matrix.target }})
-          rel="${{ matrix.target }}-$tag-$(sha1sum nano.py | cut -c1-7)"   # patch changes trigger a rebuild too
+          rel="${{ matrix.target }}-$tag-$(cat nano.py brand.py | sha1sum | cut -c1-7)"   # patch changes trigger a rebuild too
           echo "tag=$tag" >> $GITHUB_OUTPUT
           echo "rel=$rel" >> $GITHUB_OUTPUT
           gh release view "$rel" >/dev/null 2>&1 && echo "skip=1" >> $GITHUB_OUTPUT || true
