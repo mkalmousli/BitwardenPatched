@@ -73,6 +73,8 @@ def browser(src, sub):
     sub(src, '"Bitwarden Password Manager"', r'"message": "Bitwarden Password Manager"', f'"message": "{NAME}"')
     sub(src, '"extDesc"', r'("extDesc": \{\s*"message": )"[^"]*"',
         r'\1"Unofficial community build of the open-source Bitwarden client. Not affiliated with Bitwarden Inc."')
+    sub(src, '"__firefox__browser_specific_settings"', r'"id": "\{446900e4-[^}]*\}"',  # own add-on id, so it never collides with the official one
+        '"id": "nanowarden@mkalmousli.github.io", "update_url": "https://mkalmousli.github.io/NanoWarden/firefox/updates.json"')
     sub(src, "--color-brand-700:", r"(--color-brand-\d+: #)([0-9a-f]{6})", lambda m: m[1] + recolor(m[2]))
     sub(src, "--color-brand-700-rgb", r"23, 93, 220", "15, 118, 110")
     for f in glob.glob(f"{src}/apps/browser/src/images/icon*.png"):

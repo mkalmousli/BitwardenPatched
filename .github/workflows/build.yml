@@ -2,7 +2,7 @@ name: build
 on:
   schedule: [{cron: "17 */6 * * *"}]   # poll upstream for new releases
   workflow_dispatch:
-  push: {branches: [main], paths: [nano.py, brand.py, fdroid.py, .github/workflows/build.yml]}
+  push: {branches: [main], paths: [nano.py, brand.py, fdroid.py, ext.py, .github/workflows/build.yml]}
 permissions: {contents: write, packages: read, issues: write}
 jobs:
   build:
@@ -14,7 +14,7 @@ jobs:
       - id: v
         run: |
           tag=$(python3 nano.py latest ${{ matrix.target }})
-          rel="${{ matrix.target }}-$tag-$(cat nano.py brand.py | sha1sum | cut -c1-7)"   # patch changes trigger a rebuild too
+          rel="${{ matrix.target }}-$tag-$(cat nano.py brand.py ext.py | sha1sum | cut -c1-7)"   # patch changes trigger a rebuild too
           echo "tag=$tag" >> $GITHUB_OUTPUT
           echo "rel=$rel" >> $GITHUB_OUTPUT
           gh release view "$rel" >/dev/null 2>&1 && echo "skip=1" >> $GITHUB_OUTPUT || true
@@ -31,6 +31,10 @@ jobs:
           echo "KS_PASS=${{ secrets.KS_PASS }}" >> $GITHUB_ENV
       - if: ${{ !steps.v.outputs.skip }}
         run: python3 nano.py build ${{ matrix.target }} ${{ steps.v.outputs.tag }}
+      - if: ${{ !steps.v.outputs.skip && matrix.target == 'browser' }}
+        run: |
+          echo "${{ secrets.CRX_KEY_B64 }}" | base64 -d > "$RUNNER_TEMP/crx.pem"
+          CRX_KEY="$RUNNER_TEMP/crx.pem" REL="${{ steps.v.outputs.rel }}" AMO_KEY="${{ secrets.AMO_KEY }}" AMO_SECRET="${{ secrets.AMO_SECRET }}" python3 ext.py "${{ steps.v.outputs.tag }}"
       - if: ${{ !steps.v.outputs.skip }}
         run: |
           gh release create "${{ steps.v.outputs.rel }}" out/* --title "${{ matrix.target }} ${{ steps.v.outputs.tag }}" --notes "Built from upstream ${{ steps.v.outputs.tag }} with nano.py rules applied."
