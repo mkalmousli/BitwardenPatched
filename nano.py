@@ -1,51 +1,62 @@
 #!/usr/bin/env python3
-"""NanoWarden: fetch a Bitwarden client, apply the RULES edits below, build it.
+"""NanoWarden: fetch a Bitwarden client, apply the TARGETS rules below, build it.
 
-  nano.py latest <target>          print the newest upstream release tag
-  nano.py build  <target> [tag]    clone, patch, build; artifacts land in ./out
+  nano.py latest <target>        newest upstream release tag
+  nano.py build  <target> [tag]  clone, patch, build; artifacts land in ./out
 """
+from dataclasses import dataclass
 import glob, json, os, re, shutil, subprocess as sp, sys, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# Each rule: "anchor" locates the file (so moves between releases are tolerated), "find" is a regex, "with" the replacement.
-CFG = {
-    "android": {
-        "repo": "bitwarden/android",
-        "tag": "-bwpm$",
-        "rules": [{
-            "anchor": "isPremium = profile.hasPremiumPersonally",
-            "find": r"isPremium = profile\.hasPremiumPersonally == true \|\|\s*profile\.hasPremiumFromOrganization == true,",
-            "with": "isPremium = true,",
-        }],
-        "build": [["./gradlew", "app:assembleFdroidDebug", "-q"]],
-        "artifacts": "app/build/outputs/apk/**/*.apk",
-    },
-    "browser": {
-        "repo": "bitwarden/clients",
-        "tag": "^browser-v",
-        "rules": [{
-            "anchor": "hasPremiumFromAnyOrganization === true ||",
-            "find": r"profile\?\.hasPremiumFromAnyOrganization === true \|\|\s*profile\?\.hasPremiumPersonally === true",
-            "with": "true",
-        }, {
-            "anchor": "!!profile?.hasPremiumPersonally",
-            "find": r"!!profile\?\.hasPremiumPersonally",
-            "with": "true",
-        }],
-        "build": [["npm", "ci"], ["npm", "run", "dist:chrome", "--prefix", "apps/browser"],
-                  ["npm", "run", "dist:firefox", "--prefix", "apps/browser"]],
-        "artifacts": "apps/browser/dist/*.zip",
-    },
+
+@dataclass
+class Rule:
+    """anchor locates the file (tolerates moves between releases); find is a regex, sub its replacement."""
+    anchor: str
+    find: str
+    sub: str
+
+@dataclass
+class Target:
+    repo: str
+    tag: str  # regex a release tag must match
+    rules: list[Rule]
+    build: list[list[str]]
+    artifacts: str  # glob relative to the source root
+
+TARGETS = {
+    "android": Target(
+        repo="bitwarden/android",
+        tag="-bwpm$",
+        rules=[Rule(
+            "isPremium = profile.hasPremiumPersonally",
+            r"isPremium = profile\.hasPremiumPersonally == true \|\|\s*profile\.hasPremiumFromOrganization == true,",
+            "isPremium = true,",
+        )],
+        build=[["./gradlew", "app:assembleFdroidDebug", "-q"]],
+        artifacts="app/build/outputs/apk/**/*.apk",
+    ),
+    "browser": Target(
+        repo="bitwarden/clients",
+        tag="^browser-v",
+        rules=[
+            Rule("hasPremiumFromAnyOrganization === true ||",
+                 r"profile\?\.hasPremiumFromAnyOrganization === true \|\|\s*profile\?\.hasPremiumPersonally === true", "true"),
+            Rule("!!profile?.hasPremiumPersonally", r"!!profile\?\.hasPremiumPersonally", "true"),
+        ],
+        build=[["npm", "ci"]] + [["npm", "run", f"dist:{b}", "--prefix", "apps/browser"] for b in ("chrome", "firefox")],
+        artifacts="apps/browser/dist/*.zip",
+    ),
 }
 
 
-def latest(cfg):
-    req = urllib.request.Request(f"https://api.github.com/repos/{cfg['repo']}/releases?per_page=60")
+def latest(t):
+    req = urllib.request.Request(f"https://api.github.com/repos/{t.repo}/releases?per_page=60")
     if token := os.environ.get("GITHUB_TOKEN"):
         req.add_header("Authorization", f"Bearer {token}")
     for rel in json.load(urllib.request.urlopen(req)):
-        if not rel["prerelease"] and re.search(cfg["tag"], rel["tag_name"]):
+        if not rel["prerelease"] and re.search(t.tag, rel["tag_name"]):
             return rel["tag_name"]
     sys.exit("no matching release")
 
@@ -53,41 +64,38 @@ def latest(cfg):
 def apply_rules(src, rules):
     """Locate each edit by its anchor text (files may move between releases), then rewrite it."""
     for rule in rules:
-        hits = sp.run(["git", "grep", "-lF", rule["anchor"]], cwd=src, capture_output=True, text=True).stdout.split()
-        hits = [h for h in hits if not re.search(r"spec|test|Test|mock", h)]
+        grep = sp.run(["git", "grep", "-lF", rule.anchor], cwd=src, capture_output=True, text=True)
         done = 0
-        for path in hits:
+        for path in (h for h in grep.stdout.split() if not re.search(r"spec|test|Test|mock", h)):
             text = open(f"{src}/{path}").read()
-            new, n = re.subn(rule["find"], rule["with"], text)
+            new, n = re.subn(rule.find, rule.sub, text)
             if n:
                 open(f"{src}/{path}", "w").write(new)
                 print(f"patched {path} ({n}x)")
                 done += n
         if not done:
-            sys.exit(f"RULE BROKEN, upstream changed: {rule['anchor']}")
+            sys.exit(f"RULE BROKEN, upstream changed: {rule.anchor}")
 
 
 def build(target, tag):
-    cfg = CFG[target]
-    tag = tag or latest(cfg)
+    t = TARGETS[target]
+    tag = tag or latest(t)
     src = f"{HERE}/work/{target}"
     shutil.rmtree(src, ignore_errors=True)
-    sp.run(["git", "clone", "-q", "--depth", "1", "--branch", tag, f"https://github.com/{cfg['repo']}", src], check=True)
-    apply_rules(src, cfg["rules"])
+    sp.run(["git", "clone", "-q", "--depth", "1", "--branch", tag, f"https://github.com/{t.repo}", src], check=True)
+    apply_rules(src, t.rules)
     if target == "android":  # SDK comes from GitHub Packages; any valid token can read it
         open(f"{src}/user.properties", "w").write(f"gitHubToken={os.environ['GITHUB_TOKEN']}\n")
-    for cmd in cfg["build"]:
+    for cmd in t.build:
         sp.run(cmd, cwd=src, check=True)
     os.makedirs(f"{HERE}/out", exist_ok=True)
-    for f in glob.glob(f"{src}/{cfg['artifacts']}", recursive=True):
-        dest = f"{HERE}/out/{target}-{tag}-{os.path.basename(f)}"
-        shutil.copy(f, dest)
-        print("artifact:", dest)
+    for f in glob.glob(f"{src}/{t.artifacts}", recursive=True):
+        print("artifact:", shutil.copy(f, f"{HERE}/out/{target}-{tag}-{os.path.basename(f)}"))
 
 
 if __name__ == "__main__":
     cmd, target, *rest = sys.argv[1:]
     if cmd == "latest":
-        print(latest(CFG[target]))
+        print(latest(TARGETS[target]))
     else:
         build(target, rest[0] if rest else None)
