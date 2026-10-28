@@ -38,6 +38,7 @@ keydname: CN=NanoWarden
 os.chmod(f"{SITE}/config.yml", 0o600)
 run("fdroid", "update", "--create-metadata", "--delete-unknown")
 os.remove(f"{SITE}/config.yml")  # holds the key password; never publish it
+shutil.copy("docs/index.html", f"{SITE}/index.html")
 open(f"{SITE}/.gitignore", "w").write("config.yml\nmetadata/\n")
 run("git", "add", "-A")
 run("git", "-c", "user.name=nanowarden", "-c", "user.email=actions@users.noreply.github.com",

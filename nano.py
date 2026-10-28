@@ -4,7 +4,7 @@
   nano.py latest <target>        newest upstream release tag
   nano.py build  <target> [tag]  clone, patch, build; artifacts land in ./out
 """
-import glob, json, os, re, shutil, subprocess as sp, sys, urllib.request
+import brand, glob, json, os, re, shutil, subprocess as sp, sys, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -39,9 +39,7 @@ def keystore():
 
 
 def android(src):
-    # Branding: distinct name and application id, so it installs beside (and isn't mistaken for) the official app.
-    sub(src, 'translatable="false">Bitwarden</string>', r">Bitwarden<", ">NanoWarden (Bitwarden fork)<")
-    sub(src, 'applicationId = "com.x8bit.bitwarden"', r'(applicationId = "com.x8bit.bitwarden)"', r'\1.nano"')
+    brand.android(src, sub)
     sub(src, "isPremium = profile.hasPremiumPersonally",
         r"isPremium = profile\.hasPremiumPersonally == true \|\|\s*profile\.hasPremiumFromOrganization == true,",
         "isPremium = true,")
@@ -56,7 +54,7 @@ def android(src):
 
 
 def browser(src):
-    sub(src, '"Bitwarden Password Manager"', r'"message": "Bitwarden Password Manager"', '"message": "NanoWarden (Bitwarden fork)"')
+    brand.browser(src, sub)
     sub(src, "hasPremiumFromAnyOrganization === true ||",
         r"profile\?\.hasPremiumFromAnyOrganization === true \|\|\s*profile\?\.hasPremiumPersonally === true", "true")
     sub(src, "!!profile?.hasPremiumPersonally", r"!!profile\?\.hasPremiumPersonally", "true")

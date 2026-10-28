@@ -14,6 +14,8 @@ available, builds it, and publishes the result on the [Releases](../../releases)
   patches and builds them, and publishes the new version.
 - If an upstream change breaks a patch, the build fails loudly and opens an issue instead of shipping something wrong.
 
+**Website:** https://mkalmousli.github.io/NanoWarden (one-click install links and latest downloads)
+
 ## F-Droid repository (Android)
 
 Add this repository to F-Droid, Droidify, Neo Store or any F-Droid client, and updates arrive automatically:
@@ -26,8 +28,8 @@ https://mkalmousli.github.io/NanoWarden/repo?fingerprint=B1D78FEC2A8513EFD0EF78A
 
 ## Branding
 
-To avoid confusion with the official app, builds are clearly marked as a fork: the app is named
-**NanoWarden (Bitwarden fork)**, the Android application id is `com.x8bit.bitwarden.nano` (it installs *next to* the
+To avoid confusion with the official app, builds are clearly marked as a fork: the app and extension are named
+**NanoWarden** with their own teal logo and colour scheme, the Android application id is `com.x8bit.bitwarden.nano` (it installs *next to* the
 official app instead of replacing it), and the browser extension carries the same name.
 
 ## Downloads
@@ -67,7 +69,7 @@ Adding another client means adding one function and one line in `TARGETS`.
   complete corresponding source of every release is the upstream tag named in the release (`github.com/bitwarden/android` or
   `github.com/bitwarden/clients`) plus the modifications made by `nano.py` in this repo at that release's commit.
 - **Not affiliated.** Unofficial, community-maintained, not endorsed by Bitwarden Inc. "Bitwarden" is their trademark; it is used
-  here only to say what this is derived from. Builds are renamed so they cannot be mistaken for the official app.
+  here only to say what this is derived from. Builds use their own name, logo and colours so they cannot be mistaken for the official app.
 - **Your responsibility.** Bitwarden sells premium features and its cloud service has terms of use. Using patched clients against
   Bitwarden's hosted servers may not comply with those terms, and server-side limits still apply. Self-hosted servers
   (Bitwarden or Vaultwarden) are the intended setup. If you rely on Bitwarden's cloud, consider buying a plan.

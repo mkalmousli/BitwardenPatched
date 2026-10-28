@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NanoWarden: Bitwarden clients, patched and auto-updated</title>
+<meta name="description" content="Unofficial, automatically updated builds of the open-source Bitwarden Android app and browser extension with built-in TOTP available. Install via F-Droid repo or direct download.">
+<style>
+:root{--t:#0f766e;--b:#f0fdfb;--i:#10302d}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,sans-serif;color:var(--i);background:var(--b)}
+main{max-width:760px;margin:auto;padding:32px 20px}
+h1{display:flex;align-items:center;gap:14px;font-size:2rem;margin:0}
+h1 b{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:linear-gradient(#14b8a6,#0b6e66);color:#fff}
+.card{background:#fff;border:1px solid #cfe9e5;border-radius:14px;padding:18px 20px;margin:18px 0}
+a.btn{display:inline-block;background:var(--t);color:#fff;text-decoration:none;padding:9px 16px;border-radius:9px;margin:4px 6px 4px 0}
+code{display:block;overflow-wrap:anywhere;background:#e6f6f3;padding:10px;border-radius:8px;font-size:.85rem}
+small{color:#46635f}
+</style></head><body><main>
+<h1><b>N</b>NanoWarden</h1>
+<p>Unofficial, automatically updated builds of the open-source Bitwarden <b>Android app</b> and <b>Chrome / Firefox extension</b>, with client-side premium features such as built-in TOTP codes available.</p>
+
+<div class="card"><h2>Android: F-Droid repository</h2>
+<p>Add this to F-Droid, Droidify or Neo Store to get updates automatically.</p>
+<a class="btn" id="fd" href="#">Add to F-Droid</a>
+<code id="url"></code></div>
+
+<div class="card"><h2>Downloads</h2><div id="dl">Loading latest releases…</div></div>
+
+<div class="card"><h2>Good to know</h2>
+<p>Installs next to the official app (separate app id). Server-enforced features still depend on your plan. Self-hosted servers (Bitwarden or Vaultwarden) are the intended setup.
+Not affiliated with Bitwarden Inc. GPL-3.0. <a href="https://github.com/mkalmousli/NanoWarden">Source and details on GitHub</a>.</p></div>
+<small>Browser zips: Chrome/Edge/Brave via chrome://extensions → Developer mode → Load unpacked (unzip first); Firefox via about:debugging → Load Temporary Add-on.</small>
+<script>
+const R="mkalmousli/NanoWarden",FP="B1D78FEC2A8513EFD0EF78AE2C73887DFDC84F4CE6C786C61D524E1D4B43821B";
+const u=location.origin+location.pathname.replace(/[^/]*$/,"")+"repo?fingerprint="+FP;
+url.textContent=u;fd.href=u.replace(/^https?:\/\//,"fdroidrepos://");
+fetch(`https://api.github.com/repos/${R}/releases?per_page=20`).then(r=>r.json()).then(rs=>{
+  const seen={},out=[];
+  for(const r of rs){const k=r.tag_name.split("-")[0];if(seen[k])continue;seen[k]=1;
+    out.push(`<p><b>${k==="android"?"Android":"Browser extension"}</b> <small>${r.name}</small><br>`+
+      r.assets.map(a=>`<a class="btn" href="${a.browser_download_url}">${a.name.replace(/^.*?-(?=[^-]*$)/,"")}</a>`).join("")+"</p>");}
+  dl.innerHTML=out.join("")||"No releases yet.";
+}).catch(()=>dl.innerHTML=`<a class="btn" href="https://github.com/${R}/releases">Open releases</a>`);
+</script></main></body></html>
