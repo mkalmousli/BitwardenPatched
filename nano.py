@@ -4,11 +4,10 @@
   nano.py latest <target>        newest upstream release tag
   nano.py build  <target> [tag]  clone, patch, build; artifacts land in ./out
 """
-from dataclasses import dataclass
 import glob, json, os, re, shutil, subprocess as sp, sys, urllib.request
+from dataclasses import dataclass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-
 
 @dataclass
 class Rule:
