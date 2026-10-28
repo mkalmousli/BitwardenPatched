@@ -1,0 +1,30 @@
+name: build
+on:
+  schedule: [{cron: "17 */6 * * *"}]   # poll upstream for new releases
+  workflow_dispatch:
+  push: {branches: [main], paths: [rules.json, nano.py, .github/workflows/build.yml]}
+permissions: {contents: write, packages: read, issues: write}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy: {fail-fast: false, matrix: {target: [android, browser]}}
+    env: {GH_TOKEN: "${{ github.token }}", GITHUB_TOKEN: "${{ github.token }}"}
+    steps:
+      - uses: actions/checkout@v4
+      - id: v
+        run: |
+          tag=$(python3 nano.py latest ${{ matrix.target }})
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+          gh release view "${{ matrix.target }}-$tag" >/dev/null 2>&1 && echo "skip=1" >> $GITHUB_OUTPUT || true
+      - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
+        uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: 21}
+      - if: ${{ !steps.v.outputs.skip && matrix.target == 'browser' }}
+        uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - if: ${{ !steps.v.outputs.skip }}
+        run: python3 nano.py build ${{ matrix.target }} ${{ steps.v.outputs.tag }}
+      - if: ${{ !steps.v.outputs.skip }}
+        run: gh release create "${{ matrix.target }}-${{ steps.v.outputs.tag }}" out/* --title "${{ matrix.target }} ${{ steps.v.outputs.tag }}" --notes "Built from upstream ${{ steps.v.outputs.tag }} with rules.json applied."
+      - if: ${{ failure() && !steps.v.outputs.skip }}
+        run: gh issue create --title "Build failed: ${{ matrix.target }} ${{ steps.v.outputs.tag }}" --body "See $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" || true

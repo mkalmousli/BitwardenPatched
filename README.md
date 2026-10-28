@@ -1,14 +1,15 @@
 # NanoWarden
 
-Patch set for the [official Bitwarden Android app](https://github.com/bitwarden/android) (GPL-3.0).
-This repository contains only patches and a build script; no upstream source is included.
+Rule-based patches for the official [Bitwarden](https://github.com/bitwarden) clients (GPL-3.0), built automatically.
+No upstream source is stored here, only `rules.json` and a small build tool.
 
-| Patch | Purpose |
-|---|---|
-| `0001-enable-client-side-features.patch` | Makes the client treat accounts as having advanced features available (e.g. local TOTP generation). Features enforced by the server remain subject to server policy. |
-| `0002-local-sdk-build.patch` | Resolves the Bitwarden SDK from a local build instead of GitHub Packages, so no access token is required. |
+| Target | Upstream | Output |
+|---|---|---|
+| `android` | bitwarden/android | F-Droid flavor APK (debug-signed) |
+| `browser` | bitwarden/clients (`apps/browser`) | Chrome and Firefox zips |
 
-## Build
-`./build.py` clones upstream at a pinned commit, builds the SDK from source, applies the patches, and produces a debug-signed arm64 APK under `build/android/app/build/outputs/`.
+Each rule finds its edit by anchor text, so it survives file moves between releases. The workflow checks upstream every 6 hours,
+builds any new release, and publishes it under Releases. If a rule stops matching, the build fails and opens an issue.
 
-Unofficial and not affiliated with Bitwarden Inc.
+Rules make the client treat accounts as having advanced features (e.g. local TOTP). Server-enforced features still follow server policy.
+Local use: `python3 nano.py build android|browser`. Unofficial; not affiliated with Bitwarden Inc.
