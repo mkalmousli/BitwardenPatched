@@ -20,7 +20,7 @@ if sp.run(["git", "ls-remote", "--exit-code", "--heads", remote, "gh-pages"], ca
     run("git", "clone", "-q", "--branch", "gh-pages", remote, SITE, cwd=HERE)
 else:
     os.makedirs(SITE)
-    run("git", "init", "-q", "-b", "gh-pages")
+    run("git", "init", "-q", "-b", "single")
     run("git", "remote", "add", "origin", remote)
 
 os.makedirs(f"{SITE}/repo", exist_ok=True)
@@ -40,7 +40,8 @@ run("fdroid", "update", "--create-metadata", "--delete-unknown")
 os.remove(f"{SITE}/config.yml")  # holds the key password; never publish it
 shutil.copy("docs/index.html", f"{SITE}/index.html")
 open(f"{SITE}/.gitignore", "w").write("config.yml\nmetadata/\n")
+if sp.run(["git", "branch", "--show-current"], cwd=SITE, capture_output=True, text=True).stdout.strip() != "single": run("git", "checkout", "-q", "--orphan", "single")  # Pages branch is always one commit, no history
 run("git", "add", "-A")
 run("git", "-c", "user.name=nanowarden", "-c", "user.email=actions@users.noreply.github.com",
-    "commit", "-qm", "Update F-Droid repo")
-run("git", "push", "-q", "origin", "HEAD:gh-pages")
+    "commit", "-qm", "NanoWarden site and F-Droid repo")
+run("git", "push", "-q", "--force", "origin", "single:gh-pages")

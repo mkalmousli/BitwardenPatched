@@ -60,15 +60,17 @@ def publish(files):
     for _ in range(5):
         shutil.rmtree("work/pages", ignore_errors=True)
         if sp.run(["git", "clone", "-q", "--depth", "1", "--branch", "gh-pages", url, "work/pages"]).returncode:
-            sh("git", "init", "-q", "-b", "gh-pages", "work/pages")  # first run: the Android job hasn't created it yet
+            sh("git", "init", "-q", "-b", "single", "work/pages")  # first run: the Android job hasn't created it yet
             sh("git", "-C", "work/pages", "remote", "add", "origin", url)
         for path, text in files.items():
             os.makedirs(os.path.dirname(f"work/pages/{path}"), exist_ok=True)
             open(f"work/pages/{path}", "w").write(text)
+        if sh("git", "-C", "work/pages", "branch", "--show-current", capture_output=True).stdout.strip() != "single":
+            sh("git", "-C", "work/pages", "checkout", "-q", "--orphan", "single")  # Pages branch is always one commit
         sh("git", "-C", "work/pages", "add", "-A")
         sh("git", "-C", "work/pages", "-c", "user.name=nanowarden", "-c", "user.email=nanowarden@users.noreply.github.com",
-           "commit", "-qm", "Update extension manifests")
-        if sp.run(["git", "-C", "work/pages", "push", "-q", "origin", "gh-pages"]).returncode == 0:
+           "commit", "-qm", "NanoWarden site and extension manifests")
+        if sp.run(["git", "-C", "work/pages", "push", "-q", "--force", "origin", "single:gh-pages"]).returncode == 0:
             return
     sys.exit("could not push gh-pages")
 
