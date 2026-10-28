@@ -9,6 +9,6 @@ This repository contains only patches and a build script; no upstream source is 
 | `0002-local-sdk-build.patch` | Resolves the Bitwarden SDK from a local build instead of GitHub Packages, so no access token is required. |
 
 ## Build
-`./build.sh` clones upstream at a pinned commit, builds the SDK from source, applies the patches, and produces a debug-signed arm64 APK under `build/android/app/build/outputs/`.
+`./build.py` clones upstream at a pinned commit, builds the SDK from source, applies the patches, and produces a debug-signed arm64 APK under `build/android/app/build/outputs/`.
 
 Unofficial and not affiliated with Bitwarden Inc.
