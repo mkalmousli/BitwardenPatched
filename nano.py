@@ -3,9 +3,6 @@
 
   nano.py latest <target>        newest upstream release tag
   nano.py build  <target> [tag]  clone, patch, build; artifacts land in ./out
-
-Targets: android, browser. Each target function patches its source tree, builds it
-and returns a glob (relative to the tree) matching the build artifacts.
 """
 import glob, json, os, re, shutil, subprocess as sp, sys, urllib.request
 
@@ -31,17 +28,35 @@ def sub(src, anchor, find, repl):
         sys.exit(f"RULE BROKEN, upstream changed: {anchor}")
 
 
+def keystore():
+    """Stable signing key from the environment (CI); otherwise a throwaway local one."""
+    path, pw = os.environ.get("KEYSTORE"), os.environ.get("KS_PASS", "nanowarden")
+    path = path or f"{HERE}/work/local.jks"
+    if not os.path.exists(path):
+        run(HERE, "keytool", "-genkeypair", "-keystore", path, "-alias", "nanowarden", "-storepass", pw,
+            "-keyalg", "RSA", "-keysize", "2048", "-validity", "10000", "-dname", "CN=NanoWarden")
+    return path, pw
+
+
 def android(src):
+    # Branding: distinct name and application id, so it installs beside (and isn't mistaken for) the official app.
+    sub(src, 'translatable="false">Bitwarden</string>', r">Bitwarden<", ">NanoWarden (Bitwarden fork)<")
+    sub(src, 'applicationId = "com.x8bit.bitwarden"', r'(applicationId = "com.x8bit.bitwarden)"', r'\1.nano"')
     sub(src, "isPremium = profile.hasPremiumPersonally",
         r"isPremium = profile\.hasPremiumPersonally == true \|\|\s*profile\.hasPremiumFromOrganization == true,",
         "isPremium = true,")
     # The SDK comes from GitHub Packages; any valid token can read it.
     open(f"{src}/user.properties", "w").write(f"gitHubToken={os.environ['GITHUB_TOKEN']}\n")
-    run(src, "./gradlew", "app:assembleFdroidDebug", "-q")
-    return "app/build/outputs/apk/**/*.apk"
+    run(src, "./gradlew", "app:assembleFdroidRelease", "-q")
+    ks, pw = keystore()
+    unsigned = glob.glob(f"{src}/app/build/outputs/apk/fdroid/release/*.apk")[0]
+    apksigner = sorted(glob.glob(f"{os.environ['ANDROID_HOME']}/build-tools/*/apksigner"))[-1]
+    run(src, apksigner, "sign", "--ks", ks, "--ks-pass", f"pass:{pw}", "--out", f"{src}/NanoWarden.apk", unsigned)
+    return "NanoWarden.apk"
 
 
 def browser(src):
+    sub(src, '"Bitwarden Password Manager"', r'"message": "Bitwarden Password Manager"', '"message": "NanoWarden (Bitwarden fork)"')
     sub(src, "hasPremiumFromAnyOrganization === true ||",
         r"profile\?\.hasPremiumFromAnyOrganization === true \|\|\s*profile\?\.hasPremiumPersonally === true", "true")
     sub(src, "!!profile?.hasPremiumPersonally", r"!!profile\?\.hasPremiumPersonally", "true")

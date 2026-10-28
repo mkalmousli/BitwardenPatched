@@ -22,11 +22,20 @@ jobs:
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'browser' }}
         uses: actions/setup-node@v4
         with: {node-version: 24}
+      - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
+        run: |
+          echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > "$RUNNER_TEMP/ks.jks"
+          echo "KEYSTORE=$RUNNER_TEMP/ks.jks" >> $GITHUB_ENV
+          echo "KS_PASS=${{ secrets.KS_PASS }}" >> $GITHUB_ENV
       - if: ${{ !steps.v.outputs.skip }}
         run: python3 nano.py build ${{ matrix.target }} ${{ steps.v.outputs.tag }}
       - if: ${{ !steps.v.outputs.skip }}
         run: |
           gh release create "${{ matrix.target }}-${{ steps.v.outputs.tag }}" out/* --title "${{ matrix.target }} ${{ steps.v.outputs.tag }}" --notes "Built from upstream ${{ steps.v.outputs.tag }} with nano.py rules applied."
+      - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
+        run: |
+          pip install -q fdroidserver
+          python3 fdroid.py
       - if: ${{ failure() && !steps.v.outputs.skip }}
         run: |
           gh issue create --title "Build failed: ${{ matrix.target }} ${{ steps.v.outputs.tag }}" --body "See $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" || true
