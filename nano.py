@@ -15,7 +15,7 @@ def run(src, *cmd):
 
 def sub(src, anchor, find, repl):
     """Rewrite code matching regex `find` in whichever file contains `anchor` (files may move between releases)."""
-    grep = sp.run(["git", "grep", "-lF", anchor], cwd=src, capture_output=True, text=True)
+    grep = sp.run(["git", "grep", "-lF", "-e", anchor], cwd=src, capture_output=True, text=True)
     done = 0
     for path in (p for p in grep.stdout.split() if not re.search(r"spec|test|Test|mock", p)):
         text = open(f"{src}/{path}").read()
