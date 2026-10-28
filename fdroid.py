@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Publish out/*.apk into an F-Droid repository served from the gh-pages branch (GitHub Pages)."""
-import glob, os, shutil, subprocess as sp
+import glob, os, re, shutil, subprocess as sp
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SITE = f"{HERE}/work/site"
@@ -24,10 +24,18 @@ else:
     run("git", "remote", "add", "origin", remote)
 
 os.makedirs(f"{SITE}/repo", exist_ok=True)
-for apk in glob.glob(f"{HERE}/out/android-*.apk"):
+for old in glob.glob(f"{SITE}/repo/*.apk"):
+    os.remove(old)
+apks = glob.glob(f"{HERE}/out/android-*.apk")
+for apk in apks:
     shutil.copy(apk, f"{SITE}/repo/")
+# An APK (~140 MB) exceeds git's 100 MB file limit, so it is not stored on the Pages branch: the index lists it and
+# clients fetch it from the release asset through this mirror URL (the release tag is part of the file name).
+TAG = re.match(r"android-(.+)-NanoWarden\.apk", os.path.basename(apks[0]))[1]
 open(f"{SITE}/config.yml", "w").write(f"""repo_url: {URL}
 repo_name: NanoWarden
+mirrors:
+  - https://github.com/{REPO}/releases/download/{TAG}
 repo_description: Unofficial patched builds of the Bitwarden Android app (fork). Not affiliated with Bitwarden Inc.
 keystore: {os.environ['KEYSTORE']}
 keystorepass: {PW}
@@ -39,7 +47,7 @@ os.chmod(f"{SITE}/config.yml", 0o600)
 run("fdroid", "update", "--create-metadata", "--delete-unknown")
 os.remove(f"{SITE}/config.yml")  # holds the key password; never publish it
 shutil.copy("docs/index.html", f"{SITE}/index.html")
-open(f"{SITE}/.gitignore", "w").write("config.yml\nmetadata/\n")
+open(f"{SITE}/.gitignore", "w").write("config.yml\nmetadata/\n*.apk\n")
 if sp.run(["git", "branch", "--show-current"], cwd=SITE, capture_output=True, text=True).stdout.strip() != "single": run("git", "checkout", "-q", "--orphan", "single")  # Pages branch is always one commit, no history
 run("git", "add", "-A")
 run("git", "-c", "user.name=nanowarden", "-c", "user.email=actions@users.noreply.github.com",
