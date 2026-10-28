@@ -26,6 +26,10 @@ https://mkalmousli.github.io/NanoWarden/repo?fingerprint=B1D78FEC2A8513EFD0EF78A
 
 (F-Droid → Settings → Repositories → **+**, or open the link on your phone.) The fingerprint pins the signing key.
 
+## Browser extension auto-updates
+
+Releases include a self-updating `.xpi` (Firefox) and `.crx` (Chrome family), served with update manifests from the website. The Firefox build is signed through Mozilla's unlisted channel and needs the repo secrets `AMO_KEY` and `AMO_SECRET`; without them only the zip and CRX are produced. Chrome on Windows/macOS accepts off-store CRX files only via enterprise policy.
+
 ## Branding
 
 To avoid confusion with the official app, builds are clearly marked as a fork: the app and extension are named
