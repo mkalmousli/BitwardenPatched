@@ -1,0 +1,33 @@
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+index b82ed06..5a07f13 100644
+--- a/app/build.gradle.kts
++++ b/app/build.gradle.kts
+@@ -226,7 +226,7 @@ configurations.all {
+     resolutionStrategy.dependencySubstitution {
+         if ((userProperties["localSdk"] as String?).toBoolean()) {
+             substitute(module("com.bitwarden:sdk-android"))
+-                .using(module("com.bitwarden:sdk-android:LOCAL"))
++                .using(module("com.bitwarden:sdk-android.dev:LOCAL"))
+         }
+     }
+ }
+diff --git a/settings.gradle.kts b/settings.gradle.kts
+index f2c3f20..c550b9e 100644
+--- a/settings.gradle.kts
++++ b/settings.gradle.kts
+@@ -25,14 +25,7 @@ dependencyResolutionManagement {
+     repositories {
+         google()
+         mavenCentral()
+-        maven {
+-            name = "GitHubPackages (Bitwarden)"
+-            url = uri("https://maven.pkg.github.com/bitwarden/sdk")
+-            credentials {
+-                username = ""
+-                password = userProperties["gitHubToken"] as String? ?: System.getenv("GITHUB_TOKEN")
+-            }
+-        }
++        mavenLocal()
+         if ((userProperties["localSdk"] as String?).toBoolean()) {
+             mavenLocal()
+         }

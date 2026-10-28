@@ -1,0 +1,14 @@
+diff --git a/app/src/main/kotlin/com/x8bit/bitwarden/data/auth/repository/util/UserStateJsonExtensions.kt b/app/src/main/kotlin/com/x8bit/bitwarden/data/auth/repository/util/UserStateJsonExtensions.kt
+index e9b546e..d02e10a 100644
+--- a/app/src/main/kotlin/com/x8bit/bitwarden/data/auth/repository/util/UserStateJsonExtensions.kt
++++ b/app/src/main/kotlin/com/x8bit/bitwarden/data/auth/repository/util/UserStateJsonExtensions.kt
+@@ -279,8 +279,7 @@ fun UserStateJson.toUserState(
+                         .settings
+                         .environmentUrlData
+                         .toEnvironmentUrlsOrDefault(),
+-                    isPremium = profile.hasPremiumPersonally == true ||
+-                        profile.hasPremiumFromOrganization == true,
++                    isPremium = true,
+                     isPremiumFromSelf = profile.hasPremiumPersonally == true,
+                     isLoggedIn = userAccountTokens
+                         .find { it.userId == userId }
