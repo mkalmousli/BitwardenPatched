@@ -25,6 +25,8 @@ jobs:
       - if: ${{ !steps.v.outputs.skip }}
         run: python3 nano.py build ${{ matrix.target }} ${{ steps.v.outputs.tag }}
       - if: ${{ !steps.v.outputs.skip }}
-        run: gh release create "${{ matrix.target }}-${{ steps.v.outputs.tag }}" out/* --title "${{ matrix.target }} ${{ steps.v.outputs.tag }}" --notes "Built from upstream ${{ steps.v.outputs.tag }} with rules.json applied."
+        run: |
+          gh release create "${{ matrix.target }}-${{ steps.v.outputs.tag }}" out/* --title "${{ matrix.target }} ${{ steps.v.outputs.tag }}" --notes "Built from upstream ${{ steps.v.outputs.tag }} with rules.json applied."
       - if: ${{ failure() && !steps.v.outputs.skip }}
-        run: gh issue create --title "Build failed: ${{ matrix.target }} ${{ steps.v.outputs.tag }}" --body "See $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" || true
+        run: |
+          gh issue create --title "Build failed: ${{ matrix.target }} ${{ steps.v.outputs.tag }}" --body "See $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" || true
