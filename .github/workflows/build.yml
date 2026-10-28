@@ -3,6 +3,7 @@ on:
   schedule: [{cron: "17 */6 * * *"}]   # poll upstream for new releases
   workflow_dispatch:
   push: {branches: [main], paths: [nano.py, brand.py, fdroid.py, ext.py, .github/workflows/build.yml]}
+concurrency: {group: build, cancel-in-progress: true}
 permissions: {contents: write, packages: read, issues: write}
 jobs:
   build:
