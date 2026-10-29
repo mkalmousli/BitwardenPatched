@@ -108,9 +108,9 @@ def desktop(src, sub):
     for kind in ("appImage", "deb"):
         cfg.setdefault(kind, {})["artifactName"] = "bitwarden-patched-${version}-${arch}.${ext}"
     json.dump(cfg, open(path, "w"), indent=2)
-    # The macOS autofill/Safari extensions are Swift targets signed with Apple credentials: leave them out.
+    # The macOS part of the after-pack hook copies Swift extensions and signs with Bitwarden's Apple identity: skip it all.
     hook = f"{src}/apps/desktop/scripts/after-pack.js"
     text = open(hook).read()
-    for fn in ("copyMacOsAutofillExtension(context);", "copySafariExtension(context);"):
-        text = text.replace("      " + fn, "      // " + fn)
-    open(hook, "w").write(text)
+    if "if (isMacOsBuild) {" not in text:
+        raise SystemExit("RULE BROKEN, upstream changed: after-pack.js")
+    open(hook, "w").write(text.replace("if (isMacOsBuild) {", "if (false && isMacOsBuild) {"))
