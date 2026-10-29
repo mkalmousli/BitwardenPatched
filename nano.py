@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""NanoWarden: fetch a Bitwarden client, patch it, build it.
+"""Bitwarden Patched: fetch a Bitwarden client, patch it, build it.
 
   nano.py latest <target>        newest upstream release tag
   nano.py build  <target> [tag]  clone, patch, build; artifacts land in ./out
@@ -47,10 +47,11 @@ def android(src):
     open(f"{src}/user.properties", "w").write(f"gitHubToken={os.environ['GITHUB_TOKEN']}\n")
     run(src, "./gradlew", "app:assembleFdroidRelease", "-q")
     ks, pw = keystore()
-    unsigned = glob.glob(f"{src}/app/build/outputs/apk/fdroid/release/*.apk")[0]
     apksigner = sorted(glob.glob(f"{os.environ['ANDROID_HOME']}/build-tools/*/apksigner"))[-1]
-    run(src, apksigner, "sign", "--ks", ks, "--ks-pass", f"pass:{pw}", "--out", f"{src}/NanoWarden.apk", unsigned)
-    return "NanoWarden.apk"
+    for unsigned in glob.glob(f"{src}/app/build/outputs/apk/fdroid/release/*.apk"):
+        abi = re.search(r"-(universal|x86_64|x86|armeabi-v7a|arm64-v8a)(?:-release)?(?:-unsigned)?\.apk$", unsigned)[1]
+        run(src, apksigner, "sign", "--ks", ks, "--ks-pass", f"pass:{pw}", "--out", f"{src}/{abi}.apk", unsigned)
+    return "*.apk"
 
 
 def browser(src):
@@ -90,7 +91,11 @@ def build(target, tag=None):
     artifacts = build_fn(src)
     os.makedirs(f"{HERE}/out", exist_ok=True)
     for f in glob.glob(f"{src}/{artifacts}", recursive=True):
-        print("artifact:", shutil.copy(f, f"{HERE}/out/{target}-{tag}-{os.path.basename(f)}"))
+        print("artifact:", shutil.copy(f, f"{HERE}/out/bitwarden-patched-{target}-{tag}-{os.path.basename(f)}"))
+    # Corresponding source: the upstream tree with our patches applied (tracked files only, so no tokens or build output).
+    files = sp.run(["git", "ls-files", "-z"], cwd=src, capture_output=True, check=True).stdout
+    sp.run(["tar", "czf", f"{HERE}/out/bitwarden-patched-{target}-{tag}-source.tar.gz", "--null", "-T", "-",
+            "--transform", f"s,^,bitwarden-patched-{target}-{tag}/,"], cwd=src, input=files, check=True)
 
 
 if __name__ == "__main__":

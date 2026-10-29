@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NanoWarden: Bitwarden clients, patched and auto-updated</title>
+<title>Bitwarden Patched: Bitwarden clients, patched and auto-updated</title>
 <meta name="description" content="Unofficial, automatically updated builds of the open-source Bitwarden Android app and browser extension with built-in TOTP available. Install via F-Droid repo or direct download.">
 <style>
 :root{--t:#0f766e;--b:#f0fdfb;--i:#10302d}
 *{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,sans-serif;color:var(--i);background:var(--b)}
 main{max-width:760px;margin:auto;padding:32px 20px}
 h1{display:flex;align-items:center;gap:14px;font-size:2rem;margin:0}
-h1 b{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:linear-gradient(#14b8a6,#0b6e66);color:#fff}
+h1 b{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:#175ddc;color:#fff}
 .card{background:#fff;border:1px solid #cfe9e5;border-radius:14px;padding:18px 20px;margin:18px 0}
 a.btn{display:inline-block;background:var(--t);color:#fff;text-decoration:none;padding:9px 16px;border-radius:9px;margin:4px 6px 4px 0}
 code{display:block;overflow-wrap:anywhere;background:#e6f6f3;padding:10px;border-radius:8px;font-size:.85rem}
 small{color:#46635f}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.stats div{flex:1;min-width:120px;background:#fff;border:1px solid #cfe9e5;border-radius:12px;padding:10px 14px}.stats b{display:block;font-size:1.5rem;color:var(--t)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}td,th{padding:6px 8px;border-bottom:1px solid #e1f0ee;text-align:left}td:last-child,th:last-child{text-align:right;white-space:nowrap}
 </style></head><body><main>
-<h1><b>N</b>NanoWarden</h1>
+<h1><b><svg viewBox="0 0 64 64" width="34" height="34"><path d="M32 8 12 16v16c0 12 8 19 20 24 12-5 20-12 20-24V16z" fill="#fff"/><path d="M32 14v36c-9-4-14-10-14-18V19z" fill="#175ddc"/><circle cx="48" cy="48" r="13" fill="#fff"/><circle cx="48" cy="48" r="11" fill="#0f766e"/><g stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"><path d="M43 41v4l5 3v5M53 41v4l-5 3"/><circle cx="43" cy="41" r="2" fill="#0f766e"/><circle cx="53" cy="41" r="2" fill="#0f766e"/><circle cx="48" cy="54" r="2" fill="#0f766e"/></g></svg></b>Bitwarden Patched</h1>
 <p>Unofficial, automatically updated builds of the open-source Bitwarden <b>Android app</b> and <b>Chrome / Firefox extension</b>, with client-side premium features such as built-in TOTP codes available.</p>
 
 <div class="card"><h2>Android: F-Droid repository</h2>
@@ -25,27 +27,33 @@ small{color:#46635f}
 <p><b>Firefox:</b> open the <code style="display:inline">.xpi</code> below and click Add; it updates itself.<br>
 <b>Chrome / Edge / Brave:</b> the <code style="display:inline">.crx</code> updates itself from <a href="chrome/updates.xml">chrome/updates.xml</a>. Chrome on Windows/macOS only accepts off-store CRX files through an extension policy; on Linux, drag the file onto chrome://extensions. The zip works everywhere as "Load unpacked" but does not self-update.</p></div>
 
+<div class="stats" id="stats"></div>
 <div class="card"><h2>Downloads</h2><div id="dl">Loading latest releases…</div></div>
 
 <div class="card"><h2>What is patched</h2><ul>
 <li>Client-side premium check always on (built-in TOTP and other local features), Android and browser.</li>
-<li>Own name, id, teal colours and logo, so it installs next to the official app.</li>
+<li>Own name and app id plus a fork badge on the original logo, so it installs next to the official app.</li>
 <li>Own update channels (F-Droid repo, Firefox and Chrome update manifests).</li></ul>
-<p>Nothing else is changed. <a href="https://github.com/mkalmousli/NanoWarden#patches">Full list with explanations</a>. Version numbers match upstream Bitwarden.</p></div>
+<p>Nothing else is changed. <a href="https://github.com/mkalmousli/bitwarden-patched#patches">Full list with explanations</a>. Version numbers match upstream Bitwarden.</p></div>
 
 <div class="card"><h2>Good to know</h2>
 <p>Installs next to the official app (separate app id). Server-enforced features still depend on your plan. Self-hosted servers (Bitwarden or Vaultwarden) are the intended setup.
-Not affiliated with Bitwarden Inc. GPL-3.0. <a href="https://github.com/mkalmousli/NanoWarden">Source and details on GitHub</a>.</p></div>
+Not affiliated with Bitwarden Inc. GPL-3.0. <a href="https://github.com/mkalmousli/bitwarden-patched">Source and details on GitHub</a>.</p></div>
 <small>Browser zips: Chrome/Edge/Brave via chrome://extensions → Developer mode → Load unpacked (unzip first); Firefox via about:debugging → Load Temporary Add-on.</small>
 <script>
-const R="mkalmousli/NanoWarden",FP="B1D78FEC2A8513EFD0EF78AE2C73887DFDC84F4CE6C786C61D524E1D4B43821B";
+const R="mkalmousli/bitwarden-patched",FP="B1D78FEC2A8513EFD0EF78AE2C73887DFDC84F4CE6C786C61D524E1D4B43821B";
 const u=location.origin+location.pathname.replace(/[^/]*$/,"")+"repo?fingerprint="+FP;
 url.textContent=u;fd.href=u.replace(/^https?:\/\//,"fdroidrepos://");
-fetch(`https://api.github.com/repos/${R}/releases?per_page=20`).then(r=>r.json()).then(rs=>{
-  const seen={},out=[];
+const mb=n=>(n/1048576).toFixed(1)+" MB",fmt=n=>n.toLocaleString();
+fetch(`https://api.github.com/repos/${R}/releases?per_page=30`).then(r=>r.json()).then(rs=>{
+  let total=0;const seen={},out=[];
+  for(const r of rs)for(const a of r.assets)total+=a.download_count;
   for(const r of rs){const k=r.tag_name.startsWith("browser")?"browser":"android";if(seen[k])continue;seen[k]=1;
-    out.push(`<p><b>${k==="android"?"Android":"Browser extension"}</b> <small>${r.name}</small><br>`+
-      r.assets.map(a=>`<a class="btn" href="${a.browser_download_url}">${a.name.replace(/^.*?-(?=[^-]*$)/,"")}</a>`).join("")+"</p>");}
+    const rel=r.assets.filter(a=>a.name!=="SHA256SUMS");
+    out.push(`<h3>${k==="android"?"Android":"Browser extension"} <small>${r.tag_name} · ${new Date(r.published_at).toLocaleDateString()} · <a href="${r.html_url}">release notes</a></small></h3><table>`+
+      rel.map(a=>`<tr><td><a href="${a.browser_download_url}">${a.name.replace(/^bitwarden-patched-/,"")}</a></td><td>${mb(a.size)}</td><td>${fmt(a.download_count)} ↓</td></tr>`).join("")+"</table>");}
   dl.innerHTML=out.join("")||"No releases yet.";
+  const latest=rs[0];
+  stats.innerHTML=`<div><b>${fmt(total)}</b>total downloads</div><div><b>${rs.length}</b>releases</div>`+(latest?`<div><b>${new Date(latest.published_at).toLocaleDateString()}</b>last build</div>`:"");
 }).catch(()=>dl.innerHTML=`<a class="btn" href="https://github.com/${R}/releases">Open releases</a>`);
 </script></main></body></html>

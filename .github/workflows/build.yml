@@ -2,20 +2,22 @@ name: build
 on:
   schedule: [{cron: "17 */6 * * *"}]   # poll upstream for new releases
   workflow_dispatch:
-  push: {branches: [main], paths: [nano.py, brand.py, fdroid.py, ext.py, .github/workflows/build.yml]}
+  push: {branches: [main], paths: [nano.py, brand.py, fdroid.py, ext.py, pages.py, release.py, fingerprint.txt, docs/index.html, .github/workflows/build.yml]}
 concurrency: {group: build, cancel-in-progress: true}
-permissions: {contents: write, packages: read, issues: write}
+permissions: {contents: write, packages: read, issues: write, pages: write}
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy: {fail-fast: false, matrix: {target: [android, browser]}}
+    strategy: {fail-fast: false, max-parallel: 1, matrix: {target: [android, browser]}}
     env: {GH_TOKEN: "${{ github.token }}", GITHUB_TOKEN: "${{ github.token }}"}
     steps:
       - uses: actions/checkout@v4
+      - run: gh api -X POST repos/$GITHUB_REPOSITORY/pages -f source[branch]=gh-pages -f source[path]=/ 2>/dev/null || true   # make sure Pages is on
+      - run: pip install -q pillow
       - id: v
         run: |
           tag=$(python3 nano.py latest ${{ matrix.target }})
-          ph=$(cat nano.py brand.py ext.py | sha1sum | cut -c1-7)   # patch changes trigger a rebuild too
+          ph=$(cat nano.py brand.py ext.py fdroid.py pages.py release.py fingerprint.txt docs/index.html | sha1sum | cut -c1-7)   # patch changes trigger a rebuild too
           echo "tag=$tag" >> $GITHUB_OUTPUT
           echo "rel=$tag" >> $GITHUB_OUTPUT
           echo "ph=$ph" >> $GITHUB_OUTPUT
@@ -39,12 +41,15 @@ jobs:
           CRX_KEY="$RUNNER_TEMP/crx.pem" REL="${{ steps.v.outputs.rel }}" AMO_KEY="${{ secrets.AMO_KEY }}" AMO_SECRET="${{ secrets.AMO_SECRET }}" python3 ext.py "${{ steps.v.outputs.tag }}"
       - if: ${{ !steps.v.outputs.skip }}
         run: |
+          python3 release.py ${{ matrix.target }} "${{ steps.v.outputs.rel }}" "${{ steps.v.outputs.ph }}" > notes.md
+          (cd out && sha256sum * > SHA256SUMS)
           gh release delete "${{ steps.v.outputs.rel }}" --cleanup-tag -y 2>/dev/null || true
-          gh release create "${{ steps.v.outputs.rel }}" out/* --title "NanoWarden ${{ steps.v.outputs.tag }}" --notes "NanoWarden build of upstream \`${{ steps.v.outputs.tag }}\` (same version number as Bitwarden). Source: upstream tag plus this repo at the build commit. patches ${{ steps.v.outputs.ph }}"
+          title="Bitwarden Patched $([ ${{ matrix.target }} = android ] && echo Android || echo Browser) ${{ steps.v.outputs.tag }}"
+          gh release create "${{ steps.v.outputs.rel }}" out/* --title "$title" --notes-file notes.md
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
         run: |
           pip install -q fdroidserver
-          python3 fdroid.py
+          REL="${{ steps.v.outputs.rel }}" python3 fdroid.py
       - if: ${{ failure() && !steps.v.outputs.skip }}
         run: |
           gh issue create --title "Build failed: ${{ matrix.target }} ${{ steps.v.outputs.tag }}" --body "See $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" || true

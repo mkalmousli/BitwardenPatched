@@ -1,82 +1,80 @@
-"""NanoWarden branding: name, teal palette and an original "N" logo, applied to upstream source trees."""
-import colorsys, functools, glob, os, re, struct, zlib
+"""Bitwarden Patched branding: the original Bitwarden logo and colours plus a small "fork" badge, applied to upstream source trees."""
+import glob
 
-NAME = "NanoWarden"
-TEAL = 172 / 360  # hue the upstream blue scale is rotated to
-GLYPH = [  # unit-square polygons forming an "N": left bar, right bar, diagonal
-    [(.28, .25), (.40, .25), (.40, .75), (.28, .75)],
-    [(.60, .25), (.72, .25), (.72, .75), (.60, .75)],
-    [(.28, .25), (.40, .25), (.72, .75), (.60, .75)],
-]
-
-
-def recolor(hex6):
-    """Rotate a blue hex colour (no #) to the teal hue, keeping saturation and lightness."""
-    r, g, b = (int(hex6[i:i + 2], 16) / 255 for i in (0, 2, 4))
-    h, l, s = colorsys.rgb_to_hls(r, g, b)
-    if s > .15 and .5 < h < .7:  # only touch blues, leave greys/whites alone
-        h = TEAL
-    return "".join(f"{round(c * 255):02x}" for c in colorsys.hls_to_rgb(h, l, s * (.8 if h == TEAL else 1)))
+NAME = "Bitwarden Patched"
+PAGES = "https://mkalmousli.github.io/bitwarden-patched"
+TEAL = "0F766E"  # badge colour
+# Fork glyph in a unit square centred on the badge: three nodes joined by a branching line.
+NODES = [(-.26, -.30), (.26, -.30), (0, .32)]
+LINES = [[(-.26, -.30), (-.26, -.08), (0, .08), (0, .32)], [(.26, -.30), (.26, -.08), (0, .08)]]
 
 
-def inside(poly, x, y):
-    hit = False
-    for (x1, y1), (x2, y2) in zip(poly, poly[1:] + poly[:1]):
-        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
-            hit = not hit
-    return hit
+def fork_badge(size):
+    """RGBA fork badge image, drawn 8x and downsampled."""
+    from PIL import Image, ImageDraw
+    big = size * 8
+    img = Image.new("RGBA", (big, big), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    d.ellipse([0, 0, big - 1, big - 1], fill="white")
+    d.ellipse([big * .07, big * .07, big * .93, big * .93], fill="#" + TEAL)
+    pt = lambda p: (big * (.5 + p[0] * .8), big * (.5 + p[1] * .8))
+    for line in LINES:
+        d.line([pt(p) for p in line], fill="white", width=max(int(big * .08), 2), joint="curve")
+    for p in NODES:
+        x, y = pt(p)
+        r = big * .105
+        d.ellipse([x - r, y - r, x + r, y + r], fill="#" + TEAL, outline="white", width=max(int(big * .06), 2))
+    return img.resize((size, size), Image.LANCZOS)
 
 
-@functools.cache
-def png(size, gray=False):
-    """Rounded teal square with a white N, supersampled 4x for smooth edges."""
-    rows, n = [], 4
-    for py in range(size):
-        row = bytearray([0])
-        for px in range(size):
-            a = g = 0
-            for i in range(n * n):
-                x, y = (px + (i % n + .5) / n) / size, (py + (i // n + .5) / n) / size
-                dx, dy = max(abs(x - .5) - .28, 0), max(abs(y - .5) - .28, 0)
-                if dx * dx + dy * dy <= .22 * .22:
-                    a += 1
-                    g += any(inside(p, x, y) for p in GLYPH)
-            t = py / size
-            bg = (round(20 - 8 * t), round(184 - 66 * t), round(166 - 60 * t))
-            if gray:
-                bg = (150,) * 3
-            mix = g / a if a else 0
-            row += bytes([round(c + (255 - c) * mix) for c in bg]) + bytes([round(255 * a / n / n)])
-        rows.append(bytes(row))
-    def chunk(tag, data):
-        return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", zlib.crc32(tag + data))
-    return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", size, size, 8, 6, 0, 0, 0))
-            + chunk(b"IDAT", zlib.compress(b"".join(rows), 9)) + chunk(b"IEND", b""))
+def stamp(path):
+    """Overlay the fork badge on the bottom-right corner of an upstream PNG icon."""
+    from PIL import Image
+    icon = Image.open(path).convert("RGBA")
+    badge = fork_badge(max(round(icon.width * .5), 8))
+    icon.alpha_composite(badge, (icon.width - badge.width, icon.height - badge.height))
+    icon.save(path)
 
 
-def vector():
-    d = "".join("M" + " ".join(f"{54 + (x - .5) * 54:.1f},{54 + (y - .5) * 54:.1f}" for x, y in p) + "z" for p in GLYPH)
-    return ('<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp"'
-            f' android:viewportWidth="108" android:viewportHeight="108"><path android:fillColor="#FFFFFFFF" android:pathData="{d}"/></vector>')
+def vector_badge():
+    """Android vector group drawing the same badge at the bottom-right of the 108dp adaptive-icon canvas."""
+    cx, cy, r = 77, 77, 13
+    pt = lambda p: (cx + p[0] * r * 1.6, cy + p[1] * r * 1.6)
+    ri = r - 1.6
+    out = [f'<path android:fillColor="#FFFFFFFF" android:pathData="M{cx - r},{cy}a{r},{r} 0 1,0 {2 * r},0a{r},{r} 0 1,0 {-2 * r},0z"/>',
+           f'<path android:fillColor="#FF{TEAL}" android:pathData="M{cx - ri:.1f},{cy}a{ri:.1f},{ri:.1f} 0 1,0 {2 * ri:.1f},0a{ri:.1f},{ri:.1f} 0 1,0 {-2 * ri:.1f},0z"/>']
+    for line in LINES:
+        d = "M" + "L".join(f"{x:.1f},{y:.1f}" for x, y in map(pt, line))
+        out.append(f'<path android:pathData="{d}" android:strokeColor="#FFFFFFFF" android:strokeWidth="1.8" '
+                   'android:strokeLineCap="round" android:strokeLineJoin="round"/>')
+    for p in NODES:
+        x, y = pt(p)
+        out.append(f'<path android:fillColor="#FF{TEAL}" android:strokeColor="#FFFFFFFF" android:strokeWidth="1.5" '
+                   f'android:pathData="M{x - 2.4:.1f},{y:.1f}a2.4,2.4 0 1,0 4.8,0a2.4,2.4 0 1,0 -4.8,0z"/>')
+    return "<group>" + "".join(out) + "</group>"
 
 
 def android(src, sub):
     sub(src, 'translatable="false">Bitwarden</string>', r">Bitwarden<", f">{NAME}<")
-    sub(src, 'applicationId = "com.x8bit.bitwarden"', r'(applicationId = "com.x8bit.bitwarden)"', r'\1.nano"')
-    sub(src, "val blue500: Color", r"(val blue\d+: Color = Color\(color = 0xFF)([0-9A-Fa-f]{6})", lambda m: m[1] + recolor(m[2]).upper())
-    sub(src, 'name="ic_launcher_background"', r"#FF175DDC", "#FF0F766E")
-    for f in glob.glob(f"{src}/app/src/*/res/drawable/ic_launcher_[fm]*.xml"):
-        open(f, "w").write(vector())
+    sub(src, 'applicationId = "com.x8bit.bitwarden"', r'(applicationId = "com.x8bit.bitwarden)"', r'\1.patched"')  # installs next to the official app
+    for f in glob.glob(f"{src}/app/src/*/res/drawable/ic_launcher_foreground.xml"):
+        text = open(f).read()
+        open(f, "w").write(text.replace("</vector>", vector_badge() + "</vector>"))
+    # One APK per ABI plus a universal one. The version code gets an ABI digit so each can be installed and indexed separately.
+    sub(src, "configure<ApplicationExtension> {", r"(configure<ApplicationExtension> \{\n)",
+        r'\1    splits { abi { isEnable = true; reset(); include("x86", "x86_64", "armeabi-v7a", "arm64-v8a"); isUniversalApk = true } }\n')
+    sub(src, "output.outputFileName.set(", r'( *)output\.outputFileName\.set\("\$fileNameWithoutExtension\.apk"\)',
+        r'''\1val abi = output.filters.find { it.filterType == com.android.build.api.variant.FilterConfiguration.FilterType.ABI }?.identifier
+\1val abiDigit = mapOf("x86" to 1, "x86_64" to 2, "armeabi-v7a" to 3, "arm64-v8a" to 4)[abi] ?: 0
+\1output.versionCode.set((output.versionCode.orNull ?: 0) * 10 + abiDigit)
+\1output.outputFileName.set("$fileNameWithoutExtension-${abi ?: "universal"}.apk")''')
 
 
 def browser(src, sub):
     sub(src, '"Bitwarden Password Manager"', r'"message": "Bitwarden Password Manager"', f'"message": "{NAME}"')
     sub(src, '"extDesc"', r'("extDesc": \{\s*"message": )"[^"]*"',
-        r'\1"Unofficial community build of the open-source Bitwarden client. Not affiliated with Bitwarden Inc."')
+        r'\1"Unofficial patched build of the open-source Bitwarden client. Not affiliated with Bitwarden Inc."')
     sub(src, '"__firefox__browser_specific_settings"', r'"id": "\{446900e4-[^}]*\}"',  # own add-on id, so it never collides with the official one
-        '"id": "nanowarden@mkalmousli.github.io", "update_url": "https://mkalmousli.github.io/NanoWarden/firefox/updates.json"')
-    sub(src, "--color-brand-700:", r"(--color-brand-\d+: #)([0-9a-f]{6})", lambda m: m[1] + recolor(m[2]))
-    sub(src, "--color-brand-700-rgb", r"23, 93, 220", "15, 118, 110")
+        f'"id": "nanowarden@mkalmousli.github.io", "update_url": "{PAGES}/firefox/updates.json"')
     for f in glob.glob(f"{src}/apps/browser/src/images/icon*.png"):
-        size = int(re.search(r"icon(\d+)", os.path.basename(f))[1])
-        open(f, "wb").write(png(size, gray="gray" in f))
+        stamp(f)
