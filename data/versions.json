@@ -1,0 +1,259 @@
+{
+ "generated": "2026-10-29T22:44:48Z",
+ "repo": "mkalmousli/BitwardenPatched",
+ "android": [
+  {
+   "tag": "v2026.10.1-bwpm",
+   "built": "2026-10-29T22:40:40Z",
+   "patches": "ed369a1",
+   "assets": [
+    {
+     "name": "bitwarden-patched-android-v2026.10.1-bwpm-arm64-v8a.apk",
+     "size": 59808908,
+     "sha256": "7084a5283b7abd2321522781455954c2fe7f2252b0698efac920c75482fda1d1",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.1-bwpm/bitwarden-patched-android-v2026.10.1-bwpm-arm64-v8a.apk",
+     "pages": "repo/bitwarden-patched-android-v2026.10.1-bwpm-arm64-v8a.apk"
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.1-bwpm-armeabi-v7a.apk",
+     "size": 48913558,
+     "sha256": "c443fd39ac844273f86d3b640499fdfc4a403ec54f24b7249e49d3fb6469a85e",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.1-bwpm/bitwarden-patched-android-v2026.10.1-bwpm-armeabi-v7a.apk",
+     "pages": "repo/bitwarden-patched-android-v2026.10.1-bwpm-armeabi-v7a.apk"
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.1-bwpm-source.tar.gz",
+     "size": 11005761,
+     "sha256": "b59784a516072cc825fef147c74c53eceea5fe7aa8284fd33434ba45e42f52ff",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.1-bwpm/bitwarden-patched-android-v2026.10.1-bwpm-source.tar.gz",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.1-bwpm-universal.apk",
+     "size": 144908850,
+     "sha256": "be95e4e97dc4c0b60bbb0f72d2d4c07260b274265d91af1af23d75c1d1cbecf5",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.1-bwpm/bitwarden-patched-android-v2026.10.1-bwpm-universal.apk",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.1-bwpm-x86-64.apk",
+     "size": 56859773,
+     "sha256": "d390cc1b4334eaa13027d1e934584980aca8d1b75669d7b996797ee02272829b",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.1-bwpm/bitwarden-patched-android-v2026.10.1-bwpm-x86-64.apk",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.1-bwpm-x86.apk",
+     "size": 55893102,
+     "sha256": "ed64ae9d6261354949be5ffe3c239632e1f78a698de9b5bc5b244f1934185a6e",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.1-bwpm/bitwarden-patched-android-v2026.10.1-bwpm-x86.apk",
+     "pages": "repo/bitwarden-patched-android-v2026.10.1-bwpm-x86.apk"
+    }
+   ],
+   "release": "https://github.com/mkalmousli/BitwardenPatched/releases/tag/v2026.10.1-bwpm"
+  },
+  {
+   "tag": "v2026.10.0-bwpm",
+   "built": "2026-10-29T18:08:48Z",
+   "patches": "07d6cda",
+   "assets": [
+    {
+     "name": "bitwarden-patched-android-v2026.10.0-bwpm-arm64-v8a.apk",
+     "size": 60096806,
+     "sha256": "ceeaea80320821e3cff3a63430a83a596a327074ba9d75b0bf1737830e3d65fd",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.0-bwpm/bitwarden-patched-android-v2026.10.0-bwpm-arm64-v8a.apk",
+     "pages": "repo/bitwarden-patched-android-v2026.10.0-bwpm-arm64-v8a.apk"
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.0-bwpm-armeabi-v7a.apk",
+     "size": 49266992,
+     "sha256": "0ae75706551f4f76f1d8fc723229a51182a13555970d41242ba62d9f6e9a403a",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.0-bwpm/bitwarden-patched-android-v2026.10.0-bwpm-armeabi-v7a.apk",
+     "pages": "repo/bitwarden-patched-android-v2026.10.0-bwpm-armeabi-v7a.apk"
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.0-bwpm-source.tar.gz",
+     "size": 10967695,
+     "sha256": "864a9637f9cbee0a0dbaef73e04d66466540ffb25b38703e02f5acfa6c187840",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.0-bwpm/bitwarden-patched-android-v2026.10.0-bwpm-source.tar.gz",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.0-bwpm-universal.apk",
+     "size": 144967372,
+     "sha256": "1024d584edf012503baf6a214f5484cd6a1ae2af5584395ec537f5abea30c2c1",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.0-bwpm/bitwarden-patched-android-v2026.10.0-bwpm-universal.apk",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.0-bwpm-x86-64.apk",
+     "size": 57114903,
+     "sha256": "edba3e6396343e3ec562d662a72fffb222c907639cd1d33142e5422a29b23027",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.0-bwpm/bitwarden-patched-android-v2026.10.0-bwpm-x86-64.apk",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-android-v2026.10.0-bwpm-x86.apk",
+     "size": 56164616,
+     "sha256": "5d2f597618bab41ae12f0e29daca308449904584f7870a486c09b90ca6a34aac",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/v2026.10.0-bwpm/bitwarden-patched-android-v2026.10.0-bwpm-x86.apk",
+     "pages": "repo/bitwarden-patched-android-v2026.10.0-bwpm-x86.apk"
+    }
+   ],
+   "release": "https://github.com/mkalmousli/BitwardenPatched/releases/tag/v2026.10.0-bwpm"
+  }
+ ],
+ "browser": [
+  {
+   "tag": "browser-v2026.10.1",
+   "built": "2026-10-29T22:42:24Z",
+   "patches": "ed369a1",
+   "assets": [
+    {
+     "name": "bitwarden-patched-2026.10.1.crx",
+     "size": 25573927,
+     "sha256": "ff460a16b4cfbbad383d0b817111e74179c133490a7f54edd6f45e52e71d74a3",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/browser-v2026.10.1/bitwarden-patched-2026.10.1.crx",
+     "pages": "chrome/bitwarden-patched.crx"
+    },
+    {
+     "name": "bitwarden-patched-browser-browser-v2026.10.1-dist-chrome.zip",
+     "size": 25764479,
+     "sha256": "242e43c36f413176da1850a4a71eee586a5e6c159273e709410fa27ee7f448e9",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/browser-v2026.10.1/bitwarden-patched-browser-browser-v2026.10.1-dist-chrome.zip",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-browser-browser-v2026.10.1-dist-firefox.zip",
+     "size": 22545584,
+     "sha256": "3227f3a4e5a52adbd3f108e5195c2b63d97b107f7a5f252339026f49da06567b",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/browser-v2026.10.1/bitwarden-patched-browser-browser-v2026.10.1-dist-firefox.zip",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-browser-browser-v2026.10.1-source.tar.gz",
+     "size": 53396950,
+     "sha256": "d9999c34a022d48f2eda3174b9393a8e2c1e981fcc8ce08c9290a7871dc7dba9",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/browser-v2026.10.1/bitwarden-patched-browser-browser-v2026.10.1-source.tar.gz",
+     "pages": null
+    }
+   ],
+   "release": "https://github.com/mkalmousli/BitwardenPatched/releases/tag/browser-v2026.10.1"
+  }
+ ],
+ "desktop": [
+  {
+   "tag": "desktop-v2026.10.2",
+   "built": "2026-10-29T22:44:30Z",
+   "patches": "ed369a1",
+   "assets": [
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-arm64-2026.10.2-arm64.AppImage",
+     "size": 281009421,
+     "sha256": "e24d48777a40f1fe01922a3d382d4a3deda2e0d3d2efb81572a3683142579a68",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-linux-arm64-2026.10.2-arm64.AppImage",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-arm64-2026.10.2-arm64.deb",
+     "size": 201093016,
+     "sha256": "d73071d36654c011ff5a27e8918a72e50fa157a132f3ae37455af94081ef980d",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-linux-arm64-2026.10.2-arm64.deb",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-arm64-2026.10.2-arm64.tar.gz",
+     "size": 263698793,
+     "sha256": "d384ebe6ae5abc43337a67b2527fe700474cd12239e5fcb41d2a97b0035e5cdb",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-linux-arm64-2026.10.2-arm64.tar.gz",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-x64-2026.10.2-amd64.deb",
+     "size": 215709160,
+     "sha256": "17e97dea4907adc91d781cbcffa3f7608732ff85f055cc54a72d25080951dee0",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-linux-x64-2026.10.2-amd64.deb",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-x64-2026.10.2-x86-64.AppImage",
+     "size": 293000835,
+     "sha256": "f98d923673d7b0e5eeac0354c0c7a895a87f199ad226dcd46c8e56286f76fc43",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-linux-x64-2026.10.2-x86-64.AppImage",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-x64-2026.10.2.tar.gz",
+     "size": 275244425,
+     "sha256": "7937f21eae1ac0eb8f2a2d1bbb643e4aab37f9ee436be6a170bd5c99378cb761",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-linux-x64-2026.10.2.tar.gz",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-macos-arm64-2026.10.2-arm64-mac.zip",
+     "size": 201126160,
+     "sha256": "bdceb9c78f804ac155a71e08278232e47fdeb4090baf545ba399c63b57645ce4",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-macos-arm64-2026.10.2-arm64-mac.zip",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-macos-arm64-2026.10.2-arm64.dmg",
+     "size": 209988279,
+     "sha256": "4b92ce8c6cce4b6bf2694700f56ab6a9baf17b880746c12bab2f445eb63a58af",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-macos-arm64-2026.10.2-arm64.dmg",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-macos-x64-2026.10.2-mac.zip",
+     "size": 204161514,
+     "sha256": "b0a36dcf0965994e7916c8f06fa0c18fecebf5bee5e30692bb983adc1259ca6b",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-macos-x64-2026.10.2-mac.zip",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-macos-x64-2026.10.2.dmg",
+     "size": 212986103,
+     "sha256": "a074ae39d3cd69be04d22a6780b689157643ee545c5974138512883a1ac519f4",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-macos-x64-2026.10.2.dmg",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-source.tar.gz",
+     "size": 53356865,
+     "sha256": "b100fc6f67c5ddb38205af0acc8672619d27f844403f166b03c2b09f7d9913c3",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-source.tar.gz",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-windows-arm64-Portable-2026.10.2.exe",
+     "size": 165712680,
+     "sha256": "d4e2e8684f3a37b32ec9f62b93bc025fd88a5e01e1e563edfb23eaf21984636d",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-windows-arm64-Portable-2026.10.2.exe",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-windows-arm64-Setup-2026.10.2.exe",
+     "size": 165864879,
+     "sha256": "b128a111003bffaa3d541a2a19ad81eb704ad976ff286fab5c4b7e672cdd5eb7",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-windows-arm64-Setup-2026.10.2.exe",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-windows-x64-Portable-2026.10.2.exe",
+     "size": 165949810,
+     "sha256": "df709aa685c71d43c1171f921868776a551c35ffe7050a6d8cdc094a440d81e9",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-windows-x64-Portable-2026.10.2.exe",
+     "pages": null
+    },
+    {
+     "name": "bitwarden-patched-desktop-desktop-v2026.10.2-windows-x64-Setup-2026.10.2.exe",
+     "size": 166102486,
+     "sha256": "c4cf897c5f99e5b2b40a58f2ddd2f2f503386c768de67b1271d9e01ff1319779",
+     "release_url": "https://github.com/mkalmousli/BitwardenPatched/releases/download/desktop-v2026.10.2/bitwarden-patched-desktop-desktop-v2026.10.2-windows-x64-Setup-2026.10.2.exe",
+     "pages": null
+    }
+   ],
+   "release": "https://github.com/mkalmousli/BitwardenPatched/releases/tag/desktop-v2026.10.2"
+  }
+ ]
+}

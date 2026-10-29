@@ -1,0 +1,571 @@
+{
+  "METADATA_VERSION": 20002,
+  "allow_disabled_algorithms": false,
+  "bitwarden-patched-android-v2026.10.0-bwpm-arm64-v8a.apk": {
+    "hash": "ceeaea80320821e3cff3a63430a83a596a327074ba9d75b0bf1737830e3d65fd",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.ACCESS_LOCAL_NETWORK",
+        null
+      ],
+      [
+        "android.permission.ACCESS_NETWORK_STATE",
+        null
+      ],
+      [
+        "android.permission.USE_BIOMETRIC",
+        null
+      ],
+      [
+        "android.permission.NFC",
+        null
+      ],
+      [
+        "android.permission.CAMERA",
+        null
+      ],
+      [
+        "horizons.permission.HEADSET_CAMERA",
+        null
+      ],
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "android.permission.POST_NOTIFICATIONS",
+        null
+      ],
+      [
+        "android.permission.READ_USER_DICTIONARY",
+        null
+      ],
+      [
+        "android.permission.USE_FINGERPRINT",
+        null
+      ],
+      [
+        "android.permission.WAKE_LOCK",
+        null
+      ],
+      [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        null
+      ],
+      [
+        "android.permission.FOREGROUND_SERVICE",
+        null
+      ],
+      [
+        "com.x8bit.bitwarden.patched.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": {},
+    "packageName": "com.x8bit.bitwarden.patched",
+    "versionCode": 14,
+    "name": "Bitwarden Patched",
+    "versionName": "2026.9.0",
+    "minSdkVersion": 29,
+    "targetSdkVersion": 37,
+    "nativecode": [
+      "arm64-v8a"
+    ],
+    "sig": "c70217cbe9700a1605db8ce8c0c1094c",
+    "signer": "b1d78fec2a8513efd0ef78ae2c73887dfdc84f4ce6c786c61d524e1d4b43821b",
+    "size": 60096806,
+    "apkName": "bitwarden-patched-android-v2026.10.0-bwpm-arm64-v8a.apk",
+    "added": 1793292283.0
+  },
+  "bitwarden-patched-android-v2026.10.0-bwpm-armeabi-v7a.apk": {
+    "hash": "0ae75706551f4f76f1d8fc723229a51182a13555970d41242ba62d9f6e9a403a",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.ACCESS_LOCAL_NETWORK",
+        null
+      ],
+      [
+        "android.permission.ACCESS_NETWORK_STATE",
+        null
+      ],
+      [
+        "android.permission.USE_BIOMETRIC",
+        null
+      ],
+      [
+        "android.permission.NFC",
+        null
+      ],
+      [
+        "android.permission.CAMERA",
+        null
+      ],
+      [
+        "horizons.permission.HEADSET_CAMERA",
+        null
+      ],
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "android.permission.POST_NOTIFICATIONS",
+        null
+      ],
+      [
+        "android.permission.READ_USER_DICTIONARY",
+        null
+      ],
+      [
+        "android.permission.USE_FINGERPRINT",
+        null
+      ],
+      [
+        "android.permission.WAKE_LOCK",
+        null
+      ],
+      [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        null
+      ],
+      [
+        "android.permission.FOREGROUND_SERVICE",
+        null
+      ],
+      [
+        "com.x8bit.bitwarden.patched.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": {},
+    "packageName": "com.x8bit.bitwarden.patched",
+    "versionCode": 13,
+    "name": "Bitwarden Patched",
+    "versionName": "2026.9.0",
+    "minSdkVersion": 29,
+    "targetSdkVersion": 37,
+    "nativecode": [
+      "armeabi-v7a"
+    ],
+    "sig": "c70217cbe9700a1605db8ce8c0c1094c",
+    "signer": "b1d78fec2a8513efd0ef78ae2c73887dfdc84f4ce6c786c61d524e1d4b43821b",
+    "size": 49266992,
+    "apkName": "bitwarden-patched-android-v2026.10.0-bwpm-armeabi-v7a.apk",
+    "added": 1793292285.0
+  },
+  "bitwarden-patched-android-v2026.10.0-bwpm-x86.apk": {
+    "hash": "5d2f597618bab41ae12f0e29daca308449904584f7870a486c09b90ca6a34aac",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.ACCESS_LOCAL_NETWORK",
+        null
+      ],
+      [
+        "android.permission.ACCESS_NETWORK_STATE",
+        null
+      ],
+      [
+        "android.permission.USE_BIOMETRIC",
+        null
+      ],
+      [
+        "android.permission.NFC",
+        null
+      ],
+      [
+        "android.permission.CAMERA",
+        null
+      ],
+      [
+        "horizons.permission.HEADSET_CAMERA",
+        null
+      ],
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "android.permission.POST_NOTIFICATIONS",
+        null
+      ],
+      [
+        "android.permission.READ_USER_DICTIONARY",
+        null
+      ],
+      [
+        "android.permission.USE_FINGERPRINT",
+        null
+      ],
+      [
+        "android.permission.WAKE_LOCK",
+        null
+      ],
+      [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        null
+      ],
+      [
+        "android.permission.FOREGROUND_SERVICE",
+        null
+      ],
+      [
+        "com.x8bit.bitwarden.patched.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": {},
+    "packageName": "com.x8bit.bitwarden.patched",
+    "versionCode": 11,
+    "name": "Bitwarden Patched",
+    "versionName": "2026.9.0",
+    "minSdkVersion": 29,
+    "targetSdkVersion": 37,
+    "nativecode": [
+      "x86"
+    ],
+    "sig": "c70217cbe9700a1605db8ce8c0c1094c",
+    "signer": "b1d78fec2a8513efd0ef78ae2c73887dfdc84f4ce6c786c61d524e1d4b43821b",
+    "size": 56164616,
+    "apkName": "bitwarden-patched-android-v2026.10.0-bwpm-x86.apk",
+    "added": 1793294995.0
+  },
+  "bitwarden-patched-android-v2026.10.0-bwpm-x86_64.apk": {
+    "hash": "6ced3f38934bc70a9b1efdd8c351aedfd8616a319a67e38ee03310f0be56a7f1",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.ACCESS_LOCAL_NETWORK",
+        null
+      ],
+      [
+        "android.permission.ACCESS_NETWORK_STATE",
+        null
+      ],
+      [
+        "android.permission.USE_BIOMETRIC",
+        null
+      ],
+      [
+        "android.permission.NFC",
+        null
+      ],
+      [
+        "android.permission.CAMERA",
+        null
+      ],
+      [
+        "horizons.permission.HEADSET_CAMERA",
+        null
+      ],
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "android.permission.POST_NOTIFICATIONS",
+        null
+      ],
+      [
+        "android.permission.READ_USER_DICTIONARY",
+        null
+      ],
+      [
+        "android.permission.USE_FINGERPRINT",
+        null
+      ],
+      [
+        "android.permission.WAKE_LOCK",
+        null
+      ],
+      [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        null
+      ],
+      [
+        "android.permission.FOREGROUND_SERVICE",
+        null
+      ],
+      [
+        "com.x8bit.bitwarden.patched.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": {},
+    "packageName": "com.x8bit.bitwarden.patched",
+    "versionCode": 12,
+    "name": "Bitwarden Patched",
+    "versionName": "2026.9.0",
+    "minSdkVersion": 29,
+    "targetSdkVersion": 37,
+    "nativecode": [
+      "x86_64"
+    ],
+    "sig": "c70217cbe9700a1605db8ce8c0c1094c",
+    "signer": "b1d78fec2a8513efd0ef78ae2c73887dfdc84f4ce6c786c61d524e1d4b43821b",
+    "size": 57114903,
+    "apkName": "bitwarden-patched-android-v2026.10.0-bwpm-x86_64.apk",
+    "added": 1793290012.644135
+  },
+  "bitwarden-patched-android-v2026.10.1-bwpm-arm64-v8a.apk": {
+    "hash": "7084a5283b7abd2321522781455954c2fe7f2252b0698efac920c75482fda1d1",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.ACCESS_LOCAL_NETWORK",
+        null
+      ],
+      [
+        "android.permission.ACCESS_NETWORK_STATE",
+        null
+      ],
+      [
+        "android.permission.USE_BIOMETRIC",
+        null
+      ],
+      [
+        "android.permission.NFC",
+        null
+      ],
+      [
+        "android.permission.CAMERA",
+        null
+      ],
+      [
+        "horizons.permission.HEADSET_CAMERA",
+        null
+      ],
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "android.permission.POST_NOTIFICATIONS",
+        null
+      ],
+      [
+        "android.permission.READ_USER_DICTIONARY",
+        null
+      ],
+      [
+        "android.permission.USE_FINGERPRINT",
+        null
+      ],
+      [
+        "android.permission.WAKE_LOCK",
+        null
+      ],
+      [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        null
+      ],
+      [
+        "android.permission.FOREGROUND_SERVICE",
+        null
+      ],
+      [
+        "com.x8bit.bitwarden.patched.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": {},
+    "packageName": "com.x8bit.bitwarden.patched",
+    "versionCode": 14,
+    "name": "Bitwarden Patched",
+    "versionName": "2026.9.0",
+    "minSdkVersion": 29,
+    "targetSdkVersion": 37,
+    "nativecode": [
+      "arm64-v8a"
+    ],
+    "sig": "c70217cbe9700a1605db8ce8c0c1094c",
+    "signer": "b1d78fec2a8513efd0ef78ae2c73887dfdc84f4ce6c786c61d524e1d4b43821b",
+    "size": 59808908,
+    "apkName": "bitwarden-patched-android-v2026.10.1-bwpm-arm64-v8a.apk",
+    "added": 1793313683.842493
+  },
+  "bitwarden-patched-android-v2026.10.1-bwpm-armeabi-v7a.apk": {
+    "hash": "c443fd39ac844273f86d3b640499fdfc4a403ec54f24b7249e49d3fb6469a85e",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.ACCESS_LOCAL_NETWORK",
+        null
+      ],
+      [
+        "android.permission.ACCESS_NETWORK_STATE",
+        null
+      ],
+      [
+        "android.permission.USE_BIOMETRIC",
+        null
+      ],
+      [
+        "android.permission.NFC",
+        null
+      ],
+      [
+        "android.permission.CAMERA",
+        null
+      ],
+      [
+        "horizons.permission.HEADSET_CAMERA",
+        null
+      ],
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "android.permission.POST_NOTIFICATIONS",
+        null
+      ],
+      [
+        "android.permission.READ_USER_DICTIONARY",
+        null
+      ],
+      [
+        "android.permission.USE_FINGERPRINT",
+        null
+      ],
+      [
+        "android.permission.WAKE_LOCK",
+        null
+      ],
+      [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        null
+      ],
+      [
+        "android.permission.FOREGROUND_SERVICE",
+        null
+      ],
+      [
+        "com.x8bit.bitwarden.patched.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": {},
+    "packageName": "com.x8bit.bitwarden.patched",
+    "versionCode": 13,
+    "name": "Bitwarden Patched",
+    "versionName": "2026.9.0",
+    "minSdkVersion": 29,
+    "targetSdkVersion": 37,
+    "nativecode": [
+      "armeabi-v7a"
+    ],
+    "sig": "c70217cbe9700a1605db8ce8c0c1094c",
+    "signer": "b1d78fec2a8513efd0ef78ae2c73887dfdc84f4ce6c786c61d524e1d4b43821b",
+    "size": 48913558,
+    "apkName": "bitwarden-patched-android-v2026.10.1-bwpm-armeabi-v7a.apk",
+    "added": 1793313685.477892
+  },
+  "bitwarden-patched-android-v2026.10.1-bwpm-x86.apk": {
+    "hash": "ed64ae9d6261354949be5ffe3c239632e1f78a698de9b5bc5b244f1934185a6e",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.ACCESS_LOCAL_NETWORK",
+        null
+      ],
+      [
+        "android.permission.ACCESS_NETWORK_STATE",
+        null
+      ],
+      [
+        "android.permission.USE_BIOMETRIC",
+        null
+      ],
+      [
+        "android.permission.NFC",
+        null
+      ],
+      [
+        "android.permission.CAMERA",
+        null
+      ],
+      [
+        "horizons.permission.HEADSET_CAMERA",
+        null
+      ],
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "android.permission.POST_NOTIFICATIONS",
+        null
+      ],
+      [
+        "android.permission.READ_USER_DICTIONARY",
+        null
+      ],
+      [
+        "android.permission.USE_FINGERPRINT",
+        null
+      ],
+      [
+        "android.permission.WAKE_LOCK",
+        null
+      ],
+      [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        null
+      ],
+      [
+        "android.permission.FOREGROUND_SERVICE",
+        null
+      ],
+      [
+        "com.x8bit.bitwarden.patched.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": {},
+    "packageName": "com.x8bit.bitwarden.patched",
+    "versionCode": 11,
+    "name": "Bitwarden Patched",
+    "versionName": "2026.9.0",
+    "minSdkVersion": 29,
+    "targetSdkVersion": 37,
+    "nativecode": [
+      "x86"
+    ],
+    "sig": "c70217cbe9700a1605db8ce8c0c1094c",
+    "signer": "b1d78fec2a8513efd0ef78ae2c73887dfdc84f4ce6c786c61d524e1d4b43821b",
+    "size": 55893102,
+    "apkName": "bitwarden-patched-android-v2026.10.1-bwpm-x86.apk",
+    "added": 1793313687.058548
+  }
+}

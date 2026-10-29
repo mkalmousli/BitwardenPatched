@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bitwarden Patched: auto-updated Bitwarden for Android, Windows, Linux, macOS and browsers</title>
+<meta name="description" content="Download patched, auto-updated builds of the open-source Bitwarden apps for Android (per-CPU APKs, F-Droid repo), Windows, Linux and macOS desktop, and the Firefox, Chrome, Brave and Edge extensions. Built from every upstream release.">
+<meta name="keywords" content="Bitwarden, Bitwarden APK, Bitwarden F-Droid, Bitwarden TOTP, Bitwarden premium features, Vaultwarden client, Bitwarden fork, password manager">
+<link rel="canonical" href="https://mkalmousli.github.io/BitwardenPatched/">
+<meta name="theme-color" content="#0f766e"><meta name="color-scheme" content="light dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Bitwarden Patched">
+<meta property="og:title" content="Bitwarden Patched: auto-updated Bitwarden APK and browser extension">
+<meta property="og:description" content="Patched builds of the open-source Bitwarden clients for Android, Windows, Linux, macOS, Firefox and Chromium browsers. Updated automatically.">
+<meta property="og:url" content="https://mkalmousli.github.io/BitwardenPatched/">
+<meta property="og:image" content="https://mkalmousli.github.io/BitwardenPatched/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Bitwarden Patched"><meta name="twitter:description" content="Auto-updated patched builds of the open-source Bitwarden apps for Android, Windows, Linux, macOS and browsers."><meta name="twitter:image" content="https://mkalmousli.github.io/BitwardenPatched/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+{"@type":"SoftwareApplication","name":"Bitwarden Patched","applicationCategory":"SecurityApplication","operatingSystem":"Android 8+, Windows, Linux, macOS, Firefox, Chrome, Edge, Brave","description":"Unofficial patched builds of the open-source Bitwarden clients, rebuilt automatically from every upstream release.","url":"https://mkalmousli.github.io/BitwardenPatched/","image":"https://mkalmousli.github.io/BitwardenPatched/og.png","license":"https://www.gnu.org/licenses/gpl-3.0.html","isBasedOn":"https://github.com/bitwarden/android","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is Bitwarden Patched official?","acceptedAnswer":{"@type":"Answer","text":"No. It is an unofficial community fork built from the open-source Bitwarden clients and is not affiliated with Bitwarden Inc."}},
+{"@type":"Question","name":"Which Android APK should I download?","acceptedAnswer":{"@type":"Answer","text":"Most phones made since 2017 need arm64-v8a. The site detects it for you. Older 32-bit phones need armeabi-v7a; emulators and Chromebooks usually need x86_64."}},
+{"@type":"Question","name":"Does it replace the official Bitwarden app?","acceptedAnswer":{"@type":"Answer","text":"No. It uses its own application id (com.x8bit.bitwarden.patched), so it installs next to the official app."}},
+{"@type":"Question","name":"How do I get automatic updates on Android?","acceptedAnswer":{"@type":"Answer","text":"Add the F-Droid repository from this page (scan the QR code) to F-Droid, Droidify or Neo Store."}}]}]}</script>
+<style>
+:root{--a:#0f766e;--a2:#14b8a6;--bg:#fff;--ink:#0f2a28;--mut:#5b716e;--line:#e2ecea;--soft:#f2f8f7;--on:#fff}
+@media(prefers-color-scheme:dark){:root{--a:#2dd4bf;--a2:#14b8a6;--bg:#081a1b;--ink:#e6f4f2;--mut:#90b0ab;--line:#1a3b3b;--soft:#0e2527;--on:#042f2e}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+a,button,summary{touch-action:manipulation}button,.btn,summary{-webkit-user-select:none;user-select:none}
+:focus:not(:focus-visible){outline:none}:focus-visible{outline:2px solid var(--a2);outline-offset:2px}
+html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);-webkit-text-size-adjust:100%}
+a{color:var(--a)}
+.i{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.wrap{max-width:760px;margin:auto;padding:0 20px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;color:#000;padding:8px;z-index:9}
+header{display:flex;align-items:center;gap:10px;height:60px}
+.logo{width:28px;height:28px;border-radius:7px}
+header b{margin-right:auto}
+header a{color:var(--mut);text-decoration:none;display:flex;align-items:center;gap:6px;font-size:.95rem}
+h1{font-size:clamp(2rem,7vw,3rem);line-height:1.1;margin:36px 0 12px;letter-spacing:-.02em}
+.lead{color:var(--mut);font-size:1.08rem;margin:0 0 24px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--a);color:var(--on);text-decoration:none;border:0;border-radius:10px;padding:0 18px;min-height:46px;font:inherit;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s}
+.btn:hover{opacity:.9}.btn:active{transform:scale(.97)}
+.btn.alt{background:var(--soft);color:var(--a);border:1px solid var(--line)}
+.btn small{display:block;font-weight:400;font-size:.76rem;opacity:.85;line-height:1.2;color:inherit}
+.btn .i{width:18px;height:18px}.i.fill{fill:currentColor;stroke:none}
+.btn span{text-align:left;line-height:1.25}
+section{padding:34px 0;border-top:1px solid var(--line)}
+h2{display:flex;align-items:center;gap:10px;font-size:1.3rem;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 18px}
+.box{border:1px solid var(--line);border-radius:14px;padding:18px;background:var(--soft)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.two{grid-template-columns:1fr}.btn.full{width:100%}}
+.qr{display:flex;gap:14px;align-items:flex-start}
+.qr img{width:132px;height:132px;border-radius:10px;background:#fff;padding:5px;border:1px solid var(--line);flex:none}
+h3{font-size:.95rem;margin:0 0 10px}
+.muted,small{color:var(--mut)}
+code{background:var(--soft);border:1px solid var(--line);padding:1px 6px;border-radius:6px;font-size:.85rem;overflow-wrap:anywhere}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tabs button{border:1px solid var(--line);background:none;color:var(--ink);border-radius:999px;padding:0 16px;min-height:40px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--a);color:var(--on);border-color:var(--a)}
+ol{padding-left:20px;margin:8px 0}li{margin:8px 0}
+table{width:100%;border-collapse:collapse;font-size:.92rem}td{padding:8px 0;border-bottom:1px solid var(--line)}td:last-child{text-align:right;white-space:nowrap}tr:last-child td{border:0}
+details{border-top:1px solid var(--line);padding:6px 0}details:first-child{border:0}
+summary{cursor:pointer;font-weight:600;min-height:40px;display:flex;align-items:center}
+summary::marker{color:var(--mut)}
+.tag{font-size:.7rem;background:var(--a);color:var(--on);border-radius:6px;padding:1px 7px;margin-left:8px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;list-style:none;padding:0;margin:0}
+.facts li{display:flex;gap:10px;align-items:flex-start;margin:0;color:var(--mut)}.facts .i{color:var(--a);margin-top:4px;width:1.3em;height:1.3em}.facts b{color:var(--ink);display:block}
+footer{border-top:1px solid var(--line);padding:26px 0 48px;color:var(--mut);font-size:.88rem}
+.skeleton{color:var(--mut)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+<symbol id="monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol><symbol id="puzzle" viewBox="0 0 24 24"><path d="M10 4a2 2 0 1 1 4 0v1h4v4h1a2 2 0 1 1 0 4h-1v5h-5v-1a2 2 0 1 0-4 0v1H4v-5h1a2 2 0 1 0 0-4H4V5h6z"/></symbol>
+<symbol id="dl" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></symbol>
+<symbol id="copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
+<symbol id="gh" viewBox="0 0 24 24"><path d="M9 19c-4 1-4-2-6-2m12 4v-3.5c0-1 .1-1.400-.5-2 3-.3 6-1.500 6-6.500a5 5 0 0 0-1.300-3.500 4.600 4.600 0 0 0-.1-3.500s-1.100-.3-3.500 1.300a12 12 0 0 0-6 0C6.200 2.300 5.100 2.600 5.100 2.600a4.600 4.600 0 0 0-.1 3.500A5 5 0 0 0 3.700 9.600c0 5 3 6.200 6 6.500-.6.600-.6 1.200-.5 2V21"/></symbol>
+<symbol id="refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.300-5.700M20 4v5h-5"/></symbol>
+<symbol id="cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></symbol>
+<symbol id="lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+<symbol id="code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5m8-10l5 5-5 5"/></symbol>
+<symbol id="fork" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="12" cy="19" r="2"/><path d="M6 7v2a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V7M12 12v5"/></symbol>
+<symbol id="server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.500h.01M7 16.500h.01"/></symbol>
+<symbol id="qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3m4 0v4h-4m0-3v-1"/></symbol>
+<symbol id="help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/></symbol>
+<symbol id="list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+<header><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0b2e3c"/><path d="M32 8 12 16v16c0 12 8 19 20 24 12-5 20-12 20-24V16z" fill="#fff"/><path d="M32 14v36c-9-4-14-10-14-18V19z" fill="#175ddc"/><circle cx="48" cy="48" r="13" fill="#fff"/><circle cx="48" cy="48" r="11" fill="#0f766e"/><g stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"><path d="M43 41v4l5 3v5M53 41v4l-5 3"/><circle cx="43" cy="41" r="2" fill="#0f766e"/><circle cx="53" cy="41" r="2" fill="#0f766e"/><circle cx="48" cy="54" r="2" fill="#0f766e"/></g></svg>
+<b>Bitwarden Patched</b><a href="https://github.com/mkalmousli/BitwardenPatched"><svg class="i fill"><use href="#gh"/></svg><span>GitHub</span></a></header>
+
+<main id="main">
+<h1>Bitwarden, patched and always current.</h1>
+<p class="lead">Unofficial builds of the open-source Bitwarden apps for Android, Windows, Linux and macOS, plus the Firefox, Chrome, Brave and Edge extension, rebuilt automatically from every upstream release.</p>
+<div class="row"><a class="btn" id="heroApk" href="#android"><svg class="i"><use href="#phone"/></svg><span>Android</span></a><a class="btn alt" href="#desktop"><svg class="i"><use href="#monitor"/></svg><span>Desktop</span></a><a class="btn alt" href="#browser"><svg class="i"><use href="#puzzle"/></svg><span>Browser</span></a></div>
+
+<section id="android" style="margin-top:36px"><h2><svg class="i"><use href="#phone"/></svg>Android</h2><p class="sub">Installs next to the official app. Android 8 or newer.</p>
+<div class="two">
+<div class="box"><h3>Download</h3><div id="apk" class="skeleton">Loading latest version...</div>
+<details><summary>Other CPU types</summary><div id="apks"></div></details></div>
+<div class="box"><h3>F-Droid repository <small>(updates itself)</small></h3>
+<div class="qr"><img id="qr" src="fdroid-qr.svg" alt="QR code for the F-Droid repository" width="132" height="132">
+<div><p class="muted" style="margin:0 0 10px"><small>Scan, or add in F-Droid, Droidify or Neo Store.</small></p>
+<div class="row"><a class="btn" id="fd" href="#"><svg class="i"><use href="#qr"/></svg>Open</a><button class="btn alt" id="cp" type="button"><svg class="i"><use href="#copy"/></svg>Copy</button></div></div></div></div>
+</div></section>
+
+<section id="browser"><h2><svg class="i"><use href="#puzzle"/></svg>Browser</h2><p class="sub">Firefox, Chrome, Brave, Edge and other Chromium browsers.</p>
+<div class="box"><div class="tabs" id="tabs" role="tablist"></div><div id="bro" class="skeleton">Loading...</div></div></section>
+
+<section><ul class="facts">
+<li><svg class="i"><use href="#refresh"/></svg><div><b>Always current</b>Checked every 6 hours.</div></li>
+<li><svg class="i"><use href="#cpu"/></svg><div><b>Small APKs</b>One per CPU type.</div></li>
+<li><svg class="i"><use href="#lock"/></svg><div><b>Verifiable</b>Stable key, SHA-256 sums.</div></li>
+<li><svg class="i"><use href="#code"/></svg><div><b>Open source</b>Source in every release.</div></li>
+<li><svg class="i"><use href="#fork"/></svg><div><b>Own app id</b>Never replaces the official app.</div></li>
+<li><svg class="i"><use href="#server"/></svg><div><b>Self-host ready</b>Bitwarden or Vaultwarden.</div></li>
+</ul></section>
+
+<section id="downloads"><h2><svg class="i"><use href="#list"/></svg>All versions</h2><p class="sub">The last seven builds of each client.</p>
+<div class="box" id="dl">Loading...</div></section>
+
+<section id="faq"><h2><svg class="i"><use href="#help"/></svg>FAQ</h2>
+<details><summary>Is this official?</summary><p>No. It is an unofficial fork of the open-source Bitwarden clients, not affiliated with Bitwarden Inc.</p></details>
+<details><summary>Which APK do I need?</summary><p>Most phones since 2017 need <b>arm64-v8a</b>, and the button above picks for you. Older 32-bit phones: <b>armeabi-v7a</b>. Emulators and Chromebooks: <b>x86_64</b>.</p></details>
+<details><summary>Does it replace the official app?</summary><p>No. The app id is <code>com.x8bit.bitwarden.patched</code>, so both install side by side. You sign in with your normal account.</p></details>
+<details><summary>What is patched?</summary><p>The client-side premium check, plus name, app id and logo badge. Encryption, networking and sync are untouched, and anything the server enforces still follows your plan. <a href="https://github.com/mkalmousli/BitwardenPatched#patches">Patch list</a>.</p></details>
+<details><summary>Is it allowed?</summary><p>The clients are GPL-3.0, so modifying and redistributing them is permitted. Bitwarden's hosted service has its own terms; self-hosting is the intended setup.</p></details>
+<details><summary>Why no one-click install on Chrome?</summary><p>Chrome, Brave and Edge only install outside-store extensions in developer mode. Firefox installs the signed add-on directly.</p></details>
+</section>
+</main>
+<section id="desktop"><h2><svg class="i"><use href="#monitor"/></svg>Desktop</h2><p class="sub">Windows, Linux and macOS, as installers, portable builds or packages. Not code-signed, so your system warns the first time.</p>
+<div class="box"><div class="tabs" id="ostabs" role="tablist"></div><div id="dsk" class="skeleton">Loading...</div></div></section>
+<footer>Unofficial, not affiliated with Bitwarden Inc. "Bitwarden" is their trademark, used only to say what this is based on. GPL-3.0. <a href="https://github.com/mkalmousli/BitwardenPatched/releases">Releases</a></footer>
+</div>
+
+<script>
+const R="mkalmousli/BitwardenPatched",FP="B1D78FEC2A8513EFD0EF78AE2C73887DFDC84F4CE6C786C61D524E1D4B43821B";
+const $=id=>document.getElementById(id),mb=n=>(n/1048576).toFixed(0)+" MB",fmt=n=>n.toLocaleString(),day=d=>new Date(d).toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});
+const ic=n=>`<svg class="i"><use href="#${n}"/></svg>`;
+const base=location.origin+location.pathname.replace(/[^/]*$/,"");
+const repoUrl=base+"repo?fingerprint="+FP;
+$("fd").href=repoUrl.replace(/^https?:\/\//,"fdroidrepos://");
+const copied=(b,html)=>{b.innerHTML=ic("check")+"Copied";setTimeout(()=>b.innerHTML=html,1500)};
+$("cp").onclick=()=>navigator.clipboard.writeText(repoUrl).then(()=>copied($("cp"),ic("copy")+"Copy"));
+
+const ABI={"arm64-v8a":"Most phones since 2017","armeabi-v7a":"Older 32-bit phones","x86_64":"Emulators, Chromebooks","x86":"Old emulators","universal":"Any device (larger)"};
+async function guessAbi(){
+  try{const h=await navigator.userAgentData.getHighEntropyValues(["architecture","bitness"]);
+    if(h.architecture==="arm")return h.bitness==="32"?"armeabi-v7a":"arm64-v8a";
+    if(h.architecture==="x86")return h.bitness==="32"?"x86":"x86_64";}catch(e){}
+  return /armv7|armeabi/i.test(navigator.userAgent)?"armeabi-v7a":"arm64-v8a";
+}
+const abiOf=a=>(a.name.match(/-(arm64-v8a|armeabi-v7a|x86[_-]64|x86|universal)\.apk$/)||[])[1]?.replace("x86-64","x86_64");
+const me=navigator.brave?"brave":/Firefox\//.test(navigator.userAgent)?"firefox":/Edg\//.test(navigator.userAgent)?"edge":"chrome";
+const BROWSERS={firefox:{name:"Firefox",ext:"about:debugging#/runtime/this-firefox"},chrome:{name:"Chrome",ext:"chrome://extensions"},brave:{name:"Brave",ext:"brave://extensions"},edge:{name:"Edge",ext:"edge://extensions"}};
+let rel={},counts={};
+const dl=a=>a.pages?base+a.pages:a.release_url,cnt=a=>counts[a.name]!=null?` &middot; ${fmt(counts[a.name])} downloads`:"";
+function showBrowser(k){
+  document.querySelectorAll("#tabs button").forEach(b=>{b.classList.toggle("on",b.dataset.k===k);b.setAttribute("aria-selected",b.dataset.k===k)});
+  const v=rel.browser;$("bro").classList.remove("skeleton");
+  if(!v){$("bro").textContent="No browser release yet.";return}
+  const a=v.assets,zip=a.find(x=>/chrome\.zip$/.test(x.name)),ffzip=a.find(x=>/firefox\.zip$/.test(x.name)),
+    xpi=a.find(x=>x.name.endsWith(".xpi")&&x.pages),crx=a.find(x=>x.name.endsWith(".crx")&&x.pages),ver=v.tag.replace("browser-v","");
+  if(k==="firefox"){
+    $("bro").innerHTML=xpi?`<a class="btn full" href="${dl(xpi)}">${ic("dl")}<span>Add to Firefox<small>One click, then confirm. Updates itself. v${ver}</small></span></a>`
+      :`<p>The signed Firefox add-on is not available for this version yet.</p>`+(ffzip?`<a class="btn" href="${ffzip.release_url}">${ic("dl")}Firefox zip</a><p class="muted"><small>Temporary install: open <code>about:debugging#/runtime/this-firefox</code>, choose Load Temporary Add-on, pick the zip.</small></p>`:"");
+  }else{
+    const b=BROWSERS[k];
+    $("bro").innerHTML=`<p style="margin-top:0">${b.name} installs outside-store extensions in developer mode. About a minute. v${ver}</p>
+    <ol><li><a class="btn" href="${zip?zip.release_url:"#"}">${ic("dl")}Extension zip</a> then unzip it.</li>
+    <li>Open <code>${b.ext}</code> <button class="btn alt" id="ce" type="button" style="min-height:36px;padding:0 12px">${ic("copy")}Copy</button><br><small>Browsers block links to this page, so copy and paste it.</small></li>
+    <li>Switch on <b>Developer mode</b>.</li><li>Click <b>Load unpacked</b> and pick the unzipped folder.</li></ol>
+    ${crx?`<details><summary>Self-updating CRX (Linux, or by policy)</summary><p><a class="btn alt" href="${dl(crx)}">${ic("dl")}.crx</a></p><p class="muted"><small>Drag it onto the extensions page. Chrome on Windows and macOS only accepts it through an extension policy.</small></p></details>`:""}`;
+    $("ce").onclick=()=>navigator.clipboard.writeText(b.ext).then(()=>copied($("ce"),ic("copy")+"Copy"));
+  }
+}
+const OSN={windows:"Windows",linux:"Linux",macos:"macOS"},myos=/Win/.test(navigator.platform)?"windows":/Mac/.test(navigator.platform)?"macos":"linux";
+const osOf=a=>(a.name.match(/-(windows|linux|macos)-(x64|arm64)-/)||[]).slice(1);
+const kindOf=n=>/Setup/.test(n)?"Installer":/Portable/.test(n)?"Portable exe":/AppImage$/.test(n)?"AppImage":/\.deb$/.test(n)?"deb package":/\.dmg$/.test(n)?"dmg disk image":/\.zip$/.test(n)?"zip":/tar\.gz$/.test(n)?"tar.gz":n;
+async function myArch(){try{const h=await navigator.userAgentData.getHighEntropyValues(["architecture"]);return h.architecture==="arm"?"arm64":"x64"}catch(e){return /Mac/.test(navigator.platform)?"arm64":"x64"}}
+async function showDesktop(k){
+  document.querySelectorAll("#ostabs button").forEach(b=>{b.classList.toggle("on",b.dataset.k===k);b.setAttribute("aria-selected",b.dataset.k===k)});
+  const v=rel.desktop;$("dsk").classList.remove("skeleton");
+  if(!v){$("dsk").textContent="No desktop release yet.";return}
+  const mine=await myArch(),rows=v.assets.filter(a=>osOf(a)[0]===k&&!/source/.test(a.name)).sort((a,b)=>(osOf(b)[1]===mine)-(osOf(a)[1]===mine));
+  $("dsk").innerHTML=rows.length?"<table>"+rows.map(a=>`<tr><td><a href="${dl(a)}">${kindOf(a.name)} &middot; ${osOf(a)[1]}</a>${osOf(a)[1]===mine?'<span class="tag">your device</span>':""}<br><small>v${v.tag.replace("desktop-v","")}${cnt(a)}</small></td><td>${mb(a.size)}</td></tr>`).join("")+"</table>":"Not built for "+OSN[k]+" yet.";
+}
+function versionTable(list,label){
+  return list.map((v,i)=>`<details ${i?"":"open"}><summary>${label} ${v.tag.replace(/^browser-|^desktop-|-bwpm$/g,"")}<small>&nbsp;&middot; ${day(v.built)}</small>${i?"":'<span class="tag">latest</span>'}</summary><p style="margin:0 0 6px"><small><a href="${v.release}">Release notes and checksums</a></small></p><table>`+
+    v.assets.filter(a=>a.name!=="SHA256SUMS").map(a=>`<tr><td><a href="${dl(a)}">${a.name.replace(/^bitwarden-patched-/,"")}</a><br><small>${cnt(a).replace(/^ &middot; /,"")}</small></td><td>${mb(a.size)}</td></tr>`).join("")+"</table></details>").join("");
+}
+Promise.all([fetch("data/versions.json").then(r=>r.json()),
+  fetch(`https://api.github.com/repos/${R}/releases?per_page=30`).then(r=>r.json()).catch(()=>[])]).then(async([d,rs])=>{
+  if(Array.isArray(rs))for(const r of rs)for(const a of r.assets)counts[a.name]=a.download_count;
+  rel={android:d.android[0],browser:d.browser[0],desktop:(d.desktop||[])[0]};
+  const apks=(rel.android?.assets||[]).filter(abiOf),guess=await guessAbi(),best=apks.find(a=>abiOf(a)===guess)||apks[0];
+  $("apk").classList.remove("skeleton");
+  if(best){
+    $("apk").innerHTML=`<a class="btn full" href="${dl(best)}">${ic("dl")}<span>Download APK<small>${abiOf(best)} &middot; ${mb(best.size)} &middot; v${rel.android.tag.replace(/^v|-bwpm$/g,"")}</small></span></a><p class="muted" style="margin:8px 0 0"><small>Picked for your device. Wrong? See other CPU types.</small></p>`;
+    $("heroApk").href=dl(best);$("heroApk").innerHTML=`${ic("dl")}<span>Android APK<small>${abiOf(best)} &middot; ${mb(best.size)}</small></span>`;
+  }else $("apk").textContent="No Android release yet.";
+  $("apks").innerHTML="<table>"+apks.map(a=>`<tr><td><a href="${dl(a)}">${abiOf(a)}</a>${abiOf(a)===guess?'<span class="tag">your device</span>':""}<br><small>${ABI[abiOf(a)]}</small></td><td>${mb(a.size)}</td></tr>`).join("")+"</table>";
+  $("tabs").innerHTML=Object.entries(BROWSERS).map(([k,b])=>`<button data-k="${k}" role="tab" type="button">${b.name}</button>`).join("");
+  document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>showBrowser(b.dataset.k));
+  showBrowser(me);
+  $("ostabs").innerHTML=Object.entries(OSN).map(([k,n])=>`<button data-k="${k}" role="tab" type="button">${n}</button>`).join("");
+  document.querySelectorAll("#ostabs button").forEach(b=>b.onclick=()=>showDesktop(b.dataset.k));
+  showDesktop(myos);
+  $("dl").innerHTML=(d.android.length?"<h3>Android</h3>"+versionTable(d.android,"Android"):"")+(d.browser.length?"<h3 style='margin-top:18px'>Browser extension</h3>"+versionTable(d.browser,"Browser"):"")+((d.desktop||[]).length?"<h3 style='margin-top:18px'>Desktop</h3>"+versionTable(d.desktop,"Desktop"):"")||"No releases yet.";
+}).catch(()=>{for(const i of["apk","bro","dsk","dl"]){$(i).classList.remove("skeleton");$(i).innerHTML=`<a class="btn" href="https://github.com/${R}/releases">Open releases on GitHub</a>`}});
+</script></body></html>
