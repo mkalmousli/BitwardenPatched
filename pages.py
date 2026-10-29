@@ -38,12 +38,12 @@ def enable():
 
 
 def publish(files, message="Bitwarden Patched site"):
-    """Write {path: text} into the site and push, retrying if the other job pushed meanwhile."""
+    """Write {path: text or bytes} into the site and push, retrying if the other job pushed meanwhile."""
     for _ in range(5):
         checkout("work/pages")
         for path, text in files.items():
             os.makedirs(os.path.dirname(f"work/pages/{path}"), exist_ok=True)
-            open(f"work/pages/{path}", "w").write(text)
+            open(f"work/pages/{path}", "wb" if isinstance(text, bytes) else "w").write(text)
         if push("work/pages", message):
             return
     sys.exit("could not push gh-pages")

@@ -1,59 +1,118 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bitwarden Patched: Bitwarden clients, patched and auto-updated</title>
-<meta name="description" content="Unofficial, automatically updated builds of the open-source Bitwarden Android app and browser extension with built-in TOTP available. Install via F-Droid repo or direct download.">
+<title>Bitwarden Patched: Bitwarden for Android and your browser, auto-updated</title>
+<meta name="description" content="Unofficial patched builds of the open-source Bitwarden Android app and browser extension, built automatically from every upstream release.">
 <style>
-:root{--t:#0f766e;--b:#f0fdfb;--i:#10302d}
+:root{--t:#0f766e;--b:#f0fdfb;--i:#10302d;--l:#cfe9e5;--bw:#175ddc}
 *{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,sans-serif;color:var(--i);background:var(--b)}
-main{max-width:760px;margin:auto;padding:32px 20px}
+main{max-width:820px;margin:auto;padding:32px 20px}
 h1{display:flex;align-items:center;gap:14px;font-size:2rem;margin:0}
-h1 b{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:#175ddc;color:#fff}
-.card{background:#fff;border:1px solid #cfe9e5;border-radius:14px;padding:18px 20px;margin:18px 0}
-a.btn{display:inline-block;background:var(--t);color:#fff;text-decoration:none;padding:9px 16px;border-radius:9px;margin:4px 6px 4px 0}
-code{display:block;overflow-wrap:anywhere;background:#e6f6f3;padding:10px;border-radius:8px;font-size:.85rem}
-small{color:#46635f}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.stats div{flex:1;min-width:120px;background:#fff;border:1px solid #cfe9e5;border-radius:12px;padding:10px 14px}.stats b{display:block;font-size:1.5rem;color:var(--t)}
-table{width:100%;border-collapse:collapse;font-size:.92rem}td,th{padding:6px 8px;border-bottom:1px solid #e1f0ee;text-align:left}td:last-child,th:last-child{text-align:right;white-space:nowrap}
+h1 b{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:var(--bw)}
+h2{margin:0 0 6px;font-size:1.25rem}h3{margin:14px 0 4px;font-size:1rem}
+.card{background:#fff;border:1px solid var(--l);border-radius:14px;padding:18px 20px;margin:18px 0}
+.row{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}.row>div{flex:1;min-width:240px}
+a.btn,button.btn{display:inline-block;background:var(--t);color:#fff;text-decoration:none;padding:10px 18px;border-radius:10px;border:0;font:inherit;cursor:pointer;margin:4px 6px 4px 0}
+a.big{font-size:1.1rem;padding:14px 22px}a.btn.alt,button.btn.alt{background:#e6f6f3;color:var(--t)}
+.btn small{display:block;font-size:.75rem;opacity:.85}
+code{overflow-wrap:anywhere;background:#e6f6f3;padding:2px 6px;border-radius:6px;font-size:.85rem}
+.url{display:block;padding:10px;margin:8px 0}
+small,.muted{color:#46635f}
+#qr{width:190px;height:190px;border:1px solid var(--l);border-radius:10px;display:block}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.stats div{flex:1;min-width:120px;background:#fff;border:1px solid var(--l);border-radius:12px;padding:10px 14px}.stats b{display:block;font-size:1.5rem;color:var(--t)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.tabs button{border:1px solid var(--l);background:#fff;border-radius:999px;padding:6px 14px;font:inherit;cursor:pointer}.tabs button.on{background:var(--t);color:#fff;border-color:var(--t)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}td,th{padding:6px 8px;border-bottom:1px solid #e1f0ee;text-align:left}td:last-child{text-align:right;white-space:nowrap}
+ol{padding-left:20px;margin:8px 0}details summary{cursor:pointer;color:var(--t);margin-top:8px}
+.tag{font-size:.7rem;background:#fde68a;color:#78350f;border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:middle}
 </style></head><body><main>
 <h1><b><svg viewBox="0 0 64 64" width="34" height="34"><path d="M32 8 12 16v16c0 12 8 19 20 24 12-5 20-12 20-24V16z" fill="#fff"/><path d="M32 14v36c-9-4-14-10-14-18V19z" fill="#175ddc"/><circle cx="48" cy="48" r="13" fill="#fff"/><circle cx="48" cy="48" r="11" fill="#0f766e"/><g stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"><path d="M43 41v4l5 3v5M53 41v4l-5 3"/><circle cx="43" cy="41" r="2" fill="#0f766e"/><circle cx="53" cy="41" r="2" fill="#0f766e"/><circle cx="48" cy="54" r="2" fill="#0f766e"/></g></svg></b>Bitwarden Patched</h1>
-<p>Unofficial, automatically updated builds of the open-source Bitwarden <b>Android app</b> and <b>Chrome / Firefox extension</b>, with client-side premium features such as built-in TOTP codes available.</p>
-
-<div class="card"><h2>Android: F-Droid repository</h2>
-<p>Add this to F-Droid, Droidify or Neo Store to get updates automatically.</p>
-<a class="btn" id="fd" href="#">Add to F-Droid</a>
-<code id="url"></code></div>
-
-<div class="card"><h2>Browser extension (self-updating)</h2>
-<p><b>Firefox:</b> open the <code style="display:inline">.xpi</code> below and click Add; it updates itself.<br>
-<b>Chrome / Edge / Brave:</b> the <code style="display:inline">.crx</code> updates itself from <a href="chrome/updates.xml">chrome/updates.xml</a>. Chrome on Windows/macOS only accepts off-store CRX files through an extension policy; on Linux, drag the file onto chrome://extensions. The zip works everywhere as "Load unpacked" but does not self-update.</p></div>
-
+<p>Unofficial, automatically updated builds of the open-source Bitwarden <b>Android app</b> and <b>browser extension</b>, with client-side premium features such as built-in TOTP codes available. Version numbers match upstream.</p>
 <div class="stats" id="stats"></div>
-<div class="card"><h2>Downloads</h2><div id="dl">Loading latest releases…</div></div>
+
+<div class="card"><h2>📱 Android</h2>
+<div class="row">
+<div><h3>Download the APK</h3>
+<div id="apk">Loading…</div>
+<details><summary>Other CPU types</summary><div id="apks"></div></details>
+<p class="muted">Installs next to the official app. Android 8 or newer.</p></div>
+<div><h3>Or add the F-Droid repo (auto-updates)</h3>
+<img id="qr" src="fdroid-qr.svg" alt="QR code for the F-Droid repository">
+<p><a class="btn" id="fd" href="#">Open in F-Droid</a><button class="btn alt" id="cp">Copy link</button></p>
+<small>Scan with your phone, or add it in F-Droid, Droidify or Neo Store.</small></div>
+</div></div>
+
+<div class="card"><h2>🧩 Browser extension</h2>
+<div class="tabs" id="tabs"></div>
+<div id="bro">Loading…</div></div>
+
+<div class="card"><h2>All downloads</h2><div id="dl">Loading…</div></div>
 
 <div class="card"><h2>What is patched</h2><ul>
 <li>Client-side premium check always on (built-in TOTP and other local features), Android and browser.</li>
 <li>Own name and app id plus a fork badge on the original logo, so it installs next to the official app.</li>
 <li>Own update channels (F-Droid repo, Firefox and Chrome update manifests).</li></ul>
-<p>Nothing else is changed. <a href="https://github.com/mkalmousli/bitwarden-patched#patches">Full list with explanations</a>. Version numbers match upstream Bitwarden.</p></div>
+<p>Nothing else is changed. <a href="https://github.com/mkalmousli/bitwarden-patched#patches">Full list</a>. Server-enforced features still depend on your account's plan; self-hosted servers (Bitwarden or Vaultwarden) are the intended setup. Not affiliated with Bitwarden Inc. GPL-3.0. <a href="https://github.com/mkalmousli/bitwarden-patched">Source on GitHub</a>.</p></div>
 
-<div class="card"><h2>Good to know</h2>
-<p>Installs next to the official app (separate app id). Server-enforced features still depend on your plan. Self-hosted servers (Bitwarden or Vaultwarden) are the intended setup.
-Not affiliated with Bitwarden Inc. GPL-3.0. <a href="https://github.com/mkalmousli/bitwarden-patched">Source and details on GitHub</a>.</p></div>
-<small>Browser zips: Chrome/Edge/Brave via chrome://extensions → Developer mode → Load unpacked (unzip first); Firefox via about:debugging → Load Temporary Add-on.</small>
 <script>
 const R="mkalmousli/bitwarden-patched",FP="B1D78FEC2A8513EFD0EF78AE2C73887DFDC84F4CE6C786C61D524E1D4B43821B";
-const u=location.origin+location.pathname.replace(/[^/]*$/,"")+"repo?fingerprint="+FP;
-url.textContent=u;fd.href=u.replace(/^https?:\/\//,"fdroidrepos://");
-const mb=n=>(n/1048576).toFixed(1)+" MB",fmt=n=>n.toLocaleString();
-fetch(`https://api.github.com/repos/${R}/releases?per_page=30`).then(r=>r.json()).then(rs=>{
-  let total=0;const seen={},out=[];
-  for(const r of rs)for(const a of r.assets)total+=a.download_count;
-  for(const r of rs){const k=r.tag_name.startsWith("browser")?"browser":"android";if(seen[k])continue;seen[k]=1;
-    const rel=r.assets.filter(a=>a.name!=="SHA256SUMS");
+const $=id=>document.getElementById(id),mb=n=>(n/1048576).toFixed(0)+" MB",fmt=n=>n.toLocaleString();
+const base=location.origin+location.pathname.replace(/[^/]*$/,"");
+const repoUrl=base+"repo?fingerprint="+FP;
+$("fd").href=repoUrl.replace(/^https?:\/\//,"fdroidrepos://");
+$("cp").onclick=()=>navigator.clipboard.writeText(repoUrl).then(()=>$("cp").textContent="Copied ✓");
+
+const ABI={"arm64-v8a":"Most phones since 2017","armeabi-v7a":"Older 32-bit phones","x86_64":"Emulators, Chromebooks","x86":"Old emulators","universal":"Any device (larger)"};
+async function guessAbi(){
+  try{const h=await navigator.userAgentData.getHighEntropyValues(["architecture","bitness"]);
+    if(h.architecture==="arm")return h.bitness==="32"?"armeabi-v7a":"arm64-v8a";
+    if(h.architecture==="x86")return h.bitness==="32"?"x86":"x86_64";}catch(e){}
+  return /armv7|armeabi/i.test(navigator.userAgent)?"armeabi-v7a":"arm64-v8a";
+}
+const abiOf=a=>(a.name.match(/-(arm64-v8a|armeabi-v7a|x86_64|x86|universal)\.apk$/)||[])[1];
+
+// Browser detection: Brave hides in the Chrome UA.
+const me=navigator.brave?"brave":/Firefox\//.test(navigator.userAgent)?"firefox":/Edg\//.test(navigator.userAgent)?"edge":"chrome";
+const BROWSERS={
+  firefox:{name:"Firefox",ext:"about:debugging#/runtime/this-firefox"},
+  chrome:{name:"Chrome",ext:"chrome://extensions"},
+  brave:{name:"Brave",ext:"brave://extensions"},
+  edge:{name:"Edge",ext:"edge://extensions"},
+  other:{name:"Other Chromium",ext:"chrome://extensions"}};
+let rel={};
+function showBrowser(k){
+  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.k===k));
+  const a=rel.browser?.assets||[],zip=a.find(x=>/chrome\.zip$/.test(x.name)),ffzip=a.find(x=>/firefox\.zip$/.test(x.name));
+  const crxOK=!!a.find(x=>x.name.endsWith(".crx")),xpiOK=!!a.find(x=>x.name.endsWith(".xpi"));
+  if(!rel.browser){$("bro").innerHTML="No browser release yet.";return}
+  if(k==="firefox"){
+    $("bro").innerHTML=xpiOK?`<a class="btn big" href="${base}firefox/bitwarden-patched.xpi">🦊 Add to Firefox<small>one click, then confirm. Updates itself</small></a>`
+      :`<p>The signed Firefox add-on is not available for this release.</p>`+(ffzip?`<a class="btn" href="${ffzip.browser_download_url}">Firefox zip</a><p class="muted">Temporary install: open <code>about:debugging#/runtime/this-firefox</code> → Load Temporary Add-on → pick the zip.</p>`:"");
+  }else{
+    const b=BROWSERS[k];
+    $("bro").innerHTML=`<p><b>${b.name}</b> only allows add-ons from outside its store when you load them yourself. Four steps, about a minute:</p>
+    <ol><li><a class="btn" href="${zip?zip.browser_download_url:"#"}">Download the extension zip</a> and unzip it.</li>
+    <li>Open <code>${b.ext}</code> <button class="btn alt" id="ce">Copy address</button> <small>(browsers block links to it)</small></li>
+    <li>Switch on <b>Developer mode</b>.</li><li>Click <b>Load unpacked</b> and pick the unzipped folder.</li></ol>
+    ${crxOK?`<details><summary>Self-updating CRX (Linux, or by policy)</summary><p><a class="btn alt" href="${base}chrome/bitwarden-patched.crx">Download .crx</a> Drag it onto the extensions page. Chrome on Windows/macOS only accepts it through an extension policy.</p></details>`:""}`;
+    $("ce").onclick=()=>navigator.clipboard.writeText(b.ext).then(()=>$("ce").textContent="Copied ✓");
+  }
+}
+
+fetch(`https://api.github.com/repos/${R}/releases?per_page=30`).then(r=>r.json()).then(async rs=>{
+  let total=0;for(const r of rs)for(const a of r.assets)total+=a.download_count;
+  for(const r of rs){const k=r.tag_name.startsWith("browser")?"browser":"android";if(!rel[k])rel[k]=r}
+  // Android
+  const apks=(rel.android?.assets||[]).filter(abiOf),guess=await guessAbi(),best=apks.find(a=>abiOf(a)===guess)||apks[0];
+  $("apk").innerHTML=best?`<a class="btn big" href="${best.browser_download_url}">⬇ Download APK<small>${abiOf(best)} · ${mb(best.size)} · ${rel.android.tag_name.replace("-bwpm","")}</small></a><small class="muted">Detected for your device. Not right? See other CPU types.</small>`:"No Android release yet.";
+  $("apks").innerHTML="<table>"+apks.map(a=>`<tr><td><a href="${a.browser_download_url}">${abiOf(a)}</a>${abiOf(a)===guess?'<span class="tag">your device</span>':""}<br><small>${ABI[abiOf(a)]}</small></td><td>${mb(a.size)}</td><td>${fmt(a.download_count)} ↓</td></tr>`).join("")+"</table>";
+  // Browser
+  $("tabs").innerHTML=Object.entries(BROWSERS).filter(([k])=>k!=="other").map(([k,b])=>`<button data-k="${k}">${b.name}${k===me?" ✓":""}</button>`).join("");
+  document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>showBrowser(b.dataset.k));
+  showBrowser(me);
+  // Everything
+  const out=[];for(const k of["android","browser"]){const r=rel[k];if(!r)continue;
     out.push(`<h3>${k==="android"?"Android":"Browser extension"} <small>${r.tag_name} · ${new Date(r.published_at).toLocaleDateString()} · <a href="${r.html_url}">release notes</a></small></h3><table>`+
-      rel.map(a=>`<tr><td><a href="${a.browser_download_url}">${a.name.replace(/^bitwarden-patched-/,"")}</a></td><td>${mb(a.size)}</td><td>${fmt(a.download_count)} ↓</td></tr>`).join("")+"</table>");}
-  dl.innerHTML=out.join("")||"No releases yet.";
-  const latest=rs[0];
-  stats.innerHTML=`<div><b>${fmt(total)}</b>total downloads</div><div><b>${rs.length}</b>releases</div>`+(latest?`<div><b>${new Date(latest.published_at).toLocaleDateString()}</b>last build</div>`:"");
-}).catch(()=>dl.innerHTML=`<a class="btn" href="https://github.com/${R}/releases">Open releases</a>`);
+      r.assets.filter(a=>a.name!=="SHA256SUMS").map(a=>`<tr><td><a href="${a.browser_download_url}">${a.name.replace(/^bitwarden-patched-/,"")}</a></td><td>${mb(a.size)}</td><td>${fmt(a.download_count)} ↓</td></tr>`).join("")+"</table>");}
+  $("dl").innerHTML=out.join("")||"No releases yet.";
+  $("stats").innerHTML=`<div><b>${fmt(total)}</b>total downloads</div><div><b>${rs.length}</b>releases</div>`+(rs[0]?`<div><b>${new Date(rs[0].published_at).toLocaleDateString()}</b>last build</div>`:"");
+}).catch(()=>{for(const i of["apk","bro","dl"])$(i).innerHTML=`<a class="btn" href="https://github.com/${R}/releases">Open releases</a>`});
 </script></main></body></html>
