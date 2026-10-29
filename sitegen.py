@@ -13,11 +13,8 @@ LIMIT = 95 * 1024 * 1024    # git refuses files over 100 MB
 BUDGET = 850 * 1024 * 1024  # a Pages site may not exceed 1 GB
 ABIS = r"universal|x86_64|x86|armeabi-v7a|arm64-v8a"
 APPID = "com.x8bit.bitwarden.patched"
+PRIORITY = ["arm64-v8a", "armeabi-v7a", "x86_64", "x86"]
 STATE = state.load()
-
-
-def apk_tag(path):
-    return re.match(rf"bitwarden-patched-android-(.+)-(?:{ABIS})\.apk$", os.path.basename(path))[1]
 
 
 def fdroid(site):
@@ -35,19 +32,20 @@ def fdroid(site):
         shutil.copy(apk, repo)
     present = {}
     for f in glob.glob(f"{repo}/*.apk"):
-        present.setdefault(apk_tag(f), []).append(f)
-    keep, total = [], 0
-    for e in STATE["android"][:KEEP]:  # newest first; stop once the budget is used up, but always keep the newest
-        size = sum(os.path.getsize(f) for f in present.get(e["tag"], []))
-        if keep and total + size > BUDGET:
-            break
-        keep.append(e["tag"])
-        total += size
-    for tag, files in present.items():
-        if tag not in keep:
-            print("rotating out", tag)
-            for f in files:
-                os.remove(f)
+        present[os.path.basename(f)] = f
+    # Newest version first, and within a version the most common CPUs first; a file is kept while the budget lasts.
+    # Older versions stay downloadable from the GitHub releases, so only the Pages copy is dropped.
+    keep, total = set(), 0
+    for e in STATE["android"][:KEEP]:
+        for abi in PRIORITY:
+            name = f"bitwarden-patched-android-{e['tag']}-{abi}.apk"
+            if name in present and (not keep or total + os.path.getsize(present[name]) <= BUDGET):
+                keep.add(name)
+                total += os.path.getsize(present[name])
+    for name, f in present.items():
+        if name not in keep:
+            print("rotating out", name)
+            os.remove(f)
     with open(f"{site}/config.yml", "w") as f:
         f.write(f"""repo_url: https://{OWNER}.github.io/{NAME}/repo
 repo_name: Bitwarden Patched

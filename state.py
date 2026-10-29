@@ -5,7 +5,7 @@ import datetime, glob, hashlib, json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 FILE = f"{HERE}/state.json"
-KEEP = 5
+KEEP = 7
 
 
 def load():
