@@ -70,63 +70,83 @@
   "desktop": [
     {
       "tag": "desktop-v2026.10.2",
-      "built": "2026-10-29T17:32:00Z",
-      "patches": "ee3dfc4",
+      "built": "2026-10-29T18:17:32Z",
+      "patches": "07d6cda",
       "assets": [
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-arm64-2026.10.2-arm64.AppImage",
-          "size": 281008392,
-          "sha256": "6a1b364c66c93e1068163d48ddb57c1e7434eb78b30626825b0d19863d9037fc"
+          "size": 281008391,
+          "sha256": "dfa0b5b6a29900873e475a4768725b299625ddee513867538099906eb512c93f"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-arm64-2026.10.2-arm64.deb",
-          "size": 201094060,
-          "sha256": "69501168c03e24c4b27faa958912550044a881fa47cbc1ddd099e33e4ba400db"
+          "size": 201093956,
+          "sha256": "cdbe729e6f484e6ee9599a963a76a3c01570fa8777d6890ce8df44d55520ebf2"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-arm64-2026.10.2-arm64.tar.gz",
-          "size": 263696704,
-          "sha256": "74a40f3da426b9f4c5ddfe8ef43284bcafad0533f96cd790acc78b5ef386bb8d"
+          "size": 263696345,
+          "sha256": "bc77ed941b83e2dbcaba22a785ed28734ed789f4abb430f356e2c28f54e0de66"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-x64-2026.10.2-amd64.deb",
-          "size": 215710256,
-          "sha256": "88aa6b81f8ed15ddfd3673785205e03ca1c9c1c275b344d1e7eb5d5b3f3e8cf5"
+          "size": 215710380,
+          "sha256": "4c562a1cc2f8e19fa4610f7ea0d806fa99cfae990d4596f44716f079647348e9"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-x64-2026.10.2-x86-64.AppImage",
-          "size": 293002706,
-          "sha256": "3baefca46dbd294db7583592dc02aec83cf081f89d40c3b0f732d96fb2a05ca4"
+          "size": 293002735,
+          "sha256": "2105ece0f6fbb0f2eb60d0e7aae18be24ab80092bdf6d1ec7e815681af16f40b"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-linux-x64-2026.10.2.tar.gz",
-          "size": 275243754,
-          "sha256": "410f4428867b71d6e233e929aa8f27960117d866fff191494bcf768414fcabe8"
+          "size": 275243639,
+          "sha256": "7e89ae806017b3ed8fee550801eca9d7d37916c6767624a1700810d50106c102"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.10.2-macos-arm64-2026.10.2-arm64-mac.zip",
+          "size": 201126293,
+          "sha256": "1e44f2a18b3b2d430cffdcb368b7084f50cbcdcfc1543f18035643e20af77c4a"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.10.2-macos-arm64-2026.10.2-arm64.dmg",
+          "size": 209981759,
+          "sha256": "b8318e6df793af1b41197fba62ece8410f11f4bb1044b57abf90dea79cbcde4b"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.10.2-macos-x64-2026.10.2-mac.zip",
+          "size": 204163535,
+          "sha256": "fc19c017ce2f9bf3df41780f00c3b20c74285534547d9eda4d60797d56c88b0f"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.10.2-macos-x64-2026.10.2.dmg",
+          "size": 212991511,
+          "sha256": "2f1a59112c875576e951c3cfc57e6fd15df4011520180d3fd7ff5bb3f221bfe4"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-source.tar.gz",
-          "size": 53357716,
-          "sha256": "06b0faac6c3e36308984bbd0928754ea023a3392101e17762de882f88f258ffb"
+          "size": 53357340,
+          "sha256": "ddb01f22a421f42188a6d2da8db1ff57f520d3297ad3c513ce36490d8fbc077d"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-windows-arm64-Portable-2026.10.2.exe",
-          "size": 165712341,
-          "sha256": "7ef7e0904b364c561e60712e0356616a7576df1d6cbaeca721c4659a1835db7b"
+          "size": 165714480,
+          "sha256": "47f5e4e0dc9a1c519547ba4a3a01a9b59d5494f7268fc13a20c1726e670b97a5"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-windows-arm64-Setup-2026.10.2.exe",
-          "size": 165864535,
-          "sha256": "2a6d58e01e620c67db3b8309c6f5a4263cc8eeefad254ca62252669db556ec2d"
+          "size": 165866675,
+          "sha256": "8688451ec638260680110e9d5585813fbe8e2b2638d15e5d60e60b14f3c371d1"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-windows-x64-Portable-2026.10.2.exe",
-          "size": 165948279,
-          "sha256": "989ce39014d9e857945f9b51b3a4885b7f7ab1e439181da6a10f3523f1cdf7e9"
+          "size": 165947994,
+          "sha256": "ba612f7573125cb861f3bc7b86a7d7456cbe941492b0ea1dbf67f06803f38863"
         },
         {
           "name": "bitwarden-patched-desktop-desktop-v2026.10.2-windows-x64-Setup-2026.10.2.exe",
-          "size": 166100956,
-          "sha256": "bbc06476eda5647e24561734a1b62299877b834c81237bd3e501b10559be656c"
+          "size": 166100673,
+          "sha256": "3bb617ca2bcdd46af1c8ae4c366f5741783fdf9e6470e4c7d9840861d1f188c3"
         }
       ]
     }
