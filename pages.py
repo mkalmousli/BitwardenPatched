@@ -20,6 +20,7 @@ def checkout(site):
 
 def push(site, message):
     """Replace gh-pages with one parentless commit of `site`; returns False if the push was rejected."""
+    shutil.copytree(f"{os.path.dirname(os.path.abspath(__file__))}/docs", site, dirs_exist_ok=True)  # the whole site lives at /
     open(f"{site}/.nojekyll", "w").close()  # serve files as they are, no Jekyll processing
     git(site, "checkout", "-q", "--orphan", "single")
     git(site, "add", "-A", "-f")

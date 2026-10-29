@@ -39,6 +39,5 @@ os.chmod(f"{SITE}/config.yml", 0o600)
 sp.run(["fdroid", "update", "--create-metadata", "--delete-unknown"], cwd=SITE, check=True)
 os.remove(f"{SITE}/config.yml")  # holds the key password; never publish it
 shutil.rmtree(f"{SITE}/metadata", ignore_errors=True)
-shutil.copy(f"{HERE}/docs/index.html", f"{SITE}/index.html")
 if not pages.push(SITE, "Bitwarden Patched site and F-Droid repo"):
     sys.exit("could not push gh-pages")
