@@ -31,9 +31,12 @@ https://mkalmousli.github.io/Bitwarden Patched/repo?fingerprint=B1D78FEC2A8513EF
 
 (F-Droid → Settings → Repositories → **+**, or open the link on your phone.) The fingerprint pins the signing key.
 
-## Website branch
+## Website and state
 
-GitHub Pages is served from the `gh-pages` branch, which holds no history: every publish replaces it with a single commit. The workflow also switches Pages on for that branch (Settings → Pages → Deploy from branch → `gh-pages` / root, if it ever needs doing by hand).
+- `state.json` (committed by the workflow after every build) records the last 5 builds per target: tag, build time, patch hash, and each file's size and SHA-256.
+- `sitegen.py` turns that into the website on `gh-pages`: everything in `docs/` at `/`, `data/versions.json`, the F-Droid repo (`repo/`, holding the per-ABI APKs of the **last 5 Android versions**, oldest rotated out; fewer if the 1 GB Pages limit would be exceeded) and the browser update manifests.
+- It runs after every build **and on every commit** to `main` (`site.yml`), so the site is never stale. `gh-pages` is always a single commit with no history, pushed with a lease so concurrent jobs cannot overwrite each other.
+- The workflow switches Pages on for that branch (by hand: Settings → Pages → Deploy from branch → `gh-pages` / root).
 
 ## Browser extension auto-updates
 

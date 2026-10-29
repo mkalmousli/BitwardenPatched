@@ -1,0 +1,13 @@
+name: site
+on:
+  push: {branches: [main]}   # every commit refreshes the website
+  workflow_dispatch:
+concurrency: {group: site, cancel-in-progress: true}
+permissions: {contents: write, pages: write}
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    env: {GH_TOKEN: "${{ github.token }}", GITHUB_TOKEN: "${{ github.token }}"}
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 sitegen.py

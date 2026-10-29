@@ -77,42 +77,42 @@ const BROWSERS={
   brave:{name:"Brave",ext:"brave://extensions"},
   edge:{name:"Edge",ext:"edge://extensions"},
   other:{name:"Other Chromium",ext:"chrome://extensions"}};
-let rel={};
+let rel={},counts={};
+const dl=a=>a.pages?base+a.pages:a.release_url,cnt=a=>counts[a.name]!=null?` · ${fmt(counts[a.name])} ↓`:"";
 function showBrowser(k){
   document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.k===k));
-  const a=rel.browser?.assets||[],zip=a.find(x=>/chrome\.zip$/.test(x.name)),ffzip=a.find(x=>/firefox\.zip$/.test(x.name));
-  const crxOK=!!a.find(x=>x.name.endsWith(".crx")),xpiOK=!!a.find(x=>x.name.endsWith(".xpi"));
-  if(!rel.browser){$("bro").innerHTML="No browser release yet.";return}
+  const v=rel.browser;if(!v){$("bro").innerHTML="No browser release yet.";return}
+  const a=v.assets,zip=a.find(x=>/chrome\.zip$/.test(x.name)),ffzip=a.find(x=>/firefox\.zip$/.test(x.name)),
+    xpi=a.find(x=>x.name.endsWith(".xpi")&&x.pages),crx=a.find(x=>x.name.endsWith(".crx")&&x.pages);
   if(k==="firefox"){
-    $("bro").innerHTML=xpiOK?`<a class="btn big" href="${base}firefox/bitwarden-patched.xpi">🦊 Add to Firefox<small>one click, then confirm. Updates itself</small></a>`
-      :`<p>The signed Firefox add-on is not available for this release.</p>`+(ffzip?`<a class="btn" href="${ffzip.browser_download_url}">Firefox zip</a><p class="muted">Temporary install: open <code>about:debugging#/runtime/this-firefox</code> → Load Temporary Add-on → pick the zip.</p>`:"");
+    $("bro").innerHTML=xpi?`<a class="btn big" href="${dl(xpi)}">🦊 Add to Firefox<small>one click, then confirm. Updates itself · ${v.tag.replace("browser-","")}</small></a>`
+      :`<p>The signed Firefox add-on is not available for this release.</p>`+(ffzip?`<a class="btn" href="${ffzip.release_url}">Firefox zip</a><p class="muted">Temporary install: open <code>about:debugging#/runtime/this-firefox</code> → Load Temporary Add-on → pick the zip.</p>`:"");
   }else{
     const b=BROWSERS[k];
     $("bro").innerHTML=`<p><b>${b.name}</b> only allows add-ons from outside its store when you load them yourself. Four steps, about a minute:</p>
-    <ol><li><a class="btn" href="${zip?zip.browser_download_url:"#"}">Download the extension zip</a> and unzip it.</li>
+    <ol><li><a class="btn" href="${zip?zip.release_url:"#"}">Download the extension zip</a> and unzip it.</li>
     <li>Open <code>${b.ext}</code> <button class="btn alt" id="ce">Copy address</button> <small>(browsers block links to it)</small></li>
     <li>Switch on <b>Developer mode</b>.</li><li>Click <b>Load unpacked</b> and pick the unzipped folder.</li></ol>
-    ${crxOK?`<details><summary>Self-updating CRX (Linux, or by policy)</summary><p><a class="btn alt" href="${base}chrome/bitwarden-patched.crx">Download .crx</a> Drag it onto the extensions page. Chrome on Windows/macOS only accepts it through an extension policy.</p></details>`:""}`;
+    ${crx?`<details><summary>Self-updating CRX (Linux, or by policy)</summary><p><a class="btn alt" href="${dl(crx)}">Download .crx</a> Drag it onto the extensions page. Chrome on Windows/macOS only accepts it through an extension policy.</p></details>`:""}`;
     $("ce").onclick=()=>navigator.clipboard.writeText(b.ext).then(()=>$("ce").textContent="Copied ✓");
   }
 }
-
-fetch(`https://api.github.com/repos/${R}/releases?per_page=30`).then(r=>r.json()).then(async rs=>{
-  let total=0;for(const r of rs)for(const a of r.assets)total+=a.download_count;
-  for(const r of rs){const k=r.tag_name.startsWith("browser")?"browser":"android";if(!rel[k])rel[k]=r}
-  // Android
+const day=d=>new Date(d).toLocaleDateString();
+function versionTable(list,label){
+  return list.map((v,i)=>`<details ${i?"":"open"}><summary><b>${label} ${v.tag.replace(/^browser-|-bwpm$/g,"")}</b> <small>${day(v.built)} · <a href="${v.release}">release notes</a>${i?"":' <span class="tag">latest</span>'}</small></summary><table>`+
+    v.assets.filter(a=>a.name!=="SHA256SUMS").map(a=>`<tr><td><a href="${dl(a)}">${a.name.replace(/^bitwarden-patched-/,"")}</a><small>${cnt(a)}</small></td><td>${mb(a.size)}</td></tr>`).join("")+"</table></details>").join("");
+}
+Promise.all([fetch("data/versions.json").then(r=>r.json()),
+  fetch(`https://api.github.com/repos/${R}/releases?per_page=30`).then(r=>r.json()).catch(()=>[])]).then(async([d,rs])=>{
+  let total=0;if(Array.isArray(rs))for(const r of rs)for(const a of r.assets){counts[a.name]=a.download_count;total+=a.download_count}
+  rel={android:d.android[0],browser:d.browser[0]};
   const apks=(rel.android?.assets||[]).filter(abiOf),guess=await guessAbi(),best=apks.find(a=>abiOf(a)===guess)||apks[0];
-  $("apk").innerHTML=best?`<a class="btn big" href="${best.browser_download_url}">⬇ Download APK<small>${abiOf(best)} · ${mb(best.size)} · ${rel.android.tag_name.replace("-bwpm","")}</small></a><small class="muted">Detected for your device. Not right? See other CPU types.</small>`:"No Android release yet.";
-  $("apks").innerHTML="<table>"+apks.map(a=>`<tr><td><a href="${a.browser_download_url}">${abiOf(a)}</a>${abiOf(a)===guess?'<span class="tag">your device</span>':""}<br><small>${ABI[abiOf(a)]}</small></td><td>${mb(a.size)}</td><td>${fmt(a.download_count)} ↓</td></tr>`).join("")+"</table>";
-  // Browser
+  $("apk").innerHTML=best?`<a class="btn big" href="${dl(best)}">⬇ Download APK<small>${abiOf(best)} · ${mb(best.size)} · ${rel.android.tag.replace("-bwpm","")}</small></a><small class="muted">Detected for your device. Not right? See other CPU types.</small>`:"No Android release yet.";
+  $("apks").innerHTML="<table>"+apks.map(a=>`<tr><td><a href="${dl(a)}">${abiOf(a)}</a>${abiOf(a)===guess?'<span class="tag">your device</span>':""}<br><small>${ABI[abiOf(a)]}</small></td><td>${mb(a.size)}</td></tr>`).join("")+"</table>";
   $("tabs").innerHTML=Object.entries(BROWSERS).filter(([k])=>k!=="other").map(([k,b])=>`<button data-k="${k}">${b.name}${k===me?" ✓":""}</button>`).join("");
   document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>showBrowser(b.dataset.k));
   showBrowser(me);
-  // Everything
-  const out=[];for(const k of["android","browser"]){const r=rel[k];if(!r)continue;
-    out.push(`<h3>${k==="android"?"Android":"Browser extension"} <small>${r.tag_name} · ${new Date(r.published_at).toLocaleDateString()} · <a href="${r.html_url}">release notes</a></small></h3><table>`+
-      r.assets.filter(a=>a.name!=="SHA256SUMS").map(a=>`<tr><td><a href="${a.browser_download_url}">${a.name.replace(/^bitwarden-patched-/,"")}</a></td><td>${mb(a.size)}</td><td>${fmt(a.download_count)} ↓</td></tr>`).join("")+"</table>");}
-  $("dl").innerHTML=out.join("")||"No releases yet.";
-  $("stats").innerHTML=`<div><b>${fmt(total)}</b>total downloads</div><div><b>${rs.length}</b>releases</div>`+(rs[0]?`<div><b>${new Date(rs[0].published_at).toLocaleDateString()}</b>last build</div>`:"");
+  $("dl").innerHTML=(d.android.length?"<h3>Android</h3>"+versionTable(d.android,"Android"):"")+(d.browser.length?"<h3>Browser extension</h3>"+versionTable(d.browser,"Browser"):"")||"No releases yet.";
+  $("stats").innerHTML=`<div><b>${fmt(total)}</b>total downloads</div><div><b>${d.android.length+d.browser.length}</b>versions kept</div><div><b>${day(d.generated)}</b>site updated</div>`;
 }).catch(()=>{for(const i of["apk","bro","dl"])$(i).innerHTML=`<a class="btn" href="https://github.com/${R}/releases">Open releases</a>`});
 </script></main></body></html>

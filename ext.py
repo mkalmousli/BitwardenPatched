@@ -1,6 +1,6 @@
 """Self-update support for the browser extension: a signed-off CRX for Chrome-family and a signed XPI for Firefox,
-plus the update manifests served from GitHub Pages. Runs after `nano.py build browser`, before the release is created."""
-import pages, glob, hashlib, json, os, re, shutil, subprocess as sp, sys, zipfile
+plus the update manifests served from GitHub Pages (written to work/extra/ for sitegen.py). Runs after `nano.py build browser`."""
+import glob, hashlib, json, os, re, shutil, subprocess as sp, sys, zipfile
 
 REPO, REL = os.environ["GITHUB_REPOSITORY"], os.environ["REL"]
 SITE = f"https://{REPO.split('/')[0]}.github.io/{REPO.split('/')[1]}"
@@ -58,4 +58,6 @@ if __name__ == "__main__":
     version = re.sub(r"^browser-v", "", sys.argv[1])
     os.makedirs("work", exist_ok=True)
     open("work/crx.pem", "w").write(open(os.environ["CRX_KEY"]).read())
-    pages.publish({**chrome(version, "work/crx.pem"), **firefox(version)})
+    for path, data in {**chrome(version, "work/crx.pem"), **firefox(version)}.items():  # sitegen.py publishes these with the rest of the site
+        os.makedirs(os.path.dirname(f"work/extra/{path}"), exist_ok=True)
+        open(f"work/extra/{path}", "wb" if isinstance(data, bytes) else "w").write(data)
