@@ -21,6 +21,8 @@ def apk_tag(path):
 
 def fdroid(site):
     """Add new per-ABI APKs, rotate out old versions, and regenerate the index when anything changed."""
+    if "KEYSTORE" not in os.environ:
+        return  # a docs-only run: leave the F-Droid repo exactly as published
     repo = f"{site}/repo"
     os.makedirs(repo, exist_ok=True)
     changed = False
