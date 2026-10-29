@@ -2,69 +2,101 @@ name: build
 on:
   schedule: [{cron: "17 */6 * * *"}]   # poll upstream for new releases
   workflow_dispatch:
-  push: {branches: [main], paths: [nano.py, brand.py, ext.py, release.py, fingerprint.txt, .github/workflows/build.yml]}
+  push: {branches: [main], paths: [nano.py, brand.py, ext.py, release.py, plan.py, fingerprint.txt, .github/workflows/build.yml]}
 concurrency: {group: build, cancel-in-progress: true}
-permissions: {contents: write, packages: read, issues: write, pages: write}
+permissions: {contents: write, packages: read, pages: write}
+env: {GH_TOKEN: "${{ github.token }}", GITHUB_TOKEN: "${{ github.token }}"}
+defaults: {run: {shell: bash}}
 jobs:
-  build:
+  plan:
     runs-on: ubuntu-latest
-    strategy: {fail-fast: false, matrix: {target: [android, browser]}}
-    env: {GH_TOKEN: "${{ github.token }}", GITHUB_TOKEN: "${{ github.token }}"}
+    outputs: {matrix: "${{ steps.p.outputs.matrix }}", tags: "${{ steps.p.outputs.tags }}", any: "${{ steps.p.outputs.any }}"}
     steps:
       - uses: actions/checkout@v4
-      - run: gh api -X POST repos/$GITHUB_REPOSITORY/pages -f source[branch]=gh-pages -f source[path]=/ 2>/dev/null || true   # make sure Pages is on
+      - id: p
+        run: python3 plan.py
+
+  # One job per Android ABI and per desktop platform/arch, all in parallel; each uploads its files as an artifact.
+  build:
+    needs: plan
+    if: needs.plan.outputs.any == '1'
+    runs-on: ${{ matrix.os }}
+    strategy: {fail-fast: false, matrix: "${{ fromJSON(needs.plan.outputs.matrix) }}"}
+    env: {NANO_ABI: "${{ matrix.abi }}", NANO_PLATFORM: "${{ matrix.platform }}", NANO_SOURCE: "${{ matrix.source }}"}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
       - run: pip install -q pillow
-      - id: v
-        run: |
-          tag=$(python3 nano.py latest ${{ matrix.target }})
-          ph=$(cat nano.py brand.py ext.py release.py fingerprint.txt | sha1sum | cut -c1-7)   # patch changes trigger a rebuild too
-          echo "tag=$tag" >> $GITHUB_OUTPUT
-          echo "rel=$tag" >> $GITHUB_OUTPUT
-          echo "ph=$ph" >> $GITHUB_OUTPUT
-          gh release view "$tag" --json body --jq .body 2>/dev/null | grep -q "patches $ph" && echo "skip=1" >> $GITHUB_OUTPUT || true
-      - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
+      - if: matrix.target == 'android'
         uses: actions/setup-java@v4
         with: {distribution: temurin, java-version: 21}
-      - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
+      - if: matrix.target == 'android'
         uses: gradle/actions/setup-gradle@v4   # caches dependencies and the build cache between runs
         with: {cache-read-only: false}
-      - if: ${{ !steps.v.outputs.skip && matrix.target == 'browser' }}
-        uses: actions/setup-node@v4
-        with: {node-version: 24}
-      - if: ${{ !steps.v.outputs.skip && matrix.target == 'browser' }}
-        uses: actions/cache@v4
-        with: {path: ~/.npm, key: "npm-${{ steps.v.outputs.tag }}", restore-keys: "npm-"}
-      - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
+      - if: matrix.target == 'android'
         run: |
           echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > "$RUNNER_TEMP/ks.jks"
           echo "KEYSTORE=$RUNNER_TEMP/ks.jks" >> $GITHUB_ENV
           echo "KS_PASS=${{ secrets.KS_PASS }}" >> $GITHUB_ENV
-      - if: ${{ !steps.v.outputs.skip }}
-        run: python3 nano.py build ${{ matrix.target }} ${{ steps.v.outputs.tag }}
-      - if: ${{ !steps.v.outputs.skip && matrix.target == 'browser' }}
+      - if: matrix.target != 'android'
+        uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - if: matrix.target != 'android'
+        uses: actions/cache@v4
+        with: {path: ~/.npm, key: "npm-${{ matrix.target }}-${{ runner.os }}-${{ runner.arch }}-${{ fromJSON(needs.plan.outputs.tags)[matrix.target].tag }}", restore-keys: "npm-${{ matrix.target }}-${{ runner.os }}-${{ runner.arch }}-"}
+      - if: matrix.target == 'desktop'
+        uses: dtolnay/rust-toolchain@stable
+      - if: matrix.target == 'desktop' && runner.os == 'Linux'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq libsecret-1-dev libglib2.0-dev libdbus-1-dev libxss-dev libgtk-3-dev libnss3-dev fakeroot dpkg
+      - run: python nano.py build ${{ matrix.target }} ${{ fromJSON(needs.plan.outputs.tags)[matrix.target].tag }}
+      - uses: actions/upload-artifact@v4
+        with: {name: "out-${{ matrix.target }}-${{ matrix.id }}", path: out/, if-no-files-found: error, retention-days: 3}
+
+  # One job per target: release, state, site. A failed platform does not hold back the others.
+  publish:
+    needs: [plan, build]
+    if: always() && needs.plan.outputs.any == '1'
+    runs-on: ubuntu-latest
+    strategy: {fail-fast: false, max-parallel: 1, matrix: {target: [android, browser, desktop]}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with: {pattern: "out-${{ matrix.target }}-*", path: out, merge-multiple: true}
+      - id: has
+        run: ls out 2>/dev/null | grep -q . && echo "yes=1" >> $GITHUB_OUTPUT || true
+      - if: steps.has.outputs.yes
+        id: v
+        run: |
+          echo 'tag=${{ fromJSON(needs.plan.outputs.tags)[matrix.target].tag }}' >> $GITHUB_OUTPUT
+          echo 'ph=${{ fromJSON(needs.plan.outputs.tags)[matrix.target].ph }}' >> $GITHUB_OUTPUT
+          gh api -X POST repos/$GITHUB_REPOSITORY/pages -f source[branch]=gh-pages -f source[path]=/ 2>/dev/null || true   # make sure Pages is on
+      - if: steps.has.outputs.yes && matrix.target == 'browser'
         run: |
           echo "${{ secrets.CRX_KEY_B64 }}" | base64 -d > "$RUNNER_TEMP/crx.pem"
-          CRX_KEY="$RUNNER_TEMP/crx.pem" REL="${{ steps.v.outputs.rel }}" AMO_KEY="${{ secrets.AMO_KEY }}" AMO_SECRET="${{ secrets.AMO_SECRET }}" python3 ext.py "${{ steps.v.outputs.tag }}"
-      - if: ${{ !steps.v.outputs.skip }}
+          CRX_KEY="$RUNNER_TEMP/crx.pem" REL="${{ steps.v.outputs.tag }}" AMO_KEY="${{ secrets.AMO_KEY }}" AMO_SECRET="${{ secrets.AMO_SECRET }}" python3 ext.py "${{ steps.v.outputs.tag }}"
+      - if: steps.has.outputs.yes
         run: |
-          python3 release.py ${{ matrix.target }} "${{ steps.v.outputs.rel }}" "${{ steps.v.outputs.ph }}" > notes.md
+          python3 release.py ${{ matrix.target }} "${{ steps.v.outputs.tag }}" "${{ steps.v.outputs.ph }}" > notes.md
           (cd out && sha256sum * > SHA256SUMS)
-          gh release delete "${{ steps.v.outputs.rel }}" --cleanup-tag -y 2>/dev/null || true
-          title="Bitwarden Patched $([ ${{ matrix.target }} = android ] && echo Android || echo Browser) ${{ steps.v.outputs.tag }}"
-          gh release create "${{ steps.v.outputs.rel }}" out/* --title "$title" --notes-file notes.md
-      - if: ${{ !steps.v.outputs.skip }}
+          gh release delete "${{ steps.v.outputs.tag }}" --cleanup-tag -y 2>/dev/null || true
+          title="Bitwarden Patched $(echo ${{ matrix.target }} | sed 's/./\U&/') ${{ steps.v.outputs.tag }}"
+          gh release create "${{ steps.v.outputs.tag }}" out/* --title "$title" --notes-file notes.md
+      - if: steps.has.outputs.yes
         run: |   # remember this build in state.json (the site is generated from it)
           git config user.name bitwarden-patched; git config user.email actions@users.noreply.github.com
-          for i in 1 2 3 4 5; do   # the other target may have pushed meanwhile: start from the latest main and record again
+          for i in 1 2 3 4 5; do   # another target may have pushed meanwhile: start from the latest main and record again
             git fetch -q origin main && git reset -q --hard origin/main
-            python3 state.py record ${{ matrix.target }} "${{ steps.v.outputs.rel }}" "${{ steps.v.outputs.ph }}"
+            python3 state.py record ${{ matrix.target }} "${{ steps.v.outputs.tag }}" "${{ steps.v.outputs.ph }}"
             git add state.json; git commit -qm "state: ${{ matrix.target }} ${{ steps.v.outputs.tag }} [skip ci]"
             git push -q origin HEAD:main && break; sleep 5
           done
-      - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
-        run: pip install -q fdroidserver
-      - if: ${{ !steps.v.outputs.skip }}
-        run: python3 sitegen.py
-      - if: ${{ failure() && !steps.v.outputs.skip }}
+      - if: steps.has.outputs.yes && matrix.target == 'android'
         run: |
-          gh issue create --title "Build failed: ${{ matrix.target }} ${{ steps.v.outputs.tag }}" --body "See $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" || true
+          pip install -q fdroidserver pillow
+          echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > "$RUNNER_TEMP/ks.jks"
+          echo "KEYSTORE=$RUNNER_TEMP/ks.jks" >> $GITHUB_ENV
+          echo "KS_PASS=${{ secrets.KS_PASS }}" >> $GITHUB_ENV
+      - if: steps.has.outputs.yes
+        run: python3 sitegen.py

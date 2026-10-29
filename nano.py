@@ -10,7 +10,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def run(src, *cmd):
-    sp.run(cmd, cwd=src, check=True)
+    sp.run(cmd, cwd=src, check=True, shell=sys.platform == "win32")  # npm and npx are .cmd shims on Windows
 
 
 def sub(src, anchor, find, repl):
@@ -59,20 +59,41 @@ def android(src):
     return "*.apk"
 
 
-def browser(src):
-    brand.browser(src, sub)
+def clients_premium(src):
+    """The premium check lives in libs/common, shared by the browser extension and the desktop app."""
     sub(src, "hasPremiumFromAnyOrganization === true ||",
         r"profile\?\.hasPremiumFromAnyOrganization === true \|\|\s*profile\?\.hasPremiumPersonally === true", "true")
     sub(src, "!!profile?.hasPremiumPersonally", r"!!profile\?\.hasPremiumPersonally", "true")
+
+
+def browser(src):
+    brand.browser(src, sub)
+    clients_premium(src)
     run(src, "npm", "ci")
     for flavor in ("chrome", "firefox"):
         run(src, "npm", "run", f"dist:{flavor}", "--prefix", "apps/browser")
     return "apps/browser/dist/*.zip"
 
 
+def desktop(src):
+    """Windows, Linux and macOS builds; each CI job builds its own platform/arch natively (NANO_PLATFORM, e.g. windows-arm64)."""
+    plat = os.environ.get("NANO_PLATFORM") or {"win32": "windows-x64", "darwin": "macos-arm64"}.get(sys.platform, "linux-x64")
+    osname, arch = plat.split("-")
+    brand.desktop(src, sub)
+    clients_premium(src)
+    app = f"{src}/apps/desktop"
+    run(src, "npm", "ci")
+    run(app, "npm", "run", "build-native")
+    run(app, "npm", "run", "build:oss")
+    targets = {"linux": ["--linux", "deb", "AppImage", "tar.gz"], "windows": ["--win", "nsis", "portable"], "macos": ["--mac", "dmg", "zip"]}[osname]
+    run(app, "npx", "electron-builder", *targets, f"--{arch}", "-p", "never")
+    return "apps/desktop/dist/*.@(exe|AppImage|deb|dmg|zip|tar.gz)"
+
+
 TARGETS = {  # name: (upstream repo, regex a release tag must match, build function)
     "android": ("bitwarden/android", r"-bwpm$", android),
     "browser": ("bitwarden/clients", r"^browser-v", browser),
+    "desktop": ("bitwarden/clients", r"^desktop-v", desktop),
 }
 
 
@@ -87,6 +108,12 @@ def latest(target):
     sys.exit("no matching release")
 
 
+def artifacts_glob(pattern):
+    """Expand a trailing @(a|b|c) alternative into separate globs."""
+    m = re.search(r"@\((.*?)\)", pattern)
+    return [pattern[:m.start()] + alt + pattern[m.end():] for alt in m[1].split("|")] if m else [pattern]
+
+
 def build(target, tag=None):
     repo, _, build_fn = TARGETS[target]
     tag = tag or latest(target)
@@ -95,8 +122,15 @@ def build(target, tag=None):
     sp.run(["git", "clone", "-q", "--depth", "1", "--branch", tag, f"https://github.com/{repo}", src], check=True)
     artifacts = build_fn(src)
     os.makedirs(f"{HERE}/out", exist_ok=True)
-    for f in glob.glob(f"{src}/{artifacts}", recursive=True):
-        print("artifact:", shutil.copy(f, f"{HERE}/out/bitwarden-patched-{target}-{tag}-{os.path.basename(f)}"))
+    label = os.environ.get("NANO_PLATFORM", "")  # desktop: file names do not always carry the OS and arch
+    for pattern in artifacts_glob(artifacts):
+        for f in glob.glob(f"{src}/{pattern}", recursive=True):
+            name = re.sub(r"[ _]+", "-", os.path.basename(f)).replace("Bitwarden-Patched", "bitwarden-patched")
+            name = re.sub(r"^bitwarden-patched-", "", name)
+            name = f"{label}-{name}" if label else name
+            print("artifact:", shutil.copy(f, f"{HERE}/out/bitwarden-patched-{target}-{tag}-{name}"))
+    if os.environ.get("NANO_SOURCE") == "0":
+        return
     # Corresponding source: the upstream tree with our patches applied (tracked files only, so no tokens or build output).
     files = sp.run(["git", "ls-files", "-z"], cwd=src, capture_output=True, check=True).stdout
     sp.run(["tar", "czf", f"{HERE}/out/bitwarden-patched-{target}-{tag}-source.tar.gz", "--null", "-T", "-",

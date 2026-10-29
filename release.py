@@ -5,7 +5,7 @@ import glob, hashlib, os, re, subprocess as sp, sys
 target, tag, ph = sys.argv[1:4]
 REPO = os.environ["GITHUB_REPOSITORY"]
 SITE = f"https://{REPO.split('/')[0]}.github.io/{REPO.split('/')[1]}"
-UPSTREAM = {"android": "bitwarden/android", "browser": "bitwarden/clients"}[target]
+UPSTREAM = {"android": "bitwarden/android", "browser": "bitwarden/clients", "desktop": "bitwarden/clients"}[target]
 FP = open(f"{os.path.dirname(os.path.abspath(__file__))}/fingerprint.txt").read().strip()
 
 WHAT = {  # file name suffix: (label, who it is for)
@@ -21,6 +21,18 @@ WHAT = {  # file name suffix: (label, who it is for)
 ORDER = list(WHAT)
 
 
+def desktop_label(name):
+    m = re.search(r"-(windows|linux|macos)-(x64|arm64)-", name)
+    if not m:
+        return None
+    what = ("installer" if "Setup" in name else "portable" if "Portable" in name else
+            next((e for e in ("AppImage", "deb", "dmg", "zip", "tar.gz") if name.endswith(e)), "file"))
+    note = {"installer": "Standard Windows installer.", "portable": "Single exe, no install needed.", "AppImage": "Runs on most Linux distributions: `chmod +x` and run.",
+            "deb": "Debian, Ubuntu, Mint and derivatives.", "dmg": "Drag to Applications. Unsigned: right-click, Open the first time.",
+            "zip": "Unpack and run.", "tar.gz": "Unpack and run."}.get(what, "")
+    return f"{ {'windows': 'Windows', 'linux': 'Linux', 'macos': 'macOS'}[m[1]]} {m[2]}, {what}", note
+
+
 def kind(name):
     return next((k for k in ORDER if name.endswith(k)), None) or ("crx" if name.endswith(".crx") else "xpi" if name.endswith(".xpi") else name)
 
@@ -30,16 +42,19 @@ def size(n):
 
 
 files = sorted(glob.glob("out/*"), key=lambda f: (ORDER.index(kind(f)) if kind(f) in ORDER else 99, f))
+if target == "desktop":
+    files.sort(key=lambda f: (os.path.basename(f).endswith("source.tar.gz"), f))
 base = f"https://github.com/{REPO}/releases/download/{tag}"
 rows = []
 for f in files:
     n, k = os.path.basename(f), kind(f)
-    label, note = WHAT.get(k, ({"crx": "Chrome family, self-updating CRX", "xpi": "Firefox, signed self-updating XPI"}.get(k, n), ""))
+    dl = desktop_label(n) if target == "desktop" else None
+    label, note = dl or WHAT.get(k, ({"crx": "Chrome family, self-updating CRX", "xpi": "Firefox, signed self-updating XPI"}.get(k, n), ""))
     note = note or {"crx": "Drag onto `chrome://extensions` (Linux) or deploy by policy; updates itself.",
                     "xpi": "Open in Firefox and click Add; updates itself."}.get(k, "")
     rows.append(f"| [**{label}**]({base}/{n}) | {note} | {size(os.path.getsize(f))} | `{hashlib.sha256(open(f, 'rb').read()).hexdigest()[:16]}…` |")
 
-ver = tag.replace("browser-", "").replace("-bwpm", "")
+ver = tag.replace("browser-", "").replace("desktop-", "").replace("-bwpm", "")
 badges = " ".join(f"![{a}](https://img.shields.io/github/downloads/{REPO}/{tag}/{b}?label={a}&color=0f766e&style=flat-square)"
                   for a, b in (("downloads", "total"),)) + \
     f" ![all releases](https://img.shields.io/github/downloads/{REPO}/total?label=all%20releases&color=175ddc&style=flat-square)" \
@@ -47,13 +62,18 @@ badges = " ".join(f"![{a}](https://img.shields.io/github/downloads/{REPO}/{tag}/
     f" ![license](https://img.shields.io/badge/license-GPL--3.0-lightgrey?style=flat-square)"
 
 lines = [badges, "",
-         f"Patched build of **{'Bitwarden for Android' if target == 'android' else 'the Bitwarden browser extension'} {ver}**, "
+         f"Patched build of **{ {'android': 'Bitwarden for Android', 'browser': 'the Bitwarden browser extension', 'desktop': 'the Bitwarden desktop app'}[target] } {ver}**, "
          f"built from the official [`{tag}`](https://github.com/{UPSTREAM}/releases/tag/{tag}) release. Same version number as upstream.", ""]
 if target == "android":
     lines += ["## Install", "",
               f"- **Easiest, with automatic updates:** add `{SITE}/repo?fingerprint={FP}` to F-Droid, Droidify or Neo Store.",
               "- **Or download the APK for your phone's CPU** below. Not sure? Take `arm64-v8a`.",
               "- Installs next to the official app (`com.x8bit.bitwarden.patched`); it never replaces it.", ""]
+elif target == "desktop":
+    lines += ["## Install", "",
+              "- Pick the file for your system below: Windows (installer or portable), Linux (AppImage, deb or tar.gz), macOS (dmg or zip).",
+              "- Installs next to the official desktop app (own app id and name); it never replaces it.",
+              "- Builds are not code-signed, so Windows SmartScreen and macOS Gatekeeper will warn the first time. Check the SHA-256 below if in doubt.", ""]
 else:
     lines += ["## Install", "",
               f"- **Firefox / Chrome with automatic updates:** use the `.xpi` / `.crx` below (update manifests are served from {SITE}).",
@@ -65,7 +85,8 @@ if target == "android":
 lines += ["## What is patched", "",
           "- The client-side premium check is always on (built-in TOTP codes and other local features).",
           "- Own name, application id and a fork badge on the original logo.",
-          "- Android: one APK per CPU architecture." if target == "android" else "- Own Firefox add-on id and Chrome update channel.",
+          {"android": "- Android: one APK per CPU architecture.", "browser": "- Own Firefox add-on id and Chrome update channel.",
+           "desktop": "- Own app name and id, no auto-update from Bitwarden's servers, no code signing."}[target],
           f"- Nothing else changes. [Full patch list]({'https://github.com/' + REPO}#patches).", "",
           "Server-enforced features still follow your account's plan. Unofficial, not affiliated with Bitwarden Inc.", "",
           f"<sub>patches {ph}</sub>"]

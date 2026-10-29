@@ -9,11 +9,12 @@ KEEP = 7
 
 
 def load():
-    return json.load(open(FILE)) if os.path.exists(FILE) else {"android": [], "browser": []}
+    return json.load(open(FILE)) if os.path.exists(FILE) else {"android": [], "browser": [], "desktop": []}
 
 
 def record(target, tag, ph):
     state = load()
+    state.setdefault(target, [])
     assets = [{"name": os.path.basename(f), "size": os.path.getsize(f), "sha256": hashlib.sha256(open(f, "rb").read()).hexdigest()}
               for f in sorted(glob.glob(f"{HERE}/out/*")) if not f.endswith("SHA256SUMS")]
     entry = {"tag": tag, "built": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "patches": ph, "assets": assets}
