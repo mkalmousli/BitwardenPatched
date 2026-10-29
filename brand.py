@@ -69,6 +69,9 @@ def android(src, sub):
 \1output.versionCode.set((output.versionCode.orNull ?: 0) * 10 + abiDigit)
 \1output.outputFileName.set("$fileNameWithoutExtension-${abi ?: "universal"}.apk")''')
 
+    # The AAB rename task is per variant, but with ABI splits a variant has several outputs: register it once.
+    sub(src, "val renameTaskName =", r'( *)(val renameTaskName = [^\n]*\n)', r'\1\2\1if (renameTaskName in tasks.names) return@forEach\n')
+
 
 def browser(src, sub):
     sub(src, '"Bitwarden Password Manager"', r'"message": "Bitwarden Password Manager"', f'"message": "{NAME}"')
