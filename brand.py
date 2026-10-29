@@ -108,3 +108,9 @@ def desktop(src, sub):
     for kind in ("appImage", "deb"):
         cfg.setdefault(kind, {})["artifactName"] = "bitwarden-patched-${version}-${arch}.${ext}"
     json.dump(cfg, open(path, "w"), indent=2)
+    # The macOS autofill/Safari extensions are Swift targets signed with Apple credentials: leave them out.
+    hook = f"{src}/apps/desktop/scripts/after-pack.js"
+    text = open(hook).read()
+    for fn in ("copyMacOsAutofillExtension(context);", "copySafariExtension(context);"):
+        text = text.replace("      " + fn, "      // " + fn)
+    open(hook, "w").write(text)
