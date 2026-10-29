@@ -8,7 +8,7 @@ permissions: {contents: write, packages: read, issues: write, pages: write}
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy: {fail-fast: false, max-parallel: 1, matrix: {target: [android, browser]}}
+    strategy: {fail-fast: false, matrix: {target: [android, browser]}}
     env: {GH_TOKEN: "${{ github.token }}", GITHUB_TOKEN: "${{ github.token }}"}
     steps:
       - uses: actions/checkout@v4
@@ -25,9 +25,15 @@ jobs:
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
         uses: actions/setup-java@v4
         with: {distribution: temurin, java-version: 21}
+      - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
+        uses: gradle/actions/setup-gradle@v4   # caches dependencies and the build cache between runs
+        with: {cache-read-only: false}
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'browser' }}
         uses: actions/setup-node@v4
         with: {node-version: 24}
+      - if: ${{ !steps.v.outputs.skip && matrix.target == 'browser' }}
+        uses: actions/cache@v4
+        with: {path: ~/.npm, key: "npm-${{ steps.v.outputs.tag }}", restore-keys: "npm-"}
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
         run: |
           echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > "$RUNNER_TEMP/ks.jks"

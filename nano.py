@@ -45,7 +45,12 @@ def android(src):
         "isPremium = true,")
     # The SDK comes from GitHub Packages; any valid token can read it.
     open(f"{src}/user.properties", "w").write(f"gitHubToken={os.environ['GITHUB_TOKEN']}\n")
-    run(src, "./gradlew", "app:assembleFdroidRelease", "-q")
+    # Speed: no lint (it only checks, never changes the APK), parallel project execution, a larger heap, the build cache.
+    init = f"{src}/../speed.init.gradle"
+    open(init, "w").write('allprojects { tasks.configureEach { if (name.startsWith("lint")) enabled = false } }\n')
+    run(src, "./gradlew", "app:assembleFdroidRelease", "-q", "--parallel", "--build-cache", "--init-script", init,
+        "-Dorg.gradle.jvmargs=-Xmx6g -XX:+UseParallelGC", "-Dkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.incremental=false", "-Dorg.gradle.workers.max=4")
     ks, pw = keystore()
     apksigner = sorted(glob.glob(f"{os.environ['ANDROID_HOME']}/build-tools/*/apksigner"))[-1]
     for unsigned in glob.glob(f"{src}/app/build/outputs/apk/fdroid/release/*.apk"):
