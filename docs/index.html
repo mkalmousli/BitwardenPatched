@@ -42,7 +42,8 @@ h1{font-size:clamp(2rem,7vw,3rem);line-height:1.1;margin:36px 0 12px;letter-spac
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--a);color:var(--on);text-decoration:none;border:0;border-radius:10px;padding:0 18px;min-height:46px;font:inherit;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s}
 .btn:hover{opacity:.9}.btn:active{transform:scale(.97)}
 .btn.alt{background:var(--soft);color:var(--a);border:1px solid var(--line)}
-.btn small{display:block;font-weight:400;font-size:.76rem;opacity:.85;line-height:1.2}
+.btn small{display:block;font-weight:400;font-size:.76rem;opacity:.85;line-height:1.2;color:inherit}
+.btn .i{width:18px;height:18px}.i.fill{fill:currentColor;stroke:none}
 .btn span{text-align:left;line-height:1.25}
 section{padding:34px 0;border-top:1px solid var(--line)}
 h2{display:flex;align-items:center;gap:10px;font-size:1.3rem;margin:0 0 4px}
@@ -90,7 +91,7 @@ footer{border-top:1px solid var(--line);padding:26px 0 48px;color:var(--mut);fon
 <a class="skip" href="#main">Skip to content</a>
 <div class="wrap">
 <header><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0b2e3c"/><path d="M32 8 12 16v16c0 12 8 19 20 24 12-5 20-12 20-24V16z" fill="#fff"/><path d="M32 14v36c-9-4-14-10-14-18V19z" fill="#175ddc"/><circle cx="48" cy="48" r="13" fill="#fff"/><circle cx="48" cy="48" r="11" fill="#0f766e"/><g stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"><path d="M43 41v4l5 3v5M53 41v4l-5 3"/><circle cx="43" cy="41" r="2" fill="#0f766e"/><circle cx="53" cy="41" r="2" fill="#0f766e"/><circle cx="48" cy="54" r="2" fill="#0f766e"/></g></svg>
-<b>Bitwarden Patched</b><a href="https://github.com/mkalmousli/BitwardenPatched"><svg class="i"><use href="#gh"/></svg><span>GitHub</span></a></header>
+<b>Bitwarden Patched</b><a href="https://github.com/mkalmousli/BitwardenPatched"><svg class="i fill"><use href="#gh"/></svg><span>GitHub</span></a></header>
 
 <main id="main">
 <h1>Bitwarden, patched and always current.</h1>
@@ -153,7 +154,7 @@ async function guessAbi(){
     if(h.architecture==="x86")return h.bitness==="32"?"x86":"x86_64";}catch(e){}
   return /armv7|armeabi/i.test(navigator.userAgent)?"armeabi-v7a":"arm64-v8a";
 }
-const abiOf=a=>(a.name.match(/-(arm64-v8a|armeabi-v7a|x86_64|x86|universal)\.apk$/)||[])[1];
+const abiOf=a=>(a.name.match(/-(arm64-v8a|armeabi-v7a|x86[_-]64|x86|universal)\.apk$/)||[])[1]?.replace("x86-64","x86_64");
 const me=navigator.brave?"brave":/Firefox\//.test(navigator.userAgent)?"firefox":/Edg\//.test(navigator.userAgent)?"edge":"chrome";
 const BROWSERS={firefox:{name:"Firefox",ext:"about:debugging#/runtime/this-firefox"},chrome:{name:"Chrome",ext:"chrome://extensions"},brave:{name:"Brave",ext:"brave://extensions"},edge:{name:"Edge",ext:"edge://extensions"}};
 let rel={},counts={};

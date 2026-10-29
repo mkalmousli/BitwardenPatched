@@ -12,6 +12,7 @@ WHAT = {  # file name suffix: (label, who it is for)
     "arm64-v8a.apk": ("Android, arm64-v8a", "**Most phones made since 2017.** Pick this if unsure."),
     "armeabi-v7a.apk": ("Android, armeabi-v7a", "Older 32-bit ARM phones and tablets."),
     "x86_64.apk": ("Android, x86_64", "Emulators, Chromebooks and Intel/AMD Android devices."),
+    "x86-64.apk": ("Android, x86_64", "Emulators, Chromebooks and Intel/AMD Android devices."),
     "x86.apk": ("Android, x86", "Old 32-bit x86 emulators."),
     "universal.apk": ("Android, universal", "Works everywhere, but about 3x larger than the matching ABI build."),
     "dist-chrome.zip": ("Chrome / Edge / Brave, zip", "Load unpacked via `chrome://extensions` (unzip first)."),
