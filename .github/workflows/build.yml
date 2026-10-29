@@ -48,10 +48,13 @@ jobs:
           gh release create "${{ steps.v.outputs.rel }}" out/* --title "$title" --notes-file notes.md
       - if: ${{ !steps.v.outputs.skip }}
         run: |   # remember this build in state.json (the site is generated from it)
-          python3 state.py record ${{ matrix.target }} "${{ steps.v.outputs.rel }}" "${{ steps.v.outputs.ph }}"
           git config user.name bitwarden-patched; git config user.email actions@users.noreply.github.com
-          git add state.json; git commit -qm "state: ${{ matrix.target }} ${{ steps.v.outputs.tag }} [skip ci]"
-          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && break; sleep 5; done
+          for i in 1 2 3 4 5; do   # the other target may have pushed meanwhile: start from the latest main and record again
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 state.py record ${{ matrix.target }} "${{ steps.v.outputs.rel }}" "${{ steps.v.outputs.ph }}"
+            git add state.json; git commit -qm "state: ${{ matrix.target }} ${{ steps.v.outputs.tag }} [skip ci]"
+            git push -q origin HEAD:main && break; sleep 5
+          done
       - if: ${{ !steps.v.outputs.skip && matrix.target == 'android' }}
         run: pip install -q fdroidserver
       - if: ${{ !steps.v.outputs.skip }}
