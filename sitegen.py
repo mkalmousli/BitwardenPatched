@@ -2,7 +2,7 @@
 """Rebuild and publish the whole site on gh-pages: docs/, data/versions.json (from state.json), the last few
 Android versions as an F-Droid repo, and the browser extension files and update manifests.
 Runs after every build and on every commit; with nothing new in out/ it only refreshes the static parts."""
-import datetime, glob, hashlib, json, os, re, shutil, subprocess as sp, sys
+import datetime, glob, json, os, re, shutil, subprocess as sp, sys
 import pages, state
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -21,12 +21,11 @@ def apk_tag(path):
 
 
 def fdroid(site):
-    """Add new per-ABI APKs, rotate out old versions, and regenerate the index when anything changed."""
+    """Add new per-ABI APKs, rotate out old versions, and regenerate the signed index (with the listing metadata from fdroid/) every run."""
     if "KEYSTORE" not in os.environ:
         return  # a docs-only run: leave the F-Droid repo exactly as published
     repo = f"{site}/repo"
     os.makedirs(repo, exist_ok=True)
-    changed = False
     for apk in glob.glob(f"{HERE}/out/bitwarden-patched-android-*.apk"):
         if apk.endswith("-universal.apk"):
             continue  # about 3x the size of the others; release only
@@ -34,7 +33,6 @@ def fdroid(site):
             print(f"skipping {os.path.basename(apk)}: over the git file limit")
             continue
         shutil.copy(apk, repo)
-        changed = True
     present = {}
     for f in glob.glob(f"{repo}/*.apk"):
         present.setdefault(apk_tag(f), []).append(f)
@@ -50,13 +48,6 @@ def fdroid(site):
             print("rotating out", tag)
             for f in files:
                 os.remove(f)
-            changed = True
-    meta = hashlib.sha256(b"".join(open(f, "rb").read() for f in sorted(glob.glob(f"{HERE}/fdroid/**/*.*", recursive=True)) if os.path.isfile(f))).hexdigest()
-    stamp = f"{site}/.fdroid-meta"
-    meta_changed = not os.path.exists(stamp) or open(stamp).read() != meta
-    if not changed and not meta_changed:
-        return
-    open(stamp, "w").write(meta)
     with open(f"{site}/config.yml", "w") as f:
         f.write(f"""repo_url: https://{OWNER}.github.io/{NAME}/repo
 repo_name: Bitwarden Patched
@@ -74,8 +65,8 @@ keydname: CN=NanoWarden
     os.makedirs(f"{site}/metadata", exist_ok=True)
     shutil.copy(f"{HERE}/fdroid/{APPID}.yml", f"{site}/metadata/")
     shutil.copytree(f"{HERE}/fdroid/locale", f"{site}/metadata/{APPID}", dirs_exist_ok=True)
-    os.makedirs(f"{site}/icons", exist_ok=True)
-    shutil.copy(f"{HERE}/fdroid/repo-icon.png", f"{site}/icons/icon.png")
+    os.makedirs(f"{site}/repo/icons", exist_ok=True)
+    shutil.copy(f"{HERE}/fdroid/repo-icon.png", f"{site}/repo/icons/icon.png")
     sp.run(["fdroid", "update", "--create-metadata", "--delete-unknown"], cwd=site, check=True)
     os.remove(f"{site}/config.yml")  # holds the key password; never publish it
     shutil.rmtree(f"{site}/metadata", ignore_errors=True)
