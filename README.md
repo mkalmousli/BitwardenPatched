@@ -5,7 +5,7 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/mkalmousli/bitwarden-patched/build.yml?style=flat-square)](../../actions)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey?style=flat-square)](LICENSE)
 
-**Patched, automatically updated builds of the official Bitwarden apps: Android and the Chrome/Firefox browser extension.**
+**Patched, automatically updated builds of the official Bitwarden apps: Android, the Chrome/Firefox browser extension, and the desktop app for Windows, Linux and macOS.**
 
 ## What is this?
 

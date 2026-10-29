@@ -72,7 +72,7 @@ footer{border-top:1px solid var(--line);padding:26px 0 48px;color:var(--mut);fon
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
-<symbol id="puzzle" viewBox="0 0 24 24"><path d="M10 4a2 2 0 1 1 4 0v1h4v4h1a2 2 0 1 1 0 4h-1v5h-5v-1a2 2 0 1 0-4 0v1H4v-5h1a2 2 0 1 0 0-4H4V5h6z"/></symbol>
+<symbol id="monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol><symbol id="puzzle" viewBox="0 0 24 24"><path d="M10 4a2 2 0 1 1 4 0v1h4v4h1a2 2 0 1 1 0 4h-1v5h-5v-1a2 2 0 1 0-4 0v1H4v-5h1a2 2 0 1 0 0-4H4V5h6z"/></symbol>
 <symbol id="dl" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></symbol>
 <symbol id="copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></symbol>
 <symbol id="check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
@@ -131,6 +131,8 @@ footer{border-top:1px solid var(--line);padding:26px 0 48px;color:var(--mut);fon
 <details><summary>Why no one-click install on Chrome?</summary><p>Chrome, Brave and Edge only install outside-store extensions in developer mode. Firefox installs the signed add-on directly.</p></details>
 </section>
 </main>
+<section id="desktop"><h2><svg class="i"><use href="#monitor"/></svg>Desktop</h2><p class="sub">Windows, Linux and macOS. Not code-signed, so your system warns the first time.</p>
+<div class="box"><div class="tabs" id="ostabs" role="tablist"></div><div id="dsk" class="skeleton">Loading...</div></div></section>
 <footer>Unofficial, not affiliated with Bitwarden Inc. "Bitwarden" is their trademark, used only to say what this is based on. GPL-3.0. <a href="https://github.com/mkalmousli/bitwarden-patched/releases">Releases</a></footer>
 </div>
 
@@ -175,14 +177,25 @@ function showBrowser(k){
     $("ce").onclick=()=>navigator.clipboard.writeText(b.ext).then(()=>copied($("ce"),ic("copy")+"Copy"));
   }
 }
+const OSN={windows:"Windows",linux:"Linux",macos:"macOS"},myos=/Win/.test(navigator.platform)?"windows":/Mac/.test(navigator.platform)?"macos":"linux";
+const osOf=a=>(a.name.match(/-(windows|linux|macos)-(x64|arm64)-/)||[]).slice(1);
+const kindOf=n=>/Setup/.test(n)?"Installer":/Portable/.test(n)?"Portable exe":/AppImage$/.test(n)?"AppImage":/\.deb$/.test(n)?"deb package":/\.dmg$/.test(n)?"dmg disk image":/\.zip$/.test(n)?"zip":/tar\.gz$/.test(n)?"tar.gz":n;
+async function myArch(){try{const h=await navigator.userAgentData.getHighEntropyValues(["architecture"]);return h.architecture==="arm"?"arm64":"x64"}catch(e){return /Mac/.test(navigator.platform)?"arm64":"x64"}}
+async function showDesktop(k){
+  document.querySelectorAll("#ostabs button").forEach(b=>{b.classList.toggle("on",b.dataset.k===k);b.setAttribute("aria-selected",b.dataset.k===k)});
+  const v=rel.desktop;$("dsk").classList.remove("skeleton");
+  if(!v){$("dsk").textContent="No desktop release yet.";return}
+  const mine=await myArch(),rows=v.assets.filter(a=>osOf(a)[0]===k&&!/source/.test(a.name)).sort((a,b)=>(osOf(b)[1]===mine)-(osOf(a)[1]===mine));
+  $("dsk").innerHTML=rows.length?"<table>"+rows.map(a=>`<tr><td><a href="${dl(a)}">${kindOf(a.name)} &middot; ${osOf(a)[1]}</a>${osOf(a)[1]===mine?'<span class="tag">your device</span>':""}<br><small>v${v.tag.replace("desktop-v","")}${cnt(a)}</small></td><td>${mb(a.size)}</td></tr>`).join("")+"</table>":"Not built for "+OSN[k]+" yet.";
+}
 function versionTable(list,label){
-  return list.map((v,i)=>`<details ${i?"":"open"}><summary>${label} ${v.tag.replace(/^browser-|-bwpm$/g,"")}<small>&nbsp;&middot; ${day(v.built)}</small>${i?"":'<span class="tag">latest</span>'}</summary><p style="margin:0 0 6px"><small><a href="${v.release}">Release notes and checksums</a></small></p><table>`+
+  return list.map((v,i)=>`<details ${i?"":"open"}><summary>${label} ${v.tag.replace(/^browser-|^desktop-|-bwpm$/g,"")}<small>&nbsp;&middot; ${day(v.built)}</small>${i?"":'<span class="tag">latest</span>'}</summary><p style="margin:0 0 6px"><small><a href="${v.release}">Release notes and checksums</a></small></p><table>`+
     v.assets.filter(a=>a.name!=="SHA256SUMS").map(a=>`<tr><td><a href="${dl(a)}">${a.name.replace(/^bitwarden-patched-/,"")}</a><br><small>${cnt(a).replace(/^ &middot; /,"")}</small></td><td>${mb(a.size)}</td></tr>`).join("")+"</table></details>").join("");
 }
 Promise.all([fetch("data/versions.json").then(r=>r.json()),
   fetch(`https://api.github.com/repos/${R}/releases?per_page=30`).then(r=>r.json()).catch(()=>[])]).then(async([d,rs])=>{
   if(Array.isArray(rs))for(const r of rs)for(const a of r.assets)counts[a.name]=a.download_count;
-  rel={android:d.android[0],browser:d.browser[0]};
+  rel={android:d.android[0],browser:d.browser[0],desktop:(d.desktop||[])[0]};
   const apks=(rel.android?.assets||[]).filter(abiOf),guess=await guessAbi(),best=apks.find(a=>abiOf(a)===guess)||apks[0];
   $("apk").classList.remove("skeleton");
   if(best){
@@ -193,6 +206,9 @@ Promise.all([fetch("data/versions.json").then(r=>r.json()),
   $("tabs").innerHTML=Object.entries(BROWSERS).map(([k,b])=>`<button data-k="${k}" role="tab" type="button">${b.name}</button>`).join("");
   document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>showBrowser(b.dataset.k));
   showBrowser(me);
-  $("dl").innerHTML=(d.android.length?"<h3>Android</h3>"+versionTable(d.android,"Android"):"")+(d.browser.length?"<h3 style='margin-top:18px'>Browser extension</h3>"+versionTable(d.browser,"Browser"):"")||"No releases yet.";
-}).catch(()=>{for(const i of["apk","bro","dl"]){$(i).classList.remove("skeleton");$(i).innerHTML=`<a class="btn" href="https://github.com/${R}/releases">Open releases on GitHub</a>`}});
+  $("ostabs").innerHTML=Object.entries(OSN).map(([k,n])=>`<button data-k="${k}" role="tab" type="button">${n}</button>`).join("");
+  document.querySelectorAll("#ostabs button").forEach(b=>b.onclick=()=>showDesktop(b.dataset.k));
+  showDesktop(myos);
+  $("dl").innerHTML=(d.android.length?"<h3>Android</h3>"+versionTable(d.android,"Android"):"")+(d.browser.length?"<h3 style='margin-top:18px'>Browser extension</h3>"+versionTable(d.browser,"Browser"):"")+((d.desktop||[]).length?"<h3 style='margin-top:18px'>Desktop</h3>"+versionTable(d.desktop,"Desktop"):"")||"No releases yet.";
+}).catch(()=>{for(const i of["apk","bro","dsk","dl"]){$(i).classList.remove("skeleton");$(i).innerHTML=`<a class="btn" href="https://github.com/${R}/releases">Open releases on GitHub</a>`}});
 </script></body></html>
