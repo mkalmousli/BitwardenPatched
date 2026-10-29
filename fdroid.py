@@ -20,15 +20,12 @@ if not apks:
     sys.exit("no per-ABI APKs in out/")
 for apk in apks:
     if os.path.getsize(apk) > LIMIT:
-        print(f"skipping {os.path.basename(apk)}: over the git file limit")
+        print(f"skipping {os.path.basename(apk)}: over the git file limit, so it is not in the F-Droid repo")
     else:
         shutil.copy(apk, f"{SITE}/repo/")
-# Fallback for anything too large to store: clients can fetch the same file name from the release.
 open(f"{SITE}/config.yml", "w").write(f"""repo_url: {URL}
 repo_name: Bitwarden Patched
 repo_description: Patched builds of the open-source Bitwarden Android app (unofficial fork, not affiliated with Bitwarden Inc.).
-mirrors:
-  - https://github.com/{REPO}/releases/download/{os.environ['REL']}
 keystore: {os.environ['KEYSTORE']}
 keystorepass: {PW}
 keypass: {PW}
