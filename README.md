@@ -1,8 +1,8 @@
 # Bitwarden Patched
 
-[![Latest release](https://img.shields.io/github/v/release/mkalmousli/bitwarden-patched?style=flat-square&color=0f766e)](../../releases)
-[![Downloads](https://img.shields.io/github/downloads/mkalmousli/bitwarden-patched/total?style=flat-square&color=175ddc)](../../releases)
-[![Build](https://img.shields.io/github/actions/workflow/status/mkalmousli/bitwarden-patched/build.yml?style=flat-square)](../../actions)
+[![Latest release](https://img.shields.io/github/v/release/mkalmousli/BitwardenPatched?style=flat-square&color=0f766e)](../../releases)
+[![Downloads](https://img.shields.io/github/downloads/mkalmousli/BitwardenPatched/total?style=flat-square&color=175ddc)](../../releases)
+[![Build](https://img.shields.io/github/actions/workflow/status/mkalmousli/BitwardenPatched/build.yml?style=flat-square)](../../actions)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey?style=flat-square)](LICENSE)
 
 **Patched, automatically updated builds of the official Bitwarden apps: Android, the Chrome/Firefox browser extension, and the desktop app for Windows, Linux and macOS.**
@@ -19,14 +19,14 @@ available, builds it, and publishes the result on the [Releases](../../releases)
   patches and builds them, and publishes the new version.
 - If an upstream change breaks a patch, the build fails loudly and opens an issue instead of shipping something wrong.
 
-**Website:** https://mkalmousli.github.io/Bitwarden Patched (one-click install links and latest downloads)
+**Website:** https://mkalmousli.github.io/BitwardenPatched (one-click install links and latest downloads)
 
 ## F-Droid repository (Android)
 
 Add this repository to F-Droid, Droidify, Neo Store or any F-Droid client, and updates arrive automatically:
 
 ```
-https://mkalmousli.github.io/Bitwarden Patched/repo?fingerprint=B1D78FEC2A8513EFD0EF78AE2C73887DFDC84F4CE6C786C61D524E1D4B43821B
+https://mkalmousli.github.io/BitwardenPatched/repo?fingerprint=B1D78FEC2A8513EFD0EF78AE2C73887DFDC84F4CE6C786C61D524E1D4B43821B
 ```
 
 (F-Droid → Settings → Repositories → **+**, or open the link on your phone.) The fingerprint pins the signing key.
@@ -50,7 +50,7 @@ official app instead of replacing it), and the browser extension carries the sam
 
 ## Downloads
 
-Go to [Releases](../../releases). Each release has notes with a file table (size, checksum, who each file is for), live download badges, and the patched source (`*-source.tar.gz`) next to GitHub's own source archives. The [website](https://mkalmousli.github.io/bitwarden-patched) shows per-file download counts.
+Go to [Releases](../../releases). Each release has notes with a file table (size, checksum, who each file is for), live download badges, and the patched source (`*-source.tar.gz`) next to GitHub's own source archives. The [website](https://mkalmousli.github.io/BitwardenPatched) shows per-file download counts.
 
 | Target | File | Install |
 |---|---|---|

@@ -2,10 +2,10 @@ Categories:
   - Security
   - Sync
 License: GPL-3.0-only
-WebSite: https://mkalmousli.github.io/bitwarden-patched/
-SourceCode: https://github.com/mkalmousli/bitwarden-patched
-IssueTracker: https://github.com/mkalmousli/bitwarden-patched/issues
-Changelog: https://github.com/mkalmousli/bitwarden-patched/releases
+WebSite: https://mkalmousli.github.io/BitwardenPatched/
+SourceCode: https://github.com/mkalmousli/BitwardenPatched
+IssueTracker: https://github.com/mkalmousli/BitwardenPatched/issues
+Changelog: https://github.com/mkalmousli/BitwardenPatched/releases
 AuthorName: mkalmousli
 AuthorWebSite: https://github.com/mkalmousli
 Name: Bitwarden Patched

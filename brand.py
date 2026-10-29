@@ -2,7 +2,7 @@
 import glob, json, os
 
 NAME = "Bitwarden Patched"
-PAGES = "https://mkalmousli.github.io/bitwarden-patched"
+PAGES = "https://mkalmousli.github.io/BitwardenPatched"
 TEAL = "0F766E"  # badge colour
 # Fork glyph in a unit square centred on the badge: three nodes joined by a branching line.
 NODES = [(-.26, -.30), (.26, -.30), (0, .32)]
