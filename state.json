@@ -1,6 +1,43 @@
 {
   "android": [
     {
+      "tag": "v2026.10.1-bwpm",
+      "built": "2026-10-29T22:40:40Z",
+      "patches": "ed369a1",
+      "assets": [
+        {
+          "name": "bitwarden-patched-android-v2026.10.1-bwpm-arm64-v8a.apk",
+          "size": 59808908,
+          "sha256": "7084a5283b7abd2321522781455954c2fe7f2252b0698efac920c75482fda1d1"
+        },
+        {
+          "name": "bitwarden-patched-android-v2026.10.1-bwpm-armeabi-v7a.apk",
+          "size": 48913558,
+          "sha256": "c443fd39ac844273f86d3b640499fdfc4a403ec54f24b7249e49d3fb6469a85e"
+        },
+        {
+          "name": "bitwarden-patched-android-v2026.10.1-bwpm-source.tar.gz",
+          "size": 11005761,
+          "sha256": "b59784a516072cc825fef147c74c53eceea5fe7aa8284fd33434ba45e42f52ff"
+        },
+        {
+          "name": "bitwarden-patched-android-v2026.10.1-bwpm-universal.apk",
+          "size": 144908850,
+          "sha256": "be95e4e97dc4c0b60bbb0f72d2d4c07260b274265d91af1af23d75c1d1cbecf5"
+        },
+        {
+          "name": "bitwarden-patched-android-v2026.10.1-bwpm-x86-64.apk",
+          "size": 56859773,
+          "sha256": "d390cc1b4334eaa13027d1e934584980aca8d1b75669d7b996797ee02272829b"
+        },
+        {
+          "name": "bitwarden-patched-android-v2026.10.1-bwpm-x86.apk",
+          "size": 55893102,
+          "sha256": "ed64ae9d6261354949be5ffe3c239632e1f78a698de9b5bc5b244f1934185a6e"
+        }
+      ]
+    },
+    {
       "tag": "v2026.10.0-bwpm",
       "built": "2026-10-29T18:08:48Z",
       "patches": "07d6cda",
