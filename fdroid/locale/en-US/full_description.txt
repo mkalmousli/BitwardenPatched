@@ -1,0 +1,16 @@
+Bitwarden Patched is an unofficial, automatically rebuilt version of the open-source Bitwarden Android app. A new build appears here shortly after every upstream Bitwarden release, so the app stays current without any manual work.
+
+<b>What you get</b>
+• The Bitwarden vault, autofill, passkeys and sync you already know
+• Client-side premium features such as built-in TOTP codes switched on
+• One small APK per CPU type (arm64-v8a, armeabi-v7a, x86, x86_64)
+• Its own app id (com.x8bit.bitwarden.patched), so it installs next to the official app
+• The original logo with a fork badge, so you can tell them apart
+• Works with Bitwarden cloud or a self-hosted Bitwarden or Vaultwarden server
+
+<b>Trust</b>
+• Built in public by GitHub Actions from the upstream source plus a short, published list of patches
+• Stable signing key; every release ships SHA-256 checksums and the patched source code
+• Encryption, networking and sync code are not modified. Anything the server enforces still follows your plan
+
+Not affiliated with or endorsed by Bitwarden Inc. "Bitwarden" is a trademark of its owner. Licensed GPL-3.0.

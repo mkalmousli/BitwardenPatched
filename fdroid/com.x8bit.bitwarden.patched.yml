@@ -1,0 +1,17 @@
+Categories:
+  - Security
+  - Sync
+License: GPL-3.0-only
+WebSite: https://mkalmousli.github.io/bitwarden-patched/
+SourceCode: https://github.com/mkalmousli/bitwarden-patched
+IssueTracker: https://github.com/mkalmousli/bitwarden-patched/issues
+Changelog: https://github.com/mkalmousli/bitwarden-patched/releases
+AuthorName: mkalmousli
+AuthorWebSite: https://github.com/mkalmousli
+Name: Bitwarden Patched
+Summary: Unofficial, auto-updated build of the open-source Bitwarden password manager
+Description: |-
+  Unofficial, automatically rebuilt version of the open-source Bitwarden Android app,
+  published shortly after every upstream release. Client-side premium features such as
+  built-in TOTP are switched on. Installs next to the official app. Not affiliated with
+  Bitwarden Inc.

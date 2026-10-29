@@ -1,0 +1,1 @@
+Unofficial, auto-updated build of the open-source Bitwarden password manager

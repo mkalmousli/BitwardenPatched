@@ -2,7 +2,7 @@
 """Rebuild and publish the whole site on gh-pages: docs/, data/versions.json (from state.json), the last few
 Android versions as an F-Droid repo, and the browser extension files and update manifests.
 Runs after every build and on every commit; with nothing new in out/ it only refreshes the static parts."""
-import datetime, glob, json, os, re, shutil, subprocess as sp, sys
+import datetime, glob, hashlib, json, os, re, shutil, subprocess as sp, sys
 import pages, state
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -12,6 +12,7 @@ KEEP = state.KEEP
 LIMIT = 95 * 1024 * 1024    # git refuses files over 100 MB
 BUDGET = 850 * 1024 * 1024  # a Pages site may not exceed 1 GB
 ABIS = r"universal|x86_64|x86|armeabi-v7a|arm64-v8a"
+APPID = "com.x8bit.bitwarden.patched"
 STATE = state.load()
 
 
@@ -50,19 +51,31 @@ def fdroid(site):
             for f in files:
                 os.remove(f)
             changed = True
-    if not changed:
+    meta = hashlib.sha256(b"".join(open(f, "rb").read() for f in sorted(glob.glob(f"{HERE}/fdroid/**/*.*", recursive=True)) if os.path.isfile(f))).hexdigest()
+    stamp = f"{site}/.fdroid-meta"
+    meta_changed = not os.path.exists(stamp) or open(stamp).read() != meta
+    if not changed and not meta_changed:
         return
+    open(stamp, "w").write(meta)
     with open(f"{site}/config.yml", "w") as f:
         f.write(f"""repo_url: https://{OWNER}.github.io/{NAME}/repo
 repo_name: Bitwarden Patched
+repo_icon: icon.png
 repo_description: Patched builds of the open-source Bitwarden Android app (unofficial fork, not affiliated with Bitwarden Inc.).
 keystore: {os.environ['KEYSTORE']}
 keystorepass: {os.environ['KS_PASS']}
 keypass: {os.environ['KS_PASS']}
 repo_keyalias: nanowarden
+archive_older: 0
 keydname: CN=NanoWarden
 """)
     os.chmod(f"{site}/config.yml", 0o600)
+    # Listing metadata (name, description, icon, screenshots) lives in fdroid/ and is applied on every reindex.
+    os.makedirs(f"{site}/metadata", exist_ok=True)
+    shutil.copy(f"{HERE}/fdroid/{APPID}.yml", f"{site}/metadata/")
+    shutil.copytree(f"{HERE}/fdroid/locale", f"{site}/metadata/{APPID}", dirs_exist_ok=True)
+    os.makedirs(f"{site}/icons", exist_ok=True)
+    shutil.copy(f"{HERE}/fdroid/repo-icon.png", f"{site}/icons/icon.png")
     sp.run(["fdroid", "update", "--create-metadata", "--delete-unknown"], cwd=site, check=True)
     os.remove(f"{site}/config.yml")  # holds the key password; never publish it
     shutil.rmtree(f"{site}/metadata", ignore_errors=True)

@@ -10,4 +10,9 @@ jobs:
     env: {GH_TOKEN: "${{ github.token }}", GITHUB_TOKEN: "${{ github.token }}"}
     steps:
       - uses: actions/checkout@v4
+      - run: pip install -q fdroidserver pillow   # reindexes the F-Droid repo when its listing metadata changed
+      - run: |
+          echo "${{ secrets.KEYSTORE_B64 }}" | base64 -d > "$RUNNER_TEMP/ks.jks"
+          echo "KEYSTORE=$RUNNER_TEMP/ks.jks" >> $GITHUB_ENV
+          echo "KS_PASS=${{ secrets.KS_PASS }}" >> $GITHUB_ENV
       - run: python3 sitegen.py
