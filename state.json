@@ -41,28 +41,28 @@
   "browser": [
     {
       "tag": "browser-v2026.10.1",
-      "built": "2026-10-29T16:45:33Z",
-      "patches": "6f0589e",
+      "built": "2026-10-29T17:30:36Z",
+      "patches": "ee3dfc4",
       "assets": [
         {
           "name": "bitwarden-patched-2026.10.1.crx",
           "size": 25573927,
-          "sha256": "09235e4ebb1f22d5b31498c46367be4dca266dd7026a741f47ecf69b61dd35bd"
+          "sha256": "c365d33c9101f3b44f7c33a3cb5214648b4cd6b3caee2265ed113fd9a1e57292"
         },
         {
           "name": "bitwarden-patched-browser-browser-v2026.10.1-dist-chrome.zip",
           "size": 25764479,
-          "sha256": "9827c635e409f22d9699a5ea2a70896f8f970de2082da2fc341b133f321c47e6"
+          "sha256": "55210dae3bbe3ebabeefca085bb8ac9f4e467d476904200ec541508e675ca896"
         },
         {
           "name": "bitwarden-patched-browser-browser-v2026.10.1-dist-firefox.zip",
           "size": 22545584,
-          "sha256": "829e122cea6d592fbd56e3fbc0d130b029b75ad35272ac7d10a4b715792c0279"
+          "sha256": "715e017e45853ea662a567ffb61d60bf7b19a954640df5b8637be4d8f5f83230"
         },
         {
           "name": "bitwarden-patched-browser-browser-v2026.10.1-source.tar.gz",
-          "size": 53397337,
-          "sha256": "520226f55a6ecff3c03f9ad460f31706afe949bc71a7f2914b8f4f9895b9043c"
+          "size": 53396885,
+          "sha256": "68fc6428536974d67230dd07c0d55ee01937fd28156141bf26ee8ae287177445"
         }
       ]
     }
