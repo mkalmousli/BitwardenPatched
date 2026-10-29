@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Bitwarden Patched: auto-updated Bitwarden APK and browser extension</title>
-<meta name="description" content="Download patched, auto-updated builds of the open-source Bitwarden app for Android (per-CPU APKs, F-Droid repo) and for Firefox, Chrome, Brave and Edge. Built from every upstream release.">
+<title>Bitwarden Patched: auto-updated Bitwarden for Android, Windows, Linux, macOS and browsers</title>
+<meta name="description" content="Download patched, auto-updated builds of the open-source Bitwarden apps for Android (per-CPU APKs, F-Droid repo), Windows, Linux and macOS desktop, and the Firefox, Chrome, Brave and Edge extensions. Built from every upstream release.">
 <meta name="keywords" content="Bitwarden, Bitwarden APK, Bitwarden F-Droid, Bitwarden TOTP, Bitwarden premium features, Vaultwarden client, Bitwarden fork, password manager">
 <link rel="canonical" href="https://mkalmousli.github.io/BitwardenPatched/">
 <meta name="theme-color" content="#0f766e"><meta name="color-scheme" content="light dark">
 <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="manifest" href="site.webmanifest">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Bitwarden Patched">
 <meta property="og:title" content="Bitwarden Patched: auto-updated Bitwarden APK and browser extension">
-<meta property="og:description" content="Patched builds of the open-source Bitwarden clients. Per-CPU APKs, F-Droid repo, Firefox and Chrome add-ons. Updated automatically.">
+<meta property="og:description" content="Patched builds of the open-source Bitwarden clients for Android, Windows, Linux, macOS, Firefox and Chromium browsers. Updated automatically.">
 <meta property="og:url" content="https://mkalmousli.github.io/BitwardenPatched/">
 <meta property="og:image" content="https://mkalmousli.github.io/BitwardenPatched/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Bitwarden Patched"><meta name="twitter:description" content="Auto-updated patched builds of the open-source Bitwarden Android app and browser extension."><meta name="twitter:image" content="https://mkalmousli.github.io/BitwardenPatched/og.png">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Bitwarden Patched"><meta name="twitter:description" content="Auto-updated patched builds of the open-source Bitwarden apps for Android, Windows, Linux, macOS and browsers."><meta name="twitter:image" content="https://mkalmousli.github.io/BitwardenPatched/og.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
-{"@type":"SoftwareApplication","name":"Bitwarden Patched","applicationCategory":"SecurityApplication","operatingSystem":"Android 8+, Firefox, Chrome, Edge, Brave","description":"Unofficial patched builds of the open-source Bitwarden clients, rebuilt automatically from every upstream release.","url":"https://mkalmousli.github.io/BitwardenPatched/","image":"https://mkalmousli.github.io/BitwardenPatched/og.png","license":"https://www.gnu.org/licenses/gpl-3.0.html","isBasedOn":"https://github.com/bitwarden/android","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"SoftwareApplication","name":"Bitwarden Patched","applicationCategory":"SecurityApplication","operatingSystem":"Android 8+, Windows, Linux, macOS, Firefox, Chrome, Edge, Brave","description":"Unofficial patched builds of the open-source Bitwarden clients, rebuilt automatically from every upstream release.","url":"https://mkalmousli.github.io/BitwardenPatched/","image":"https://mkalmousli.github.io/BitwardenPatched/og.png","license":"https://www.gnu.org/licenses/gpl-3.0.html","isBasedOn":"https://github.com/bitwarden/android","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
 {"@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Is Bitwarden Patched official?","acceptedAnswer":{"@type":"Answer","text":"No. It is an unofficial community fork built from the open-source Bitwarden clients and is not affiliated with Bitwarden Inc."}},
 {"@type":"Question","name":"Which Android APK should I download?","acceptedAnswer":{"@type":"Answer","text":"Most phones made since 2017 need arm64-v8a. The site detects it for you. Older 32-bit phones need armeabi-v7a; emulators and Chromebooks usually need x86_64."}},
@@ -95,8 +95,8 @@ footer{border-top:1px solid var(--line);padding:26px 0 48px;color:var(--mut);fon
 
 <main id="main">
 <h1>Bitwarden, patched and always current.</h1>
-<p class="lead">Unofficial builds of the open-source Bitwarden Android app and browser extension, rebuilt automatically from every upstream release.</p>
-<div class="row"><a class="btn" id="heroApk" href="#android"><svg class="i"><use href="#phone"/></svg><span>Android</span></a><a class="btn alt" href="#browser"><svg class="i"><use href="#puzzle"/></svg><span>Browser</span></a></div>
+<p class="lead">Unofficial builds of the open-source Bitwarden apps for Android, Windows, Linux and macOS, plus the Firefox, Chrome, Brave and Edge extension, rebuilt automatically from every upstream release.</p>
+<div class="row"><a class="btn" id="heroApk" href="#android"><svg class="i"><use href="#phone"/></svg><span>Android</span></a><a class="btn alt" href="#desktop"><svg class="i"><use href="#monitor"/></svg><span>Desktop</span></a><a class="btn alt" href="#browser"><svg class="i"><use href="#puzzle"/></svg><span>Browser</span></a></div>
 
 <section id="android" style="margin-top:36px"><h2><svg class="i"><use href="#phone"/></svg>Android</h2><p class="sub">Installs next to the official app. Android 8 or newer.</p>
 <div class="two">
@@ -132,7 +132,7 @@ footer{border-top:1px solid var(--line);padding:26px 0 48px;color:var(--mut);fon
 <details><summary>Why no one-click install on Chrome?</summary><p>Chrome, Brave and Edge only install outside-store extensions in developer mode. Firefox installs the signed add-on directly.</p></details>
 </section>
 </main>
-<section id="desktop"><h2><svg class="i"><use href="#monitor"/></svg>Desktop</h2><p class="sub">Windows, Linux and macOS. Not code-signed, so your system warns the first time.</p>
+<section id="desktop"><h2><svg class="i"><use href="#monitor"/></svg>Desktop</h2><p class="sub">Windows, Linux and macOS, as installers, portable builds or packages. Not code-signed, so your system warns the first time.</p>
 <div class="box"><div class="tabs" id="ostabs" role="tablist"></div><div id="dsk" class="skeleton">Loading...</div></div></section>
 <footer>Unofficial, not affiliated with Bitwarden Inc. "Bitwarden" is their trademark, used only to say what this is based on. GPL-3.0. <a href="https://github.com/mkalmousli/BitwardenPatched/releases">Releases</a></footer>
 </div>

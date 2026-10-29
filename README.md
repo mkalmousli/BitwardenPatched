@@ -5,7 +5,11 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/mkalmousli/BitwardenPatched/build.yml?style=flat-square)](../../actions)
 [![License](https://img.shields.io/badge/license-GPL--3.0-lightgrey?style=flat-square)](LICENSE)
 
-**Patched, automatically updated builds of the official Bitwarden apps: Android, the Chrome/Firefox browser extension, and the desktop app for Windows, Linux and macOS.**
+**Patched, automatically updated builds of the official Bitwarden apps for every platform:**
+
+- **Android**: per-CPU APKs and an F-Droid repository
+- **Desktop**: Windows, Linux and macOS (installers, portable builds, AppImage, deb, dmg)
+- **Browsers**: Firefox, Chrome, Edge and Brave extensions
 
 ## What is this?
 
@@ -55,6 +59,7 @@ Go to [Releases](../../releases). Each release has notes with a file table (size
 | Target | File | Install |
 |---|---|---|
 | `android` | `*-arm64-v8a.apk`, `*-armeabi-v7a.apk`, `*-x86_64.apk`, `*-x86.apk`, `*-universal.apk` | One APK per CPU architecture (most phones: `arm64-v8a`); universal works everywhere but is larger. Sideload on Android 8+, or use the F-Droid repo above for automatic updates |
+| `desktop` | `*-windows-x64-*`, `*-windows-arm64-*`, `*-linux-x64-*`, `*-linux-arm64-*`, `*-macos-x64-*`, `*-macos-arm64-*` | Windows: Setup installer or Portable exe. Linux: AppImage, deb or tar.gz. macOS: dmg. Pick the arm64 build on Apple Silicon or ARM Linux; not code-signed, so the OS warns on first launch |
 | `browser` | `*.xpi`, `*.crx`, `*chrome*.zip`, `*firefox*.zip` | Chrome/Edge/Brave: `chrome://extensions` → Developer mode → Load unpacked (unzip first). Firefox: `about:debugging` → Load Temporary Add-on |
 
 Log in with your normal Bitwarden account (cloud or self-hosted).
