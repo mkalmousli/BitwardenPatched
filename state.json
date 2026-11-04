@@ -2,38 +2,38 @@
   "android": [
     {
       "tag": "v2026.10.1-bwpm",
-      "built": "2026-10-29T22:40:40Z",
-      "patches": "ed369a1",
+      "built": "2026-11-04T22:07:30Z",
+      "patches": "bb3f38d",
       "assets": [
         {
           "name": "bitwarden-patched-android-v2026.10.1-bwpm-arm64-v8a.apk",
           "size": 59808908,
-          "sha256": "7084a5283b7abd2321522781455954c2fe7f2252b0698efac920c75482fda1d1"
+          "sha256": "9932a69922ec675b3fadff93988320def32431c783aabd80ee078aa7c64502aa"
         },
         {
           "name": "bitwarden-patched-android-v2026.10.1-bwpm-armeabi-v7a.apk",
           "size": 48913558,
-          "sha256": "c443fd39ac844273f86d3b640499fdfc4a403ec54f24b7249e49d3fb6469a85e"
+          "sha256": "4dea51b4eeaf2e7a35907b7b5ca1c35d04b95b09554ff475f337844ffc3fe0ec"
         },
         {
           "name": "bitwarden-patched-android-v2026.10.1-bwpm-source.tar.gz",
-          "size": 11005761,
-          "sha256": "b59784a516072cc825fef147c74c53eceea5fe7aa8284fd33434ba45e42f52ff"
+          "size": 11005566,
+          "sha256": "7080d58c9c95e1792900e13c48f85fe0846fec3ab8b423191cb0b16810f67c6e"
         },
         {
           "name": "bitwarden-patched-android-v2026.10.1-bwpm-universal.apk",
           "size": 144908850,
-          "sha256": "be95e4e97dc4c0b60bbb0f72d2d4c07260b274265d91af1af23d75c1d1cbecf5"
+          "sha256": "d6a80a280addd3b89c7259391a67384d1942a6d1038552427ffbee07a1cfdc4e"
         },
         {
           "name": "bitwarden-patched-android-v2026.10.1-bwpm-x86-64.apk",
           "size": 56859773,
-          "sha256": "d390cc1b4334eaa13027d1e934584980aca8d1b75669d7b996797ee02272829b"
+          "sha256": "ca084c5a3f03dc5c29cf5eb77403442f95bac255493850b66b8bb86df7a2d3a5"
         },
         {
           "name": "bitwarden-patched-android-v2026.10.1-bwpm-x86.apk",
           "size": 55893102,
-          "sha256": "ed64ae9d6261354949be5ffe3c239632e1f78a698de9b5bc5b244f1934185a6e"
+          "sha256": "cfaab1fcf4a46db8dfeee33334e72ac790fa32aa2abfb8960ab2a4e81ddcdd78"
         }
       ]
     },
