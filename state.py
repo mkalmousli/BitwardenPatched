@@ -9,7 +9,10 @@ KEEP = 7
 
 
 def load():
-    return json.load(open(FILE)) if os.path.exists(FILE) else {"android": [], "browser": [], "desktop": []}
+    if not os.path.exists(FILE):
+        return {"android": [], "browser": [], "desktop": []}
+    with open(FILE) as stream:
+        return json.load(stream)
 
 
 def record(target, tag, ph):

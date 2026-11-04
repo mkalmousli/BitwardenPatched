@@ -27,9 +27,9 @@ def desktop_label(name):
     if not m:
         return None
     what = ("installer" if "Setup" in name else "portable" if "Portable" in name else
-            next((e for e in ("AppImage", "deb", "dmg", "zip", "tar.gz") if name.endswith(e)), "file"))
+            next((e for e in ("AppImage", "deb", "rpm", "dmg", "zip", "tar.gz") if name.endswith(e)), "file"))
     note = {"installer": "Standard Windows installer.", "portable": "Single exe, no install needed.", "AppImage": "Runs on most Linux distributions: `chmod +x` and run.",
-            "deb": "Debian, Ubuntu, Mint and derivatives.", "dmg": "Drag to Applications. Unsigned: right-click, Open the first time.",
+            "deb": "Debian, Ubuntu, Mint and derivatives.", "rpm": "Fedora, RHEL and openSUSE derivatives.", "dmg": "Drag to Applications. Unsigned: right-click, Open the first time.",
             "zip": "Unpack and run.", "tar.gz": "Unpack and run."}.get(what, "")
     return f"{ {'windows': 'Windows', 'linux': 'Linux', 'macos': 'macOS'}[m[1]]} {m[2]}, {what}", note
 
@@ -72,7 +72,7 @@ if target == "android":
               "- Installs next to the official app (`com.x8bit.bitwarden.patched`); it never replaces it.", ""]
 elif target == "desktop":
     lines += ["## Install", "",
-              "- Pick the file for your system below: Windows (installer or portable), Linux (AppImage, deb or tar.gz), macOS (dmg or zip).",
+              "- Pick the file for your system below: Windows (installer or portable), Linux (AppImage, deb, rpm or tar.gz), macOS (dmg or zip).",
               "- Installs next to the official desktop app (own app id and name); it never replaces it.",
               "- Builds are not code-signed, so Windows SmartScreen and macOS Gatekeeper will warn the first time. Check the SHA-256 below if in doubt.", ""]
 else:

@@ -1,3 +1,5 @@
 __pycache__/
 work/
 out/
+.venv/
+node_modules/

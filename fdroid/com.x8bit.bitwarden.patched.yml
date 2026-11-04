@@ -15,3 +15,6 @@ Description: |-
   published shortly after every upstream release. Client-side premium features such as
   built-in TOTP are switched on. Installs next to the official app. Not affiliated with
   Bitwarden Inc.
+  This is a patch layer, not an independent password manager.
+  Source and patch list: https://github.com/mkalmousli/BitwardenPatched
+  Upstream: https://github.com/bitwarden/android

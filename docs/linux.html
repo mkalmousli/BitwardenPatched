@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Linux packages — Bitwarden Patched</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="wrap">
+<header><b>Bitwarden Patched</b><a href="index.html#desktop">Downloads</a></header>
+<h1>Linux packages</h1>
+<p>Unofficial patched Bitwarden clients. <a href="about.html">What changes?</a>
+<a href="https://github.com/mkalmousli/BitwardenPatched">Patch source</a>.</p>
+<section><h2>Debian, Ubuntu and Mint</h2>
+<p>Download a <code>.deb</code> from the desktop release and install it with
+<code>sudo apt install ./package.deb</code>.</p>
+<p>Maintainers can enable the signed rolling APT channel described below. It is available
+only after a maintainer configures signing and publishes the first repository release.</p>
+<ol><li>Download <code>archive-keyring.gpg</code> from the
+<a href="https://github.com/mkalmousli/BitwardenPatched/releases/tag/rolling-apt">rolling APT release</a>.
+Verify its full fingerprint with <code>gpg --show-keys --with-fingerprint archive-keyring.gpg</code>
+against the maintainer's independently published fingerprint.</li>
+<li>Install it: <code>sudo install -m 644 archive-keyring.gpg /usr/share/keyrings/bitwarden-patched.gpg</code>.</li>
+<li>Save this source as <code>/etc/apt/sources.list.d/bitwarden-patched.list</code>:
+<pre><code>deb [signed-by=/usr/share/keyrings/bitwarden-patched.gpg] https://github.com/mkalmousli/BitwardenPatched/releases/download/rolling-apt/ ./</code></pre></li>
+<li>Run <code>sudo apt update</code>, then <code>sudo apt install bitwarden-patched</code>.</li></ol>
+<p>Packages and signed indices are release assets, so they do not enlarge the Git repository.</p></section>
+<section><h2>Fedora, RHEL and openSUSE</h2>
+<p>Download the matching <code>.rpm</code>. Install with <code>sudo dnf install ./package.rpm</code>
+or <code>sudo zypper install ./package.rpm</code>. RPMs use release checksums; this project
+does not currently publish a signed DNF/Zypper repository.</p></section>
+<section><h2>Arch and other distributions</h2>
+<p>Use the matching AppImage (<code>chmod +x file.AppImage</code>, then run it) or extract
+the Linux tar.gz. AppImages may need your distribution's FUSE compatibility package.
+Choose x64 for Intel/AMD or arm64 for ARM. These downloads require manual updates.</p></section>
+<footer><a href="https://github.com/mkalmousli/BitwardenPatched/releases">All releases and checksums</a></footer>
+</main></body></html>

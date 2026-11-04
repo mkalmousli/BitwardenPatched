@@ -5,7 +5,7 @@ import hashlib, json, os, subprocess as sp
 import nano
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-PH = hashlib.sha1(b"".join(open(f"{HERE}/{f}", "rb").read() for f in ("nano.py", "brand.py", "ext.py", "release.py", "fingerprint.txt"))).hexdigest()[:7]
+PH = hashlib.sha1(b"".join(open(f"{HERE}/{f}", "rb").read() for f in ("nano.py", "build_targets.py", "build_utils.py", "brand.py", "brand_android.py", "brand_about.py", "brand_images.py", "ext.py", "release.py", "fingerprint.txt"))).hexdigest()[:7]
 UBU = "ubuntu-latest"
 MATRIX = {  # target: [(job id, runner, extra matrix keys)]
     "android": [(abi, UBU, {"abi": abi}) for abi in ("arm64-v8a", "armeabi-v7a", "x86_64", "x86", "universal")],
@@ -17,7 +17,7 @@ include, tags = [], {}
 for target, jobs in MATRIX.items():
     tag = nano.latest(target)
     body = sp.run(["gh", "release", "view", tag, "--json", "body", "--jq", ".body"], capture_output=True, text=True).stdout
-    if f"patches {PH}" in body:
+    if f"patches {PH}" in body and os.environ.get("FORCE_BUILD") != "true":
         print(f"{target} {tag}: already built")
         continue
     tags[target] = {"tag": tag, "ph": PH}

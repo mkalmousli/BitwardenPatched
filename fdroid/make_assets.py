@@ -61,9 +61,4 @@ g = gradient(512, 512).convert("RGBA")
 g.alpha_composite(shield(400), (56, 56))
 g.save(f"{HERE}/repo-icon.png")
 card(1024, 500, "Bitwarden Patched", ["Unofficial, auto-updated build", "of the open-source Bitwarden app"], 140, .06).save(f"{OUT}/featureGraphic.png")
-SHOTS = [("Bitwarden, patched", ["Open-source Bitwarden client", "rebuilt from every release"]),
-         ("Smaller APKs", ["One build per CPU type", "arm64, armv7, x86 and x86_64"]),
-         ("Side by side", ["Own app id, original logo", "with a fork badge"]),
-         ("Updates via F-Droid", ["Pinned signing key", "SHA-256 checksums, source included"])]
-for i, (t, ls) in enumerate(SHOTS, 1):
-    card(1080, 1920, t, ls, 560, .26).save(f"{OUT}/phoneScreenshots/{i}.png")
+card(1080, 1920, "Bitwarden Patched", ["Unofficial patch, not the official app", "Client-side premium checks enabled", "Encryption and sync unchanged", "Source and full patch list:", "github.com/mkalmousli/", "BitwardenPatched", "Next: original Bitwarden screenshots"], 380, .10).save(f"{OUT}/phoneScreenshots/1.png")
