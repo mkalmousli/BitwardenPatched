@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bitwarden Patched: auto-updated Bitwarden for Android, Windows, Linux, macOS and browsers</title>
+<meta name="description" content="Download patched, auto-updated builds of the open-source Bitwarden apps for Android (per-CPU APKs, F-Droid repo), Windows, Linux and macOS desktop, and the Firefox, Chrome, Brave and Edge extensions. Built from every upstream release.">
+<meta name="keywords" content="Bitwarden, Bitwarden APK, Bitwarden F-Droid, Bitwarden TOTP, Bitwarden premium features, Vaultwarden client, Bitwarden fork, password manager">
+<link rel="canonical" href="https://mkalmousli.github.io/BitwardenPatched/">
+<meta name="theme-color" content="#0f766e"><meta name="color-scheme" content="light dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="manifest" href="site.webmanifest">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Bitwarden Patched">
+<meta property="og:title" content="Bitwarden Patched: auto-updated Bitwarden APK and browser extension">
+<meta property="og:description" content="Patched builds of the open-source Bitwarden clients for Android, Windows, Linux, macOS, Firefox and Chromium browsers. Updated automatically.">
+<meta property="og:url" content="https://mkalmousli.github.io/BitwardenPatched/">
+<meta property="og:image" content="https://mkalmousli.github.io/BitwardenPatched/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Bitwarden Patched"><meta name="twitter:description" content="Auto-updated patched builds of the open-source Bitwarden apps for Android, Windows, Linux, macOS and browsers."><meta name="twitter:image" content="https://mkalmousli.github.io/BitwardenPatched/og.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+{"@type":"SoftwareApplication","name":"Bitwarden Patched","applicationCategory":"SecurityApplication","operatingSystem":"Android 8+, Windows, Linux, macOS, Firefox, Chrome, Edge, Brave","description":"Unofficial patched builds of the open-source Bitwarden clients, rebuilt automatically from every upstream release.","url":"https://mkalmousli.github.io/BitwardenPatched/","image":"https://mkalmousli.github.io/BitwardenPatched/og.png","license":"https://www.gnu.org/licenses/gpl-3.0.html","isBasedOn":"https://github.com/bitwarden/android","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is Bitwarden Patched official?","acceptedAnswer":{"@type":"Answer","text":"No. It is an unofficial community fork built from the open-source Bitwarden clients and is not affiliated with Bitwarden Inc."}},
+{"@type":"Question","name":"Which Android APK should I download?","acceptedAnswer":{"@type":"Answer","text":"Most phones made since 2017 need arm64-v8a. The site detects it for you. Older 32-bit phones need armeabi-v7a; emulators and Chromebooks usually need x86_64."}},
+{"@type":"Question","name":"Does it replace the official Bitwarden app?","acceptedAnswer":{"@type":"Answer","text":"No. It uses its own application id (com.x8bit.bitwarden.patched), so it installs next to the official app."}},
+{"@type":"Question","name":"How do I get automatic updates on Android?","acceptedAnswer":{"@type":"Answer","text":"Add the F-Droid repository from this page (scan the QR code) to F-Droid, Droidify or Neo Store."}}]}]}</script>
+<link rel="stylesheet" href="style.css"></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+<symbol id="monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol><symbol id="puzzle" viewBox="0 0 24 24"><path d="M10 4a2 2 0 1 1 4 0v1h4v4h1a2 2 0 1 1 0 4h-1v5h-5v-1a2 2 0 1 0-4 0v1H4v-5h1a2 2 0 1 0 0-4H4V5h6z"/></symbol>
+<symbol id="icon-dl" viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 20h16"/></symbol>
+<symbol id="copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></symbol>
+<symbol id="check" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
+<symbol id="gh" viewBox="0 0 24 24"><path d="M9 19c-4 1-4-2-6-2m12 4v-3.5c0-1 .1-1.400-.5-2 3-.3 6-1.500 6-6.500a5 5 0 0 0-1.300-3.500 4.600 4.600 0 0 0-.1-3.500s-1.100-.3-3.500 1.300a12 12 0 0 0-6 0C6.200 2.300 5.100 2.600 5.100 2.600a4.600 4.600 0 0 0-.1 3.500A5 5 0 0 0 3.700 9.600c0 5 3 6.200 6 6.500-.6.600-.6 1.200-.5 2V21"/></symbol>
+<symbol id="refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.300-5.700M20 4v5h-5"/></symbol>
+<symbol id="cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></symbol>
+<symbol id="lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+<symbol id="code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5m8-10l5 5-5 5"/></symbol>
+<symbol id="fork" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="12" cy="19" r="2"/><path d="M6 7v2a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V7M12 12v5"/></symbol>
+<symbol id="server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.500h.01M7 16.500h.01"/></symbol>
+<symbol id="icon-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3m4 0v4h-4m0-3v-1"/></symbol>
+<symbol id="help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.500 9.500a2.500 2.500 0 1 1 3.500 2.300c-.7.400-1 .9-1 1.700M12 17h.01"/></symbol>
+<symbol id="list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="wrap">
+<header><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0b2e3c"/><path d="M32 8 12 16v16c0 12 8 19 20 24 12-5 20-12 20-24V16z" fill="#fff"/><path d="M32 14v36c-9-4-14-10-14-18V19z" fill="#175ddc"/><circle cx="48" cy="48" r="13" fill="#fff"/><circle cx="48" cy="48" r="11" fill="#0f766e"/><g stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"><path d="M43 41v4l5 3v5M53 41v4l-5 3"/><circle cx="43" cy="41" r="2" fill="#0f766e"/><circle cx="53" cy="41" r="2" fill="#0f766e"/><circle cx="48" cy="54" r="2" fill="#0f766e"/></g></svg>
+<b>Bitwarden Patched</b><a href="https://github.com/mkalmousli/BitwardenPatched"><svg class="i fill"><use href="#gh"/></svg><span>GitHub</span></a></header>
+
+<main id="main">
+<h1>Bitwarden, patched and always current.</h1>
+<p class="lead">A patch layer on the official Bitwarden source, with client-side premium checks enabled. <a href="https://github.com/mkalmousli/BitwardenPatched">Review the patch repository</a>. Unofficial builds of the open-source Bitwarden apps for Android, Windows, Linux and macOS, plus the Firefox, Chrome, Brave and Edge extension, rebuilt automatically from every upstream release.</p>
+<div class="row"><a class="btn" id="heroApk" href="#android"><svg class="i"><use href="#phone"/></svg><span>Android</span></a><a class="btn alt" href="#desktop"><svg class="i"><use href="#monitor"/></svg><span>Desktop</span></a><a class="btn alt" href="#browser"><svg class="i"><use href="#puzzle"/></svg><span>Browser</span></a></div>
+
+<section id="android" style="margin-top:36px"><h2><svg class="i"><use href="#phone"/></svg>Android</h2><p class="sub">Installs next to the official app. Android 8 or newer.</p>
+<div class="two">
+<div class="box"><h3>Download</h3><div id="apk" class="skeleton">Loading latest version...</div>
+<details><summary>Other CPU types</summary><div id="apks"></div></details></div>
+<div class="box"><h3>F-Droid repository <small>(updates itself)</small></h3>
+<div class="qr"><img id="qr" src="fdroid-qr.svg" alt="QR code for the F-Droid repository" width="132" height="132">
+<div><p class="muted" style="margin:0 0 10px"><small>Scan, or add in F-Droid, Droidify or Neo Store.</small></p>
+<div class="row"><a class="btn" id="fd" href="#"><svg class="i"><use href="#icon-qr"/></svg>Open</a><button class="btn alt" id="cp" type="button"><svg class="i"><use href="#copy"/></svg>Copy</button></div></div></div></div>
+</div></section>
+
+<section id="browser"><h2><svg class="i"><use href="#puzzle"/></svg>Browser</h2><p class="sub">Firefox, Chrome, Brave, Edge and other Chromium browsers.</p>
+<div class="box"><div class="tabs" id="tabs" role="tablist"></div><div id="bro" class="skeleton">Loading...</div></div></section>
+
+<section><ul class="facts">
+<li><svg class="i"><use href="#refresh"/></svg><div><b>Always current</b>Checked every 6 hours.</div></li>
+<li><svg class="i"><use href="#cpu"/></svg><div><b>Small APKs</b>One per CPU type.</div></li>
+<li><svg class="i"><use href="#lock"/></svg><div><b>Verifiable</b>Stable key, SHA-256 sums.</div></li>
+<li><svg class="i"><use href="#code"/></svg><div><b>Open source</b>Source in every release.</div></li>
+<li><svg class="i"><use href="#fork"/></svg><div><b>Own app id</b>Never replaces the official app.</div></li>
+<li><svg class="i"><use href="#server"/></svg><div><b>Self-host ready</b>Bitwarden or Vaultwarden.</div></li>
+</ul></section>
+
+<section id="downloads"><h2><svg class="i"><use href="#list"/></svg>All versions</h2><p class="sub">The last seven builds of each client.</p>
+<div class="box" id="dl">Loading...</div></section>
+
+<section id="faq"><h2><svg class="i"><use href="#help"/></svg>FAQ</h2>
+<details><summary>Is this official?</summary><p>No. It is an unofficial fork of the open-source Bitwarden clients, not affiliated with Bitwarden Inc.</p></details>
+<details><summary>Which APK do I need?</summary><p>Most phones since 2017 need <b>arm64-v8a</b>, and the button above picks for you. Older 32-bit phones: <b>armeabi-v7a</b>. Emulators and Chromebooks: <b>x86_64</b>.</p></details>
+<details><summary>Does it replace the official app?</summary><p>No. The app id is <code>com.x8bit.bitwarden.patched</code>, so both install side by side. You sign in with your normal account.</p></details>
+<details><summary>What is patched?</summary><p>The client-side premium check, plus name, app id and logo badge. Encryption, networking and sync are untouched, and anything the server enforces still follows your plan. <a href="https://github.com/mkalmousli/BitwardenPatched#patches">Patch list</a>.</p></details>
+<details><summary>Is it allowed?</summary><p>The clients are GPL-3.0, so modifying and redistributing them is permitted. Bitwarden's hosted service has its own terms; self-hosting is the intended setup.</p></details>
+<details><summary>Why no one-click install on Chrome?</summary><p>Chrome, Brave and Edge only install outside-store extensions in developer mode. Firefox installs the signed add-on directly.</p></details>
+</section>
+</main>
+<section id="desktop"><h2><svg class="i"><use href="#monitor"/></svg>Desktop</h2><p class="sub">Windows, Linux and macOS, as installers, portable builds or packages. Not code-signed, so your system warns the first time.</p>
+<div class="box"><div class="tabs" id="ostabs" role="tablist"></div><div id="dsk" class="skeleton">Loading...</div></div></section>
+<footer><a href="about.html">About this patch</a> · <a href="linux.html">Linux packages and APT</a><br>Unofficial, not affiliated with Bitwarden Inc. "Bitwarden" is their trademark, used only to say what this is based on. GPL-3.0. <a href="https://github.com/mkalmousli/BitwardenPatched/releases">Releases</a></footer>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body></html>
