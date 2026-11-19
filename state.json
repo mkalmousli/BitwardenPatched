@@ -114,6 +114,33 @@
   ],
   "browser": [
     {
+      "tag": "browser-v2026.11.0",
+      "built": "2026-11-19T20:46:53Z",
+      "patches": "bb3f38d",
+      "assets": [
+        {
+          "name": "bitwarden-patched-2026.11.0.crx",
+          "size": 33030401,
+          "sha256": "1a6fec2e52be6e7e082e1e83e1bf9192166b3a8e59c9c06351fceec8012a88cc"
+        },
+        {
+          "name": "bitwarden-patched-browser-browser-v2026.11.0-oss-dist-chrome.zip",
+          "size": 33199181,
+          "sha256": "155d00e4218028a2d665668ae47e4bdc00d4a54687fee5d3574d398a05132dd3"
+        },
+        {
+          "name": "bitwarden-patched-browser-browser-v2026.11.0-oss-dist-firefox.zip",
+          "size": 26507339,
+          "sha256": "12cbe910f6bf2dbeea078fe10865a4c8b5fd9720ddaf66b214192e67937f91dd"
+        },
+        {
+          "name": "bitwarden-patched-browser-browser-v2026.11.0-source.tar.gz",
+          "size": 55707055,
+          "sha256": "fabe8c70f06661fdd6b171ab4b3c2d0919e60e7c3b04af1a62eda07fae845bb4"
+        }
+      ]
+    },
+    {
       "tag": "browser-v2026.10.2",
       "built": "2026-11-04T22:09:23Z",
       "patches": "bb3f38d",
