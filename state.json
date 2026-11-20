@@ -234,6 +234,98 @@
   ],
   "desktop": [
     {
+      "tag": "desktop-v2026.11.0",
+      "built": "2026-11-20T08:01:09Z",
+      "patches": "bb3f38d",
+      "assets": [
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-linux-arm64-2026.11.0-aarch64.rpm",
+          "size": 140418945,
+          "sha256": "3da50641241cc26653558f1b4b7ef5af8fb93c40deecb57464abc113f1a0bbc7"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-linux-arm64-2026.11.0-arm64.AppImage",
+          "size": 232326917,
+          "sha256": "1023c1514a436eb3db97eda680392ac5b81fe22f5c4ef60e395bc36942293c3e"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-linux-arm64-2026.11.0-arm64.deb",
+          "size": 167014760,
+          "sha256": "7e1438375f630707590d9b1ab62d8993a1b67b1caa1f66500e63d93f95932509"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-linux-arm64-2026.11.0-arm64.tar.gz",
+          "size": 218995299,
+          "sha256": "fcfda575959c467cda21de040a5a7e70c13e5df2b161b09ad190e4bbb643d396"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-linux-x64-2026.11.0-amd64.deb",
+          "size": 182971660,
+          "sha256": "4e8c9679faed0d4630edae8a54dd6e760dc5715e5e4024f47726bddbca766448"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-linux-x64-2026.11.0-x86-64.AppImage",
+          "size": 243737733,
+          "sha256": "6003190729fc65cf62592157ee189298035f47122a3f7d3c06728013c821899c"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-linux-x64-2026.11.0-x86-64.rpm",
+          "size": 151047038,
+          "sha256": "643cb9c2ae76ffefba45ee63aacffa86fae3265258e51b21df57e27c12d76438"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-linux-x64-2026.11.0.tar.gz",
+          "size": 230006383,
+          "sha256": "2dfc826653418aff73ded9cc37e07e53829a522d2a88de955fddd091f2a2dada"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-macos-arm64-2026.11.0-arm64-mac.zip",
+          "size": 157779175,
+          "sha256": "8e3a9a94acadb37a16716f4e6856113d7612fca9525d796c91f85bb8dec0644b"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-macos-arm64-2026.11.0-arm64.dmg",
+          "size": 164252793,
+          "sha256": "2f084846cd08fc1bd887d347c025edb4a766dacb73330add269bca3a698dfac3"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-macos-x64-2026.11.0-mac.zip",
+          "size": 161111465,
+          "sha256": "1f74f1762f78bb46d8ac489eaf7f0ef62ceb76dd85ca4ea6811ddcf0b84a4814"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-macos-x64-2026.11.0.dmg",
+          "size": 167579400,
+          "sha256": "5f1dafe8f537f6b815a1a523b0fffa0aa53e5674cd3859406c7d59b7d3efcf2e"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-source.tar.gz",
+          "size": 55665704,
+          "sha256": "e66d98d28450c47f2ee480c417eb3e4ec3a28ea7a553c8489d0361f28797743c"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-windows-arm64-Portable-2026.11.0.exe",
+          "size": 115955045,
+          "sha256": "15153b2ce93351c66816a67816eab018160723f6cad88e1c5be06cf8e50d1dc3"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-windows-arm64-Setup-2026.11.0.exe",
+          "size": 134519090,
+          "sha256": "f9b289ec27cbe83d47fd28ccab6a46a50b696f71e62325bfddc38806646bcaef"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-windows-x64-Portable-2026.11.0.exe",
+          "size": 120956898,
+          "sha256": "3dec58f4b280d32138d97ff941b42286d96be11b55006160a266f07b99699243"
+        },
+        {
+          "name": "bitwarden-patched-desktop-desktop-v2026.11.0-windows-x64-Setup-2026.11.0.exe",
+          "size": 140102308,
+          "sha256": "fb4c12a2b1f8ca5caef8dfd0138ee2069cdc788bc772011320fffe3316ea3c85"
+        }
+      ]
+    },
+    {
       "tag": "desktop-v2026.10.4",
       "built": "2026-11-05T20:35:30Z",
       "patches": "bb3f38d",
