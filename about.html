@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About the Bitwarden patch</title><link rel="stylesheet" href="style.css">
+</head>
+<body><main class="wrap">
+<header><b>Bitwarden Patched</b><a href="index.html">Downloads</a></header>
+<h1>A patch layer on Bitwarden.</h1>
+<p>This project downloads official Bitwarden source, applies a small published set of patches,
+and builds unofficial clients. It is not an independent password manager and is not affiliated
+with or endorsed by Bitwarden Inc.</p>
+<section><h2>What changes?</h2>
+<p>Client-side premium checks are enabled, including built-in TOTP. Apps use a distinct name,
+application ID and fork badge. Android builds are split by CPU architecture.</p>
+<p>Encryption, login, networking and sync code are not patched. Features enforced by the
+server still follow your account plan. Self-hosted Bitwarden or Vaultwarden is the intended setup.</p>
+<p><a href="https://github.com/mkalmousli/BitwardenPatched#patches">Read every patch</a> ·
+<a href="https://github.com/mkalmousli/BitwardenPatched">Patch source repository</a></p></section>
+<section><h2>Upstream and source</h2>
+<p>Original clients: <a href="https://github.com/bitwarden/android">Bitwarden Android</a> and
+<a href="https://github.com/bitwarden/clients">Bitwarden desktop and browser clients</a>.
+Releases include the corresponding patched source and SHA-256 checksums.</p>
+<p>F-Droid shows our explanation card first, followed by original Android store screenshots
+from <a href="https://github.com/bitwarden/mobile/tree/b543459f8d71324aa11914da1e6f6ad3d7abce54/store/google/en/screenshots">Bitwarden's archived mobile repository</a>.
+Those upstream screenshots may differ from the current app.</p></section>
+<footer>GPL-3.0. Bitwarden is a trademark of its owner.
+<a href="https://github.com/mkalmousli/BitwardenPatched/issues">Report an issue</a></footer>
+</main></body></html>
